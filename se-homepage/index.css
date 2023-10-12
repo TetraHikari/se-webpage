@@ -7,16 +7,18 @@
   flex-direction: column;
 }
 .homepage-homepage {
+  max-width: 1440px;
   width: 100%;
   height: 835px;
   display: flex;
   overflow: hidden;
   position: relative;
   align-items: flex-start;
+  justify-content: center;
   flex-shrink: 0;
   background-color: rgba(255, 255, 255, 1);
 }
-.homepage-elearning1 {
+.homepage-contentwrapper {
   top: 0px;
   left: 0px;
   width: 1440px;
@@ -27,7 +29,7 @@
   align-items: flex-start;
   flex-shrink: 0;
 }
-.homepage-hero-banner {
+.homepage-maincontent {
   top: 110px;
   left: 0px;
   width: 1440px;
@@ -192,7 +194,7 @@
   gap: 40px;
   top: 49px;
   left: 63px;
-  width: 1314px;
+  width: 1266px;
   display: flex;
   position: absolute;
   align-items: center;
@@ -332,14 +334,14 @@
   height: 19px;
   position: absolute;
 }
-.homepage-vector01 {
+.homepage-vector1 {
   top: 20px;
   left: 20px;
   width: 2px;
   height: 2px;
   position: absolute;
 }
-.homepage-vector02 {
+.homepage-vector2 {
   top: 0px;
   left: 0px;
   width: 24px;
@@ -367,63 +369,6 @@
   align-items: flex-start;
   flex-shrink: 0;
 }
-.homepage-vuesaxlinearaward {
-  top: 0px;
-  left: 0px;
-  width: 24px;
-  height: 24px;
-  display: flex;
-  position: absolute;
-  align-items: flex-start;
-  flex-shrink: 1;
-}
-.homepage-award {
-  top: 0px;
-  left: 0px;
-  width: 24px;
-  height: 24px;
-  display: flex;
-  position: absolute;
-  align-items: flex-start;
-  flex-shrink: 1;
-}
-.homepage-vector03 {
-  top: 5.002500057220459px;
-  left: 4.260000228881836px;
-  width: 15px;
-  height: 17px;
-  position: absolute;
-}
-.homepage-vector04 {
-  top: 2px;
-  left: 6.5px;
-  width: 11px;
-  height: 6px;
-  position: absolute;
-}
-.homepage-vector05 {
-  top: 10.585000038146973px;
-  left: 8.717016220092773px;
-  width: 7px;
-  height: 6px;
-  position: absolute;
-}
-.homepage-vector06 {
-  top: 24px;
-  left: 24px;
-  width: 24px;
-  height: 24px;
-  opacity: 0.00;
-  position: absolute;
-}
-.homepage-icon3 {
-  width: 24px;
-  height: 24px;
-  display: flex;
-  position: relative;
-  align-items: flex-start;
-  flex-shrink: 0;
-}
 .homepage-vuesaxlinearuser {
   top: 0px;
   left: 0px;
@@ -444,21 +389,21 @@
   align-items: flex-start;
   flex-shrink: 1;
 }
-.homepage-vector07 {
+.homepage-vector3 {
   top: 2px;
   left: 7px;
   width: 10px;
   height: 10px;
   position: absolute;
 }
-.homepage-vector08 {
+.homepage-vector4 {
   top: 15px;
   left: 3.410003662109375px;
   width: 17px;
   height: 7px;
   position: absolute;
 }
-.homepage-vector09 {
+.homepage-vector5 {
   top: 0px;
   left: 0px;
   width: 24px;
