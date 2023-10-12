@@ -52,6 +52,13 @@ def signup(username: str = Form(...), password: str = Form(...)):
     save_users(users)
     return {"success": True}
 
+# se-homepage/index.html with css files
+@app.get("/homepage")
+def homepage(request: Request):
+    return templates.TemplateResponse("home.html", {"request": request})
+
+
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
