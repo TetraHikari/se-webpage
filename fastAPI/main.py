@@ -2,29 +2,44 @@ from fastapi import FastAPI, Form, HTTPException, Request
 from fastapi.templating import Jinja2Templates
 from starlette.status import HTTP_401_UNAUTHORIZED
 from fastapi.staticfiles import StaticFiles
+
+from motor.motor_asyncio import AsyncIOMotorClient
+from fastapi import FastAPI, Depends
+
+import bcrypt
+
 import json
 
 app = FastAPI()
 
-app.mount("/static", StaticFiles(directory="static"), name="static")
+# Database configuration
+MONGODB_URL = "mongodb+srv://peeranatpee1:Peeranat1205HB@cluster0.ybeo3du.mongodb.net/?retryWrites=true&w=majority"
+DB_NAME = "myDatabase"
+client = AsyncIOMotorClient(MONGODB_URL)
+db = client[DB_NAME]
 
+app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
-def get_users():
-    with open('users.json', 'r') as f:
-        users = json.load(f)
-    return users
+@app.on_event("startup")
+async def startup():
+    app.mongodb_client = AsyncIOMotorClient(MONGODB_URL)
+    app.mongodb = app.mongodb_client[DB_NAME]
 
-def save_users(users):
-    with open('users.json', 'w') as f:
-        json.dump(users, f)
+@app.on_event("shutdown")
+async def shutdown():
+    app.mongodb_client.close()
 
-def verify_password(username: str, password: str):
-    users = get_users()
-    user = users.get(username)
+def hash_password(password: str):
+    salt = bcrypt.gensalt()
+    hashed = bcrypt.hashpw(password.encode('utf-8'), salt)
+    return hashed.decode('utf-8')
+
+async def verify_password(username: str, password: str):
+    user = await db.users.find_one({"username": username})
     if not user:
         return False
-    return user["password"] == password
+    return bcrypt.checkpw(password.encode('utf-8'), user["password"].encode('utf-8'))
 
 @app.get("/")
 def read_root(request: Request):
@@ -55,13 +70,12 @@ def signup_page(request: Request):
     return templates.TemplateResponse("signup.html", {"request": request})
 
 @app.post("/signup")
-def signup(username: str = Form(...), password: str = Form(...)):
-    users = get_users()
-    if username in users:
+async def signup(username: str = Form(...), password: str = Form(...)):
+    user = await db.users.find_one({"username": username})
+    if user:
         return {"error": "Username already exists"}
-    # Store the user in the JSON database
-    users[username] = {"username": username, "password": password}
-    save_users(users)
+    hashed_password = hash_password(password)
+    await db.users.insert_one({"username": username, "password": hashed_password})
     return {"success": True}
 
 
