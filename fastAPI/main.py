@@ -56,14 +56,16 @@ def login_page(request: Request):
     return templates.TemplateResponse("login.html", {"request": request})
 
 @app.post("/login")
-def login(username: str = Form(...), password: str = Form(...)):
-    if not verify_password(username, password):
+async def login(username: str = Form(...), password: str = Form(...)):
+    is_valid = await verify_password(username, password)  # Using await here because verify_password is async
+    if not is_valid:
         raise HTTPException(
             status_code=HTTP_401_UNAUTHORIZED,
             detail="Incorrect username or password",
             headers={"WWW-Authenticate": "Bearer"},
         )
     return {"success": True}
+
 
 @app.get("/signup")
 def signup_page(request: Request):
