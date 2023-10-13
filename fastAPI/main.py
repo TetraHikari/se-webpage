@@ -5,7 +5,9 @@ from fastapi.staticfiles import StaticFiles
 import json
 
 app = FastAPI()
+
 app.mount("/static", StaticFiles(directory="static"), name="static")
+
 templates = Jinja2Templates(directory="templates")
 
 def get_users():
@@ -23,6 +25,12 @@ def verify_password(username: str, password: str):
     if not user:
         return False
     return user["password"] == password
+
+@app.get("/")
+def read_root(request: Request):
+    # This is an example of passing dynamic content to the template.
+    context = {"request": request, "name": "User"}
+    return templates.TemplateResponse("index.html", context)
 
 @app.get("/login")
 def login_page(request: Request):
@@ -51,11 +59,6 @@ def signup(username: str = Form(...), password: str = Form(...)):
     users[username] = {"username": username, "password": password}
     save_users(users)
     return {"success": True}
-
-# se-homepage/index.html with css files
-@app.get("/homepage")
-def homepage(request: Request):
-    return templates.TemplateResponse("home.html", {"request": request})
 
 
 
