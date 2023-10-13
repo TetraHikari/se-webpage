@@ -32,6 +32,10 @@ def read_root(request: Request):
     context = {"request": request, "name": "User"}
     return templates.TemplateResponse("index.html", context)
 
+@app.get("/userlogin")
+def userlogin_page(request: Request):
+    return templates.TemplateResponse("user-login.html", {"request": request})
+
 @app.get("/login")
 def login_page(request: Request):
     return templates.TemplateResponse("login.html", {"request": request})
