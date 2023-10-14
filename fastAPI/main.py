@@ -36,10 +36,16 @@ def hash_password(password: str):
     return hashed.decode('utf-8')
 
 async def verify_password(username: str, password: str):
+    print(f"Verifying password for user: {username}")
     user = await db.users.find_one({"username": username})
+    print(f"User data from MongoDB: {user}")
     if not user:
+        print("User not found")
         return False
-    return bcrypt.checkpw(password.encode('utf-8'), user["password"].encode('utf-8'))
+    is_valid = bcrypt.checkpw(password.encode('utf-8'), user["password"].encode('utf-8'))
+    print(f"Password is valid: {is_valid}")
+    return is_valid
+
 
 @app.get("/")
 def read_root(request: Request):
@@ -57,14 +63,14 @@ def login_page(request: Request):
 
 @app.post("/login")
 async def login(username: str = Form(...), password: str = Form(...)):
-    is_valid = await verify_password(username, password)  # Using await here because verify_password is async
-    if not is_valid:
+    if not await verify_password(username, password):
         raise HTTPException(
             status_code=HTTP_401_UNAUTHORIZED,
             detail="Incorrect username or password",
             headers={"WWW-Authenticate": "Bearer"},
         )
     return {"success": True}
+
 
 @app.get("/signup")
 def signup_page(request: Request):
@@ -78,6 +84,7 @@ async def signup(username: str = Form(...), password: str = Form(...)):
     hashed_password = hash_password(password)
     await db.users.insert_one({"username": username, "password": hashed_password})
     return {"success": True}
+
 
 if __name__ == "__main__":
     import uvicorn

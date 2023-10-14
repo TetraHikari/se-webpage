@@ -3,12 +3,12 @@ document.addEventListener("DOMContentLoaded", function() {
     const emailInput = document.getElementById('emailInput');
     const passwordInput = document.getElementById('passwordInput');
 
-    console.log(emailInput.value);
-    console.log(passwordInput.value);
-
     loginButton.addEventListener('click', async () => {
         const email = emailInput.value.trim();
         const password = passwordInput.value.trim();
+        console.log(email);
+        console.log(password)
+
 
         if (!email || !password) {
             alert('Please provide both email and password.');
