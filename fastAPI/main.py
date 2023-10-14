@@ -57,6 +57,16 @@ def read_root(request: Request):
 def userlogin_page(request: Request):
     return templates.TemplateResponse("user-login.html", {"request": request})
 
+@app.post("/userlogin")
+async def userlogin(username: str = Form(...), password: str = Form(...)):
+    if not await verify_password(username, password):
+        raise HTTPException(
+            status_code=HTTP_401_UNAUTHORIZED,
+            detail="Incorrect username or password",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    return {"success": True}
+
 @app.get("/login")
 def login_page(request: Request):
     return templates.TemplateResponse("login.html", {"request": request})
