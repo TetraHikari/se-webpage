@@ -66,7 +66,6 @@ async def login(username: str = Form(...), password: str = Form(...)):
         )
     return {"success": True}
 
-
 @app.get("/signup")
 def signup_page(request: Request):
     return templates.TemplateResponse("signup.html", {"request": request})
@@ -79,7 +78,6 @@ async def signup(username: str = Form(...), password: str = Form(...)):
     hashed_password = hash_password(password)
     await db.users.insert_one({"username": username, "password": hashed_password})
     return {"success": True}
-
 
 if __name__ == "__main__":
     import uvicorn
