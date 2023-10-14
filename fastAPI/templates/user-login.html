@@ -89,23 +89,26 @@
             </span>
           </div>
 
-          <div class="mainpageuserlogin-login">
-            <button id="loginButton" type="submit" class="mainpageuserlogin-text04 ButtonTextPrimaryButtonText">Login</button>
-          </div>
-
           <div class="mainpageuserlogin-forgotpassword">
             <span class="mainpageuserlogin-text06 ButtonTextPrimaryButtonText">
               <span>Forgot Password?</span>
             </span>
           </div>
 
-          <div class="mainpageuserlogin-passwordprompt">
-            <input id="passwordInput" type="password" placeholder="Password" />
-          </div>
+        <form action="/userlogin" method="post">
 
           <div class="mainpageuserlogin-emailprompt">
-            <input id="emailInput" type="email" placeholder="Email" />
+            <input name="username" id="emailInput" type="email" placeholder="Email" />
           </div>
+
+          <div class="mainpageuserlogin-passwordprompt">
+            <input name="password" id="passwordInput" type="password" placeholder="Password" />
+          </div>
+
+          <div class="mainpageuserlogin-login">
+            <button id="loginButton" type="submit" class="mainpageuserlogin-text04 ButtonTextPrimaryButtonText">Login</button>
+          </div>
+        </form>
         
           <div class="mainpageuserlogin-title">
             <span class="mainpageuserlogin-text12">

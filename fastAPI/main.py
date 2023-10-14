@@ -2,6 +2,7 @@ from fastapi import FastAPI, Form, HTTPException, Request
 from fastapi.templating import Jinja2Templates
 from starlette.status import HTTP_401_UNAUTHORIZED
 from fastapi.staticfiles import StaticFiles
+from starlette.responses import RedirectResponse
 
 from motor.motor_asyncio import AsyncIOMotorClient
 from fastapi import FastAPI, Depends
@@ -56,6 +57,34 @@ def read_root(request: Request):
 @app.get("/userlogin")
 def userlogin_page(request: Request):
     return templates.TemplateResponse("user-login.html", {"request": request})
+
+@app.post("/userlogin")
+async def userlogin(username: str = Form(...), password: str = Form(...)):
+    if not await verify_password(username, password):
+        raise HTTPException(
+            status_code=HTTP_401_UNAUTHORIZED,
+            detail="Incorrect username or password",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+
+    # Generate the dashboard URL based on the username
+    dashboard_url = generate_dashboard_url(username)
+
+    # Redirect the user to their personalized dashboard URL
+    response = RedirectResponse(url=dashboard_url)
+    return response
+
+
+# # Define the /dashboard route
+# @app.get("/dashboard")
+# async def dashboard(request: Request):
+#     # You can pass any necessary data to the dashboard template here
+#     dashboard_data = {"user_name": "John Doe"}  # Example data
+#     return templates.TemplateResponse("dashboard.html", {"request": request, "data": dashboard_data})
+
+def generate_dashboard_url(username: str):
+    return f"/dashboard/{username}"
+
 
 @app.get("/login")
 def login_page(request: Request):
