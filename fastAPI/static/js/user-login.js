@@ -1,43 +1,33 @@
-// document.addEventListener("DOMContentLoaded", function() {
-//     const loginButton = document.getElementById('loginButton');
-//     const emailInput = document.getElementById('emailInput');
-//     const passwordInput = document.getElementById('passwordInput');
+// Wait for the DOM to fully load
+document.addEventListener('DOMContentLoaded', function () {
+    // Find the "Login" button by its ID
+    const loginButton = document.getElementById('loginButton');
 
-//     loginButton.addEventListener('click', async () => {
-//         const email = emailInput.value.trim();
-//         const password = passwordInput.value.trim();
-//         console.log(email);
-//         console.log(password)
+    // Add a click event listener to the button
+    loginButton.addEventListener('click', function () {
+        // Get the input values
+        const username = document.getElementById('emailInput').value;
+        const password = document.getElementById('passwordInput').value;
+        console.log(username);
+        console.log(password);
 
-
-//         if (!email || !password) {
-//             alert('Please provide both email and password.');
-//             return;
-//         }
-
-//         const requestData = {
-//             username: email,
-//             password: password
-//         };
-
-//         try {
-//             const response = await fetch('/login', {
-//                 method: 'POST',
-//                 headers: {
-//                     'Content-Type': 'application/json'
-//                 },
-//                 body: JSON.stringify(requestData)
-//             });
-
-//             if (response.status === 200) {
-//                 // Handle successful login, e.g., redirecting to another page
-//                 window.location.href = "/dashboard"; // replace with your success route
-//             } else {
-//                 // Handle unsuccessful login, e.g., show an error message
-//                 alert('Incorrect email or password');
-//             }
-//         } catch (error) {
-//             console.error("There was an error logging in:", error);
-//         }
-//     });
-// });
+        // Perform POST request
+        fetch('/userlogin', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: `username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`
+        })
+        .then(response => {
+            // Check if the response is a successful redirect (status code 3xx)
+            if (response.ok || (response.status >= 300 && response.status < 400)) {
+                // Handle successful login, e.g., redirect to a dashboard or show a success message
+                window.location.href = response.url;
+            } else {
+                // Handle other responses, e.g., show an error message
+                alert('Login failed. Please try again.');
+            }
+        });
+    });
+});

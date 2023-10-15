@@ -220,3 +220,15 @@
   position: absolute;
 }
 
+.mainpageuserlogin-wrapper{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  overflow: hidden;
+  position: relative;
+  align-items: flex-start;
+  flex-shrink: 0;
+  background-color: rgba(255, 255, 255, 1);
+  max-width: 1440px;
+}
+

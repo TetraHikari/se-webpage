@@ -78,38 +78,7 @@
       <link href="/static/user-login.css" rel="stylesheet" />
       <div class="mainpageuserlogin-container">
         <div class="mainpageuserlogin-mainpageuserlogin">
-          <div class="mainpageuserlogin-signup">
-            <div class="mainpageuserlogin-createnew">
-              <span class="mainpageuserlogin-text ButtonTextPrimaryButtonText">
-                <span>Create new</span>
-              </span>
-            </div>
-            <span class="mainpageuserlogin-text02 ButtonTextPrimaryButtonText">
-              <span>Don’t have an account?</span>
-            </span>
-          </div>
 
-          <div class="mainpageuserlogin-forgotpassword">
-            <span class="mainpageuserlogin-text06 ButtonTextPrimaryButtonText">
-              <span>Forgot Password?</span>
-            </span>
-          </div>
-
-        <form action="/userlogin" method="post">
-
-          <div class="mainpageuserlogin-emailprompt">
-            <input name="username" id="emailInput" type="email" placeholder="Email" />
-          </div>
-
-          <div class="mainpageuserlogin-passwordprompt">
-            <input name="password" id="passwordInput" type="password" placeholder="Password" />
-          </div>
-
-          <div class="mainpageuserlogin-login">
-            <button id="loginButton" type="submit" class="mainpageuserlogin-text04 ButtonTextPrimaryButtonText">Login</button>
-          </div>
-        </form>
-        
           <div class="mainpageuserlogin-title">
             <span class="mainpageuserlogin-text12">
               <span>Welcome Back</span>
@@ -120,6 +89,41 @@
               class="mainpageuserlogin-se2"
             />
           </div>
+
+
+              <div class="mainpageuserlogin-emailprompt">
+                <input name="username" id="emailInput" type="email" placeholder="Email" />
+              </div>
+              <div class="mainpageuserlogin-passwordprompt">
+                <input name="password" id="passwordInput" type="password" placeholder="Password" />
+              </div>
+              <div class="mainpageuserlogin-login">
+                <button id="loginButton" type="button" class="mainpageuserlogin-text04 ButtonTextPrimaryButtonText" >Login</button>
+
+              </div>
+
+
+          <div class="mainpageuserlogin-forgotpassword">
+            <span class="mainpageuserlogin-text06 ButtonTextPrimaryButtonText">
+              <span>Forgot Password?</span>
+            </span>
+          </div>
+
+
+        <div class="mainpageuserlogin-signup">
+
+          <div class="mainpageuserlogin-createnew">
+            <span class="mainpageuserlogin-text ButtonTextPrimaryButtonText">
+              <span>Create new</span>
+            </span>
+          </div>
+
+          <span class="mainpageuserlogin-text02 ButtonTextPrimaryButtonText">
+            <span>Don’t have an account?</span>
+          </span>
+        </div>
+        
+
           <div class="mainpageuserlogin-vuesaxlineararrowcircleleft">
             <div class="mainpageuserlogin-vuesaxlineararrowcircleleft1">
               <div class="mainpageuserlogin-arrowcircleleft">
@@ -147,6 +151,6 @@
         </div>
       </div>
     </div>
-    <script src="/static/js/user-login.js" defer></script>
+    <script src="/static/js/user-login.js"></script>
   </body>
 </html>
