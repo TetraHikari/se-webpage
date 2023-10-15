@@ -1,9 +1,16 @@
-from fastapi import FastAPI, Form, HTTPException, Request, Depends, Path
+from fastapi import FastAPI, Form, HTTPException, Request, Depends, Path, Cookie
 from fastapi.templating import Jinja2Templates
 from starlette.status import HTTP_401_UNAUTHORIZED
 from fastapi.staticfiles import StaticFiles
 from starlette.responses import RedirectResponse
 from pydantic import BaseModel
+from starlette.status import HTTP_403_FORBIDDEN
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+
+# Secret key for JWT signing
+SECRET_KEY = "your-secret-key"
+ALGORITHM = "HS256"
+
 
 from motor.motor_asyncio import AsyncIOMotorClient
 from fastapi import FastAPI, Depends
@@ -17,6 +24,8 @@ app = FastAPI()
 class UserCredentials(BaseModel):
     username: str
     password: str
+
+app.sessions = {}
 
 # Database configuration
 MONGODB_URL = "mongodb+srv://peeranatpee1:Peeranat1205HB@cluster0.ybeo3du.mongodb.net/?retryWrites=true&w=majority"
@@ -63,7 +72,7 @@ def userlogin_page(request: Request):
     return templates.TemplateResponse("user-login.html", {"request": request})
 
 @app.post("/userlogin")
-async def userlogin(username: str = Form(...), password: str = Form(...)):
+async def userlogin(request: Request, username: str = Form(...), password: str = Form(...)):
     if not await verify_password(username, password):
         raise HTTPException(
             status_code=HTTP_401_UNAUTHORIZED,
@@ -74,8 +83,12 @@ async def userlogin(username: str = Form(...), password: str = Form(...)):
     # Generate the dashboard URL based on the username
     dashboard_url = generate_dashboard_url(username)
     print(f"Redirecting to dashboard URL: {dashboard_url}")
+  
     # Redirect the user to their personalized dashboard URL
     response = RedirectResponse(url=dashboard_url)
+    print(f"Setting username in cookie: {username}")
+    response.set_cookie(key="username", value=username, httponly=True, samesite="Lax", path="/")
+
     return response
 
 
@@ -84,7 +97,17 @@ def generate_dashboard_url(username: str):
 
 
 @app.get("/dashboard/{username}")
-async def get_dashboard(request: Request, username: str):
+async def get_dashboard(username: str, request: Request):
+
+    session_username = request.cookies.get("username")
+
+    print(f"Username from URL: {username}")
+    print(f"Username from Cookie: {session_username}")
+
+    # Check if the user trying to access the dashboard matches the one in the session
+    if session_username != username:
+        raise HTTPException(status_code=HTTP_403_FORBIDDEN, detail="Access forbidden")
+
     # Implement logic for displaying the dashboard here
     return templates.TemplateResponse("dashboard.html", {"request": request, "username": username})
 
