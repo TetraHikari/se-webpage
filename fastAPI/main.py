@@ -8,7 +8,7 @@ from motor.motor_asyncio import AsyncIOMotorClient
 from fastapi import FastAPI, Depends
 
 import bcrypt
-
+import uvicorn
 import json
 
 app = FastAPI()
@@ -116,5 +116,4 @@ async def signup(username: str = Form(...), password: str = Form(...)):
 
 
 if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, host="localhost", port=8000)
