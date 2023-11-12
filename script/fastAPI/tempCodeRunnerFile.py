@@ -1,2 +1,0 @@
-
-def homepage(request: Request
