@@ -49,7 +49,7 @@ async def delete_post(request: Request, post_id: str):
 
 @app.post("/create-post")
 async def create_post(request: Request, title: str = Form(...), content: str = Form(...)):
-    post = Post(title=title, content=content, created_at=datetime.now())
+    post = Post(title=title, content=content, created_at=datetime.now().ctime())
     collection.insert_one(post.dict())
         # Retrieve all posts from the MongoDB collection
     posts = collection.find({})

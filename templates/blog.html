@@ -7,7 +7,7 @@
     {% for post in posts %}
         <h3>{{ post.title }}</h3>
         <p>{{ post.content }}</p>
-        <p>Posted on: {{  }}</p>
+        <p>Posted on: {{ post.created_at }}</p>
         <form method="post" action="/delete-post/{{ post._id }}" style="display:inline;">
             <button type="submit">Delete</button>
         </form>
