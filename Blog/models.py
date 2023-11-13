@@ -1,14 +1,7 @@
-from pymongo import MongoClient
-from bson.objectid import ObjectId
 from pydantic import BaseModel
-from datetime import datetime
-import socket
 import time
+import socket
 import struct
-
-client = MongoClient('mongodb://localhost:27017')
-db = client['se-blog']
-collection = db['posts']
 
 def RequestTimefromNtp(addr='0.de.pool.ntp.org'):
     REF_TIME_1970 = 2208988800  # Reference time
@@ -21,12 +14,7 @@ def RequestTimefromNtp(addr='0.de.pool.ntp.org'):
         t -= REF_TIME_1970
     return time.ctime(t), t
 
-class User(BaseModel):
-    username: str
-    password: str
-
 class Post(BaseModel):
     title: str
     content: str
     created_at: str = RequestTimefromNtp()[0]
-    
