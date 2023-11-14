@@ -3,11 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Menu</title>
-    <link rel="stylesheet" href="static/css/menu.css">
+    <title>Courses</title>
+    <link rel="stylesheet" href="static/css/dashboard.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@700&display=swap">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" />
-    <link rel="stylesheet" href="static/css/calendar.css">
+
 </head>
 <body>
   <header id="pageHeader">
@@ -20,54 +19,15 @@
     </div>
   </header>
   <article id="content">
-    <div class="todayDate" id="todayDate"></div>
-    <div class="eventWrapper">
-        <div class="normal">Today's Event</div>
-        <div class="eventBox">
-            <!-- empty box if no events -->
-        </div>
+    <h2>Courses</h2>
+    <div class="news-item">
+        <h3>Web Programming</h3>
+        <p>This is the first breaking news. It's really important and interesting.</p>
     </div>
-    <div class="calendarWrapper">
-        <div class="normal">Calendar</div>
-        <div class="calendarBox" id="calendarBox">
-            <div class="container">
-                <div class="header">
-                  <div id="month"></div>
-                  <div>
-                    <button id="btnBack"><i class="fa fa-angle-left"></i></button>
-                    <button id="btnNext"><i class="fa fa-angle-right"></i></button>
-                  </div>
-                </div>
-                <div class="weekdays">
-                  <div>Sun</div>
-                  <div>Mon</div>
-                  <div>Tue</div>
-                  <div>Wed</div>
-                  <div>Thu</div>
-                  <div>Fri</div>
-                  <div>Sat</div>
-                </div>
-                <div id="calendar"></div>
-              </div>
-              <div id="modal"></div>
-              <div id="addEvent">
-                <h2>Add Event</h2>
-                <input type="text" id="txtTitle" placeholder="Event Title" />
-                <button id="btnSave">Save</button>
-                <button class="btnClose">Close</button>
-              </div>
-          
-              <div id="viewEvent">
-                <h2>Event</h2>
-                <p id="eventText">This is Sample Event</p>
-                <button id="btnDelete">Delete</button>
-                <button class="btnClose">Close</button>
-              </div>
-        </div>
+    <div class="news-item">
+        <h3>Data Structure and Algorithm</h3>
+        <p>Here's an important update that you should know about. Stay informed!</p>
     </div>
-
-
-
   </article>
   <nav id="mainNav">
     <a href="http://localhost:8000/menu">
@@ -77,7 +37,7 @@
         <div class="navBtn">
             <a id="dashBoardBtn" href="http://localhost:8000/dashboard"><img src="static/pic/dash.svg">Dashboard</a>
         </div>
-        <div class="navBtn">
+        <div class="navBtn active">
             <a id="coursesBtn" href="http://localhost:8000/courses"><img src="static/pic/book.svg" style="opacity: 0.60;">Courses</a>
         </div>
         <div class="navBtn">
@@ -97,7 +57,5 @@
         </div>
    </nav>
   <footer id="pageFooter">Footer</footer>
-  <script src="static/js/calendar.js"></script>
-  <script src="static/js/menu.js"></script>
 </body>
 </html>

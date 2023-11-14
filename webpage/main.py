@@ -39,9 +39,6 @@ async def main_menu(request: Request):
 async def main_menu(request: Request):
     return templates.TemplateResponse("dashboard.html", {"request": request})
 
-@app.get("/blog")
-async def blog(request: Request):
-    return templates.TemplateResponse("blog.html", {"request": request})    
 
 @app.get("/se-blog")
 async def se_blog(request: Request):
@@ -50,6 +47,18 @@ async def se_blog(request: Request):
     
     # Pass the retrieved posts to the HTML template
     return templates.TemplateResponse("blog.html", {"request": request, "posts": posts})
+
+@app.get("/grades")
+async def grades(request: Request):
+    return templates.TemplateResponse("grades.html", {"request": request})
+
+@app.get("/courses")
+async def courses(request: Request):
+    return templates.TemplateResponse("courses.html", {"request": request})
+
+@app.get("/news")
+async def news(request: Request):
+    return templates.TemplateResponse("news.html", {"request": request})
 
 
 
