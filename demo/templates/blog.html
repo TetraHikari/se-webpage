@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SE Blog</title>
+    <script>
+    </script>
+    <style>
+
+        body {
+            display: grid;
+            grid-template-areas:
+                "nav header"
+                "nav article"
+                "nav footer";
+            grid-template-rows: 80px 1fr 70px;  
+            grid-template-columns: 20% 1fr;
+            grid-row-gap: 10px;
+            grid-column-gap: 10px;
+            height: 100vh;
+            margin: 0;
+            background-color: #E6F2F2;
+        }
+        img{
+            max-width: fit-content;
+        }
+
+        footer, article, nav, div {
+            padding: 1.2em;
+        }
+
+        header{
+            padding-top: 3em;
+        }
+
+        header{
+            display: flex;
+            align-items: center;
+            padding-left: 1em;
+        }
+
+        header input{
+            border-radius: 76px;
+            background: #F6F7FB;
+            box-shadow: 0px 62px 85px -22px rgba(175, 175, 175, 0.14), 0px 0px 19px 1px rgba(204, 204, 204, 0.15);
+            box-shadow: 0px 0px 11px 0px rgba(0, 0, 0, 0.08);
+            border: none;
+            width: 25rem;
+            height: 2rem;
+            
+        }
+
+        header input::placeholder{
+            background-image: url(static/magnifyglass.svg);
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: 5px 50%;
+            padding-left: 23px;
+            flex-shrink: 0;
+
+            color: rgba(49, 49, 49, 0.35); /* Set text color with opacity */
+            /* Menu/Menu Text */
+            font-family: Urbanist, sans-serif;
+            font-size: 12px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 14px; /* 87.5% */
+        }
+
+        .headerWrapper{
+            display: flex;
+            justify-content: flex-end;
+            width: 100%;
+            align-items: center;
+            gap: 2em;
+        }
+        .headerWrapper label{
+            color: var(--secondary-color-secondary-color, #313131);
+            text-align: center;
+            font-family: 'Urbanist', sans-serif; /* Use the font-family with a fallback */
+            font-size: 19px;
+            font-style: normal;
+            font-weight: 700;
+            line-height: 120%;
+        }
+
+        nav{
+            background: #FFF;
+            box-shadow: 23px 0px 14px -18px rgba(0, 0, 0, 0.07);
+            text-align: center;
+
+        }
+
+        nav img{
+            width: 100%;
+            height: auto;
+        }
+
+        .navWrapper{
+            
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            padding: 0em;
+            padding-top: 2em;
+
+        }
+
+        .navBtn{
+            display: flex;
+            flex-direction: column;
+        }
+
+        .navBtn a{
+            display: flex;
+            flex-direction: row;
+            gap: 2em;
+            justify-content: start;
+            align-items: center;
+            text-decoration: none;
+
+            color: rgba(49, 49, 49, 0.60); /* Set text color with opacity */
+            font-family: Urbanist;
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 700;
+            line-height: 14px; /* 87.5% */
+
+            padding: 12px 25px; /* Adjust padding as needed */
+            border-radius: 20px; /* Set border-radius for a circular background */
+            /* border: #313131 1px solid; */
+            transition: color 0.4s;
+            z-index: 1;
+            position: relative;
+            
+        }
+        .navBtn:not(.active) a::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background: #0EA6FA;
+        border-radius: 20px; /* Set border-radius for a circular background */
+        z-index: -1;
+        transition: transform 0.5s;
+        transition-timing-function: cubic-bezier(0.5, 1.6, 0.4, 0.7);
+        transform: scaleX(0);
+        transform-origin: 0 0;
+        }
+
+        .navBtn:not(.active) a:hover::before{
+            transform: scaleX(1);
+        }
+
+
+        .navBtn a:hover{
+            color: #FFF;
+        }
+
+        .navBtn a:hover svg{
+            fill: #FFF;
+        }
+
+        .navBtn.active a, .navBtn a:hover{
+            background-color: #0EA6FA;
+            color: #FFF;
+            opacity: 1;
+        }
+
+        #pageHeader {
+        grid-area: header;
+        }
+        #pageFooter {
+        grid-area: footer;
+        }
+        #mainArticle { 
+        grid-area: article;      
+        }
+
+        #mainNav { 
+        grid-area: nav;
+        }
+
+        #content { 
+        grid-area: article;
+        overflow-y: auto; /* Enables vertical scrolling */
+        padding: 1.2em;
+        /* set a max height if you want the container to have a specific height */
+        /* otherwise, it will take the remaining height from the grid */
+        }
+
+
+
+        /* Stack the layout on small devices/viewports. */
+        @media all and (max-width: 575px) {
+            body { 
+                grid-template-areas: 
+                "header"
+                "article"
+                "nav"
+                "footer";
+                grid-template-rows: 80px 1fr 70px 70px;  
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .post-box {
+            /* Add your styling here */
+            display: flex;
+            flex-direction: column;
+            width: auto;
+            height: auto;
+            filter: drop-shadow(0px 4px 9.1px rgba(0, 0, 0, 0.25));
+            padding: 2em;     /* Space between the content and the border */
+            margin-bottom: 3em;      /* Space around the box */
+            background-color: #ADD8E6; /* Background color of the box */
+            border-radius: 2rem;
+            
+        }
+
+
+        .blog-title, .blog-content, .blog-date{
+            color: #FFF;
+            font-family: Urbanist, sans-serif;
+            font-size: 16px;
+            font-style: normal;
+            line-height: 14px; /* 87.5% */
+            padding: 1em;
+        }
+
+        .blog-title{
+            font-weight: bold;
+        }
+
+
+        .delete-container{
+            display: none;
+        }
+
+        .post-box .delete-container {
+            display: none;
+        }
+
+        .post-box:hover .delete-container,
+        .post-box:active .delete-container {
+            display: block;
+        }
+
+    </style>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@700&display=swap">
+
+</head>
+<body>
+  <header id="pageHeader">
+    <input type="text" placeholder="Search">
+    <div class="headerWrapper">
+    <a href="https://www.google.com/"><img src="static/bell.png" style="fill: #FFF; filter: drop-shadow(0px 0px 3px rgba(0, 0, 0, 0.15));"></a>
+    <a href="https://www.google.com/"><img src="static/msg.png" style="fill: #FFF; filter: drop-shadow(0px 0px 3px rgba(0, 0, 0, 0.15));"></a>
+    <a href="https://www.google.com/"><img src="static/user.png"></a>
+    <label>Michael Jackson</label>
+    </div>
+  </header>
+  <article id="content">
+    <h2>SE Blog</h2>
+    <div id="posts-container">
+        {% for post in posts %}
+        <div class="post-box">
+            <div class="blog-title">{{ post.title }}</div>
+            <div class="blog-content">{{ post.content }}</div>
+            <div class="blog-date">Posted on: {{ post.created_at }}</div>
+            <div class="delete-container">
+                <form method="post" action="/delete-post/{{ post._id }}" style="display:inline;">
+                    <button type="submit">Delete</button>
+                </form>
+            </div>
+        </div>
+
+        </div>
+        {% endfor %}
+
+    
+    <h1>Create a New Post</h1>
+    <form method="post" action="/create-post" enctype="multipart/form-data">
+        <label for="title">Title:</label>
+        <input type="text" name="title" id="title" required><br>
+        <label for="content">Content:</label>
+        <textarea name="content" id="content" required></textarea><br>
+        <input type="submit" value="Create Post">
+    </form>
+  </article>
+  <nav id="mainNav">
+    <img src="static/se2.png">
+    <div class="navWrapper">
+        <div class="navBtn">
+            <a id="dashBoardBtn" href="http://localhost:8000/dashboard"><img src="static/dash.svg">Dashboard</a>
+        </div>
+        <div class="navBtn">
+            <a id="coursesBtn" href="http://localhost:8000/courses"><img src="static/book.svg" style="opacity: 0.60;">Courses</a>
+        </div>
+        <div class="navBtn">
+            <a id="gradeBtn" href="http://localhost:8000/grade"><img src="static/award.svg" style="opacity: 0.60;">Grades</a>
+        </div>
+        <div class="navBtn">
+            <a id="newsBtn" href="http://localhost:8000/news"><img src="static/news.svg" style="opacity: 0.60;">News</a>
+        </div>
+        <div class="navBtn active">
+            <a id="blogBtn" href="http://localhost:8000/blog"><img src="static/edit.svg" style="opacity: 0.60;">Blog</a>
+        </div>
+        <div class="navBtn">
+            <a id="questionBtn" href="http://localhost:8000/question"><img src="static/questionmarks.svg" style="opacity: 0.60;">Questions</a>
+        </div>
+        <div class="navBtn">
+            <a id="settingBtn" href="http://localhost:8000/setting"><img src="static/setting.svg" style="opacity: 0.60;">Settings</a>
+        </div>
+   </nav>
+  <footer id="pageFooter">Footer</footer>
+</body>
+</html>
