@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SE Blog</title>
+    <link rel="stylesheet" href="static/css/blog.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@700&display=swap">
+    
+
+</head>
+<body>
+  <header id="pageHeader">
+    <input type="text" placeholder="Search">
+    <div class="headerWrapper">
+    <a href="https://www.google.com/"><img src="static/pic/bell.png" style="fill: #FFF; filter: drop-shadow(0px 0px 3px rgba(0, 0, 0, 0.15));"></a>
+    <a href="https://www.google.com/"><img src="static/pic/msg.png" style="fill: #FFF; filter: drop-shadow(0px 0px 3px rgba(0, 0, 0, 0.15));"></a>
+    <a href="https://www.google.com/"><img src="static/pic/user.png"></a>
+    <label>Michael Jackson</label>
+    </div>
+  </header>
+  <article id="content">
+    <div class="blog-header">
+        SE Blog
+    </div>
+    <div id="posts-container">
+        {% for post in posts %}
+        <div class="post-box">
+            <div class="blog-title">{{ post.title }}</div>
+            <div class="blog-content">{{ post.content }}</div>
+            <div class="blog-date">Posted on: {{ post.created_at }}</div>
+            <div class="delete-container">
+                <form method="post" action="/delete-post/{{ post._id }}">
+                    <button class="Btn deleteBtn" type="submit" >Delete</button>
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+        <div id="postForm" class="postForm">
+            <form method="post" action="/create-post" enctype="multipart/form-data">
+                <div class="postWrapper">
+                <label for="title" style="padding-right:25px;">Title:</label>
+                <input type="text" name="title" id="title" required><br>
+                </div>
+                <div class="postWrapper">
+                <label for="content">Content:</label>
+                <textarea type="text" name="content" id="content" required></textarea><br>
+                </div>
+                <div class="BtnPostWrapper">
+                <input id="postBtn" class="Btn postBtn" type="submit" value="Create Post">
+                <input id="cancelBtn" class="Btn cancelBtn" type="submit" value="Cancel" onclick="cancelPost()">
+                </div>
+                
+            </form>
+        </div>
+    </div>
+
+
+  </article>
+  <nav id="mainNav">
+    <img src="static/pic/se2.png">
+    <div class="navWrapper">
+        <div class="navBtn">
+            <a id="dashBoardBtn" href="http://localhost:8000/dashboard"><img src="static/pic/dash.svg">Dashboard</a>
+        </div>
+        <div class="navBtn">
+            <a id="coursesBtn" href="http://localhost:8000/courses"><img src="static/pic/book.svg" style="opacity: 0.60;">Courses</a>
+        </div>
+        <div class="navBtn">
+            <a id="gradeBtn" href="http://localhost:8000/grade"><img src="static/pic/award.svg" style="opacity: 0.60;">Grades</a>
+        </div>
+        <div class="navBtn">
+            <a id="newsBtn" href="http://localhost:8000/news"><img src="static/pic/news.svg" style="opacity: 0.60;">News</a>
+        </div>
+        <div class="navBtn active">
+            <a id="blogBtn" href="http://localhost:8000/blog"><img src="static/pic/edit.svg" style="opacity: 0.60;">Blog</a>
+        </div>
+        <div class="navBtn">
+            <a id="questionBtn" href="http://localhost:8000/question"><img src="static/pic/questionmarks.svg" style="opacity: 0.60;">Questions</a>
+        </div>
+        <div class="navBtn">
+            <a id="settingBtn" href="http://localhost:8000/setting"><img src="static/pic/setting.svg" style="opacity: 0.60;">Settings</a>
+        </div>
+   </nav>
+  <footer id="pageFooter">
+    <div class="newPostContainer">
+        <button id="newPostBtn" type="submit" onclick="showForm()">New Post</button>
+    </div>
+
+
+
+  </footer>
+  <script src="static/js/blog.js"></script>
+</body>
+</html>

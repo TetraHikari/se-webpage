@@ -31,9 +31,6 @@ async def login(request:Request,username: str = Form(...), password: str = Form(
         return {"status": "failure"}
     
 
-
-
-
 @app.get("/menu")
 async def main_menu(request: Request):
     return templates.TemplateResponse("menu.html", {"request": request})
@@ -72,7 +69,7 @@ async def create_post(request: Request, title: str = Form(...), content: str = F
         # Retrieve all posts from the MongoDB collection
     posts = collection.find({})
     
-    return templates.TemplateResponse("blog.html", {"request": request, "posts": posts})
+    return RedirectResponse(url="/se-blog", status_code=303)
 
 if __name__ == "__main__":
     uvicorn.run(app, host="localhost", port=8000)

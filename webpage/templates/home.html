@@ -5,149 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- font -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Urbanist">
-    <!-- Bootstrap demo -->
+    <!-- icon pictures -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"> -->
+    <!-- css -->
+    <link rel="stylesheet" href="static/css/home.css">
     <script>
-        var siteWidth = 1280;
-        var scale = screen.width /siteWidth;
-        document.querySelector('meta[name="viewport"]').setAttribute('content', 'width='+siteWidth+', initial-scale='+scale+'');
-        
-        function myFunction() {
-            var z = document.getElementById("sideBar");
-            if (z.style.display === "none") {
-                z.style.display = "flex";
-            } else {
-                z.style.display = "none";
-            }
-        }
+
     </script>
-    <style>
-        body{
-            /* line-height: 1.5; */
-            margin: 0;
-            padding: 0;
-            font-family:'Urbanist', serif;
-        }
-        a{
-            text-decoration: none;
-        }
-        h6,h5{
-            font-weight: 400!important;
-        }
-        h6{
-            font-size: 1rem;
-        } 
-        h1, h2, h4, h5, h6{
-            margin-top: 0;
-            margin-bottom: 0.5rem;
-            /* font-weight: 500; */
-            line-height: 1.2;
-        }
-        button{
-            margin: 0;
-            font-family: inherit;
-            font-size: inherit;
-            line-height: inherit;
-        }
-        .pic {
-            max-width: 100%;
-            height: auto;
-            width:auto\9; 
-        }
-        .sideBar{
-            overflow-y: hidden;
-            position: fixed;
-            height: 100%;
-            top: 0;
-            width: 100%;
-            display: none;
-        }
-        .sideBarBox{
-            width: 40%;
-            background-color: white;
-            padding-top: 50px;
-            padding-left: 20px;
-        }
-        .sideBarButton{
-            width: 100%;
-            text-align: right;
-        }
-        .sideBarButton button{
-            margin-right: 50px;
-            background-color: rgba(255, 0, 0, 0);
-            border: 0;
-        }
-        .sideBarButton h1{
-            margin: 0;
-        }
-        .menu-hambutger{
-            display: none;
-        }
-        .navbar-pc{
-            animation: fade-down 1s;
-        }
-        .contents{
-            animation: fade-up 1s;
-        }
-  
-
-        @media screen and (min-width: 1081px) {
-            #navbar-pc {
-                display: flex;
-            }
-        }
-
-
-        @media screen and (max-width: 1080px) {
-            .nav-links{
-                display: none;
-            }
-            .menu-hambutger{
-                display: flex;
-                
-            }
-            .title h6{
-                font-size: 1.5rem;
-            }
-            .login-pic a, .login-pic h6{
-                font-size: 2rem;
-            }
-            .login-pic{
-                padding-top: 0.2rem;
-            }
-
-        }
-
-        @keyframes fade-up{
-            0%{
-                opacity: 0;
-                transform: translateY(30px) scale(0.9);
-            }
-
-
-            100%{
-                opacity: 1;
-                transform: translateY(0px) scale(1);
-            }
-        }
-
-        @keyframes fade-down{
-            0%{
-                opacity: 0;
-                transform: translateY(-30px) scale(0.9);
-            }
-
-
-            100%{
-                opacity: 1;
-                transform: translateY(0px) scale(1);
-            }
-        }
-
-
-        
-    </style>
   </head>
   <body>
     <div id="wrapper">
@@ -169,26 +33,26 @@
             <div onclick="myFunction()" style="width: 60%;background-color: #3131314c;"></div>
         </div>
 
-        <div id="navbar-pc" class="navbar-pc" style="display: flex;width: 90%;height: 50px;margin: auto auto;margin-top: 50px;">
-            <div class="logo" style="margin-right: auto;"><img src="static/logo.jpg" alt="logo" style="height: 100%;"></div>
-            <div class="title" style="margin: auto;"><a href="#" style="text-decoration: none;color: #313131;"><h6 style="margin: 0;font-weight: bold!important;">Software Engineering Program</h6></a></div>
-            <div class="nav-links" style="margin: auto;"><a href="#" style="text-decoration: none;color: #313131;"><h6 style="margin: 0;font-weight: bold!important;">Home</h6></a></div>
-            <div class="nav-links" style="margin: auto;"><a href="#" style="text-decoration: none;color: #313131;"><h6 style="margin: 0;">About</h6></a></div>
-            <div class="nav-links" style="margin: auto;"><a href="#" style="text-decoration: none;color: #313131;"><h6 style="margin: 0;">Program</h6></a></div>
-            <div class="nav-links" style="margin: auto;"><a href="#" style="text-decoration: none;color: #313131;"><h6 style="margin: 0;">Admission</h6></a></div>
-            <div class="nav-links" style="margin: auto;"><a href="#" style="text-decoration: none;color: #313131;"><h6 style="margin: 0;">Industry</h6></a></div>
-            <div class="nav-links" style="margin: auto;"><a href="#" style="text-decoration: none;color: #313131;"><h6 style="margin: 0;">News</h6></a></div>
-            <div class="nav-links" style="margin: auto;">
-                <input type="search" name="search" id="search" placeholder="Search" style="background-color: #F6F7FB;border: 0;border-radius: 5px;padding: 5px 10px;">
+        <div id="navbar-pc" class="navbar-pc">
+            <div class="logo"><img src="static/pic/logo.jpg" alt="logo"></div>
+            <div class="title"><a href="#"><h6 style="font-weight: bold!important;">Software Engineering Program</h6></a></div>
+            <div class="nav-links"><a href="#"><h6 style="font-weight: bold!important;">Home</h6></a></div>
+            <div class="nav-links"><a href="#"><h6>About</h6></a></div>
+            <div class="nav-links"><a href="#"><h6>Program</h6></a></div>
+            <div class="nav-links"><a href="#"><h6>Admission</h6></a></div>
+            <div class="nav-links"><a href="#"><h6>Industry</h6></a></div>
+            <div class="nav-links"><a href="#"><h6>News</h6></a></div>
+            <div class="nav-links">
+                <input type="search" name="search" id="search" placeholder="Search">
             </div>
-            <div class="login-pic" style="margin: auto;"><a href="http://localhost:8000/login" style="text-decoration: none;color: #313131;"><h6 style="margin: 0;"><i class="bi bi-person"></i></h6></a></div>
-            <div class="menu-hambutger" style="margin-top: 0.5rem;"><a onclick="myFunction()" href="#" style="text-decoration: none;color: #313131;"><h1><i class="bi bi-list"></i></h1></a></div>
+            <div class="login-pic"><a href="http://localhost:8000/login"><h6><i class="bi bi-person"></i></h6></a></div>
+            <div class="menu-hambutger"><a onclick="myFunction()" href="#"><h1><i class="bi bi-list"></i></h1></a></div>
         </div>
 
-        <div class="contents" style="width: 85%;margin: 0 5% 0 10%;color: #313131;">
-            <div style="display: flex;margin-left: auto;margin-right: auto;margin-top: 70px;">
-                <div style="margin-top: auto;margin-bottom: auto; margin-right: auto;"> 
-                    <div style="border-radius: 0.2em; color: #20776E;background-color: #e5f2f23b;padding: 2px auto;width: 40px;text-align: center;"><h6 style="margin: 0;">#SE</h6></div>
+        <div class="contents">
+            <div class="main-contentContainer">
+                <div class="main-contentWrapper"> 
+                    <div class="hashTag"><h6>#SE</h6></div>
                     <div>
                         <h1>Study software</h1>
                         <h1>engineering at</h1>
@@ -202,23 +66,23 @@
                     </div>
                     
                     <br><br>
-                    <div  style="display: flex;box-sizing: border-box;">
-                        <button type="button" style="margin-right: 3em; border: 0px;border-radius: 0.3em;padding: 0.75em 1.75em;background-color: #20776E;color: white;">Explore Course</button>
-                        <a href=""  style="text-decoration:none;color: #20776E;margin: auto 0;">Contact Us</a>
+                    <div class="buttonContainer">
+                        <button type="button">Explore Course</button>
+                        <a href="" >Contact Us</a>
                     </div>
                 </div>
                 
-                <div><img class="pic"src="static/home1.jpg" alt="" style="width: 400px;"></div>
+                <div><img class="pic"src="static/pic/home1.jpg" alt="" style="width: 400px;"></div>
             </div>
 
-            <div style="display: flex;margin-left: auto;margin-right: auto;margin-top: 150px;">
-                <div style="margin-top: auto;margin-bottom: auto; margin-right: 40px;text-align: center;"> 
-                    <img class="pic" src="static/home2.jpg" alt="" style="width: 650px;border-radius: 45px;">
+            <div class="newsFeedContainer">
+                <div class="newsPicWrapper"> 
+                    <img class="pic" src="static/pic/home2.jpg" alt="">
                     <br><br>
-                    <h6 style="font-weight: bold!important;">K-Engineering world tour and workshop 2022</h6>
+                    <h6>K-Engineering world tour and workshop 2022</h6>
                 </div>
                 
-                <div style="margin: auto auto;">
+                <div class="newsDesWrapper">
                     <div>
                         <h1>Latest News</h1>
                     </div>
@@ -230,6 +94,8 @@
                 </div>
             </div>
 
+    
+<!-- 
             <div style="text-align: center;margin-top: 120px;">
                 <h6 style="color: #20776E;font-weight: bold!important;">Top Subject</h6>
                 <h1>Explore our top online course subject</h1>
@@ -245,8 +111,6 @@
                 <div style="border: solid 1px #20776E;border-radius: 1em;padding: 5px 20px;margin: 0 auto;"><h6 style="margin: 0;">Animation</h6></div>
                 <div style="border: solid 1px #20776E;border-radius: 1em;padding: 5px 20px;margin: 0 auto;"><h6 style="margin: 0;">UI/UX Design</h6></div>
                 <div style="border: solid 1px #20776E;border-radius: 1em;padding: 5px 20px;margin: 0 auto;"><h6 style="margin: 0;">Copy Writing</h6></div>
-                <!-- <div style="border: solid 1px #20776E;border-radius: 1em;padding: 5px 20px;margin: 0 auto;"><h6 style="margin: 0;">Photography</h6></div> -->
-                <!-- <div style="border: solid 1px #20776E;border-radius: 1em;padding: 5px 20px;margin: 0 auto;"><h6 style="margin: 0;">Film & Video</h6></div> -->
                 <div style="color :#20776E;padding: 5px 0;margin: 0;margin-left: auto;">
                     <h5 style="margin: 0;">
                         <i class="bi bi-arrow-right"></i>
@@ -257,7 +121,7 @@
             <div style="display: flex;margin-top: 50px;">
 
                 <div style="width: 250px;margin: 0;margin-right: auto;">
-                    <div><img src="static/last1.jpg" alt="" style="width: 100%;"></div>
+                    <div><img src="static/pic/last1.jpg" alt="" style="width: 100%;"></div>
                     <div style="padding: 5%;margin: auto auto;background-color: white;box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;border-radius:0 0 15px 15px;">
                         <p style="font-size: 14px;margin: 10px 0;color: #313131a9;">Valerie Morehouse</p>
                         <h6 style="font-weight: 500!important;">Singing Like a Star: 5 Steps to Discover Your Voice</h6>
@@ -268,7 +132,7 @@
                     </div>
                 </div>
                 <div style="width: 250px;margin: 0 auto;">
-                    <div><img src="static/last2.jpg" alt="" style="width: 100%;"></div>
+                    <div><img src="static/pic/last2.jpg" alt="" style="width: 100%;"></div>
                     <div style="padding: 5%;margin: auto auto;background-color: white;box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;border-radius:0 0 15px 15px;">
                         <p style="font-size: 14px;margin: 10px 0;color: #313131a9;">Cinthya Mohr</p>
                         <h6 style="font-weight: 500!important;">Intro to UX: Designing with a User Central Approach</h6>
@@ -279,7 +143,7 @@
                     </div>
                 </div>
                 <div style="width: 250px;margin: 0 auto;">
-                    <div><img src="static/last3.jpg" alt="" style="width: 100%;"></div>
+                    <div><img src="static/pic/last3.jpg" alt="" style="width: 100%;"></div>
                     <div style="padding: 5%;margin: auto auto;background-color: white;box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;border-radius:0 0 15px 15px;">
                         <p style="font-size: 14px;margin: 10px 0;color: #313131a9;">Patricia Reiners</p>
                         <h6 style="font-weight: 500!important;">UX/UI Portfolio: Designing Amazing Case Studies</h6>
@@ -290,7 +154,7 @@
                     </div>
                 </div>
                 <div style="width: 250px;margin: 0;margin-left: auto;">
-                    <div><img src="static/last4.jpg" alt="" style="width: 100%;"></div>
+                    <div><img src="static/pic/last4.jpg" alt="" style="width: 100%;"></div>
                     <div style="padding: 5%;margin: auto auto;background-color: white;box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;border-radius:0 0 15px 15px;">
                         <p style="font-size: 14px;margin: 10px 0;color: #313131a9;">Valerie Morehouse</p>
                         <h6 style="font-weight: 500!important;">Logo Design Basic: Develop a Memorable Brand Identity</h6>
@@ -305,9 +169,11 @@
 
             </div>
         </div>
-    </div>
+    </div> -->
+    
     
 
 <br><br><br><br><br>
+<script src="static/js/home.js"></script>
   </body>
 </html>
