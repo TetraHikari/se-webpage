@@ -1,6 +1,7 @@
 from fastapi import FastAPI, Request, Form, Cookie, Response,requests, HTTPException
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
+from typing import List
 import sys
 from Login.models import*
 import datetime
@@ -8,6 +9,8 @@ from Blog.models import*
 from Blog.BlogServ import*
 from Grade.GradeServ import*
 from Grade.models import*
+from RoomReser.models import*
+from RoomReser.RoomServ import*
 sys.path.insert(1, 'C:\\Users\\Acer\\Desktop\\SE_Website\\db')
 from db.database import*
 
@@ -80,6 +83,7 @@ async def login(request: Request, username: str = Form(...), password: str = For
                     response.set_cookie(key="email", value=current_account.email)
                     response.set_cookie(key="firstname", value=current_account.firstname)
                     response.set_cookie(key="lastname", value=current_account.lastname)
+                    #save subject to cookie as List
                     response.set_cookie(key="subject", value=subject)
                     return response
 
@@ -215,7 +219,7 @@ async def assign_grade(request: Request, username: str = Cookie(None), subject: 
     root = open_db_client()
 
     try:
-        students = get_student_from_subject(root, subject_name)
+        students = get_student_from_subject(root, subject[2:-2])
         return templates.TemplateResponse("assign-grade.html",
                                           {"request": request, 
                                            "username": username,
@@ -233,6 +237,84 @@ async def grades(request: Request, username: str = Cookie(None)):
 async def grades(request: Request, username: str = Cookie(None)):
     return templates.TemplateResponse("grades.html", {"request": request, "username": username})
 
+@app.post("/submit-grades", response_class=HTMLResponse)
+async def submit_grades(
+    request: Request,
+    username: str = Cookie(None),
+    subject: str = Cookie(None),
+    scores: List[int] = Form(...),
+    student_usernames: List[str] = Form(...),
+):
+    root = open_db_client()
+    try:
+        # Assuming scores and student_usernames are in the same order
+        student_grade_info = list(zip(student_usernames, scores))
+
+        # Process the grades and update your database
+        for student_username, score in student_grade_info:
+            # Update the database with the score for each student
+            print(f"Student {student_username} got a score of {score} in {subject[2:-2]}")
+            student_set_score(root, student_username, subject[2:-2], score)
+            
+        
+        return templates.TemplateResponse("main-menu.html", {"request": request, "subject": subject})
+    finally:
+        shutdown_db_client()
+        
+@app.get("/view-grades", response_class=HTMLResponse)
+async def view_grade(request: Request, username: str = Cookie(None), subject: str = Cookie(None)):
+    root = open_db_client()
+    try:
+        subjects = []
+        scores = []
+        for subject_name, score in read_student_score(root, username).items():
+            subjects.append(subject_name)
+            scores.append(score)
+            
+        return templates.TemplateResponse("view-grades.html",
+                                              {"request": request,
+                                               "username": username,
+                                               "name": root[username].get_fullname(),
+                                               "subject": subjects,
+                                               "scores": read_student_score(root, username)})
+    finally:
+        # Close the database connection
+        shutdown_db_client()
+        
+        
+@app.get("/room-reservation", response_class=HTMLResponse)
+async def room_reservation(request: Request, username: str = Cookie(None)):
+    root = open_db_client()
+    try:
+        rooms = []
+        
+        for room_id in root.keys():
+            if isinstance(root[room_id], Room):
+                rooms.append(room_detail(root, room_id))
+        print(rooms)
+
+        return templates.TemplateResponse("room.html", {"request": request, "rooms": rooms})
+    finally:
+        shutdown_db_client()
+
+@app.post("/reserve-room", response_class=HTMLResponse)
+async def reserve_room(request: Request, room_id: str = Form(...), username: str = Cookie(None)):
+    root = open_db_client()
+    try:
+        # Check if the room is available for reservation
+        room = root.get(room_id)
+        if room and isinstance(room, Room) and not room.reservation:
+            # Reserve the room
+            reserved_room(root, room_id)
+            message = f"Room {room_id} reserved successfully!"
+        else:
+            message = f"Room {room_id} is unavailable for reservation."
+
+        # Retrieve updated room information
+        rooms = {}  # Replace this with a function to retrieve room information from the database
+        return templates.TemplateResponse("room.html", {"request": request, "rooms": rooms, "message": message})
+    finally:
+        shutdown_db_client()
 
 if __name__ == "__main__":
     import uvicorn

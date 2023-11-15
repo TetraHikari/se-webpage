@@ -19,13 +19,17 @@
                   {% for student in students %}
                   <tr>
                     <td>ID:{{ student.username }} Mr. {{ student.firstname }} {{ student.lastname }}</td>
-                    <td><input type="number" name="score"></td>
+                    <td><input type="number" name="scores" min="0" max="100"></td>
+                    <input type="hidden" name="student_usernames" value="{{ student.username }}">
                   </tr>
                   {% endfor %}
                   <!-- Add more rows for other students if needed -->
                 </tbody>
               </table>
               <button type="submit">Submit Grades</button>
+        </form>
+        <form method="get" action="/main-menu" style="display:inline;">
+          <button type="submit">Menu</button>
         </form>
     </center>
 </body>

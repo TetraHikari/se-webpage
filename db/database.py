@@ -100,7 +100,18 @@ class Professor(Persistent):
     
     def get_posts(self):
         return self.posts
+
+class Room(Persistent):
+    def __init__(self, room_id):
+        self.room_id = room_id
+        self.reservation = False
+        
+    def get_room_id(self):
+        return self.room_id
     
+    def is_reserved(self):
+        return self.reservation
+
 def open_db_client():
     global db, connection
     storage = FileStorage.FileStorage('db/account.fs')

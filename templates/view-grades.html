@@ -1,0 +1,45 @@
+<!-- FILEPATH: /path/to/templates/view-grades.html -->
+
+<html>
+<head>
+    <title>View Grades</title>
+</head>
+<body>
+    <h1>View Grades</h1>
+    <p>Welcome, {{ name }} ({{ username }})!</p>
+
+    {% if subject %}
+        <h2>Your Subjects:</h2>
+        <ul>
+            {% for subj in subject %}
+                <li>{{ subj }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No subjects found.</p>
+    {% endif %}
+
+    {% if scores %}
+        <h2>Your Scores:</h2>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Subject</th>
+                    <th>Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for subj, score in scores.items() %}
+                    <tr>
+                        <td>{{ subj }}</td>
+                        <td>{{ score }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No scores found.</p>
+    {% endif %}
+    
+</body>
+</html>
