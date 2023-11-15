@@ -22,13 +22,23 @@
   <article id="content">
     <div class="todayDate" id="todayDate"></div>
     <div class="eventWrapper">
-        <div class="normal">Today's Event</div>
-        <div class="eventBox">
-            <!-- empty box if no events -->
+        <div class="normal">Upcoming Events</div>
+        <div class="eventBoxWrapper">
+            <div class="todayEvent eventBox">
+              <div>Today</div>
+              <ul id="todayEvent">
+                <!-- js update -->
+              </ul>
+            </div>
+            <div class="tmrEvent eventBox">
+              <div>Tomorrow</div>
+              <ul id="tmrEvent">
+                <!-- js update -->
+              </ul>
+            </div>
         </div>
     </div>
     <div class="calendarWrapper">
-        <div class="normal">Calendar</div>
         <div class="calendarBox" id="calendarBox">
             <div class="container">
                 <div class="header">
@@ -49,24 +59,26 @@
                 </div>
                 <div id="calendar"></div>
               </div>
-              <div id="modal"></div>
+
               <div id="addEvent">
-                <h2>Add Event</h2>
-                <input type="text" id="txtTitle" placeholder="Event Title" />
-                <button id="btnSave">Save</button>
-                <button class="btnClose">Close</button>
+                <div class="eventWrapper">
+                  <h2>Add Event</h2>
+                  <input type="text" id="txtTitle" placeholder="Event Title" />
+                  <button id="btnSave">Save</button>
+                  <button class="btnClose">Close</button>
+                </div>
               </div>
           
               <div id="viewEvent">
-                <h2>Event</h2>
-                <p id="eventText">This is Sample Event</p>
-                <button id="btnDelete">Delete</button>
-                <button class="btnClose">Close</button>
+                <div class="eventWrapper">
+                  <h2>Event</h2>
+                  <p id="eventText">This is Sample Event</p>
+                  <button id="btnDelete">Delete</button>
+                  <button class="btnClose">Close</button>
+                </div>
               </div>
         </div>
     </div>
-
-
 
   </article>
   <nav id="mainNav">

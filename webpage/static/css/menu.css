@@ -1,3 +1,7 @@
+* {
+    font-family: Urbanist;
+}
+
 body {
     display: grid;
     grid-template-areas:
@@ -113,7 +117,6 @@ nav img{
     text-decoration: none;
 
     color: rgba(49, 49, 49, 0.60); /* Set text color with opacity */
-    font-family: Urbanist;
     font-size: 16px;
     font-style: normal;
     font-weight: 700;
@@ -164,17 +167,37 @@ nav img{
 
 .todayDate{
     color: #313131;
-    font-family: Urbanist;
-    font-size: 2em;
-    padding: 0.5em;
+    font-size: 2.5em;
+    padding: 0em;
 }
 
 .normal{
     color: #313131;
-    font-family: Urbanist;
-    font-size: 1em;
+    font-size: 1.5em;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+    padding-left: 0em;
 }
 
+.eventBoxWrapper{
+    display: flex;
+    flex-direction: row;
+    gap: 10em;
+    padding-left: 0em;
+
+}
+
+.eventBox{
+    background: #ffffff;
+    border-radius: 20px; /* Set border-radius for a circular background */
+    width: 25em;
+    height: 7em;
+}
+
+#tmrEvent, #todayEvent{
+    padding-top: 0em;
+    margin-top: 0em;
+}
 
 #pageHeader {
 grid-area: header;

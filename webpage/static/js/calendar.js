@@ -1,101 +1,130 @@
 const holidays = [
-    {
+  {
       hdate: "01-01-2023",
-      holiday: "New Year Day",
-    },
-    {
-      hdate: "15-01-2023",
-      holiday: "Pongal",
-    },
-    {
+      holiday: "New Year's Day",
+  },
+  {
+      hdate: "02-01-2023",
+      holiday: "Day off for New Year's Day",
+  },
+  {
+      hdate: "14-01-2023",
+      holiday: "National Children's Day",
+  },
+  {
       hdate: "16-01-2023",
-      holiday: "Thiruvalluvar Day",
-    },
-    {
-      hdate: "17-01-2023",
-      holiday: "Uzhavar Thirunal",
-    },
-    {
-      hdate: "26-01-2023",
-      holiday: "Republic Day",
-    },
-    {
-      hdate: "05-02-2023",
-      holiday: "Thai Poosam",
-    },
-    {
-      hdate: "22-03-2023",
-      holiday: "Telugu New Year Day",
-    },
-    {
-      hdate: "01-04-2023",
-      holiday: "Annual closing of Accounts for Commercial Banks and Co-operative Banks",
-    },
-    {
-      hdate: "04-04-2023",
-      holiday: "Mahaveer Jayanthi",
-    },
-    {
-      hdate: "07-04-2023",
-      holiday: "Good Friday",
-    },
-    {
+      holiday: "Teachers' Day",
+  },
+  {
+      hdate: "22-01-2023",
+      holiday: "Lunar New Year's Day",
+  },
+  {
+      hdate: "23-01-2023",
+      holiday: "Second Day of Lunar New Year",
+  },
+  {
+      hdate: "24-01-2023",
+      holiday: "Third Day of Lunar New Year",
+  },
+  {
+      hdate: "06-03-2023",
+      holiday: "Makha Bucha",
+  },
+  {
+      hdate: "06-04-2023",
+      holiday: "Chakri Day",
+  },
+  {
+      hdate: "13-04-2023",
+      holiday: "Songkran",
+  },
+  {
       hdate: "14-04-2023",
-      holiday: "Tamil New Years Day and Dr.B.R.Ambedkars Birthday",
-    },
-    {
-      hdate: "22-04-2023",
-      holiday: "Ramzan (Idul Fitr)",
-    },
-    {
+      holiday: "Songkran",
+  },
+  {
       hdate: "01-05-2023",
-      holiday: "May Day",
-    },
-    {
-      hdate: "29-06-2023",
-      holiday: "Bakrid(Idul Azha)",
-    },
-    {
-      hdate: "29-07-2023",
-      holiday: "Muharram",
-    },
-    {
-      hdate: "15-08-2023",
-      holiday: "Independence Day",
-    },
-    {
-      hdate: "06-09-2023",
-      holiday: "Krishna Jayanthi",
-    },
-    {
-      hdate: "17-09-2023",
-      holiday: "Vinayakar Chathurthi",
-    },
-    {
-      hdate: "28-09-2023",
-      holiday: "Milad-un-Nabi",
-    },
-    {
-      hdate: "02-10-2023",
-      holiday: "Gandhi Jayanthi",
-    },
-    {
+      holiday: "Labor Day",
+  },
+  {
+      hdate: "04-05-2023",
+      holiday: "Coronation Day",
+  },
+  {
+      hdate: "05-05-2023",
+      holiday: "Bridge Public Holiday",
+  },
+  {
+      hdate: "17-05-2023",
+      holiday: "Royal Ploughing Ceremony Day",
+  },
+  {
+      hdate: "03-06-2023",
+      holiday: "Visakha Bucha",
+  },
+  {
+      hdate: "03-06-2023",
+      holiday: "Queen Suthida's Birthday",
+  },
+  {
+      hdate: "05-06-2023",
+      holiday: "Day off for Visakha Bucha",
+  },
+  {
+      hdate: "05-06-2023",
+      holiday: "Day off for Queen Suthida's Birthday",
+  },
+  {
+      hdate: "28-07-2023",
+      holiday: "King Vajiralongkorn's Birthday",
+  },
+  {
+      hdate: "31-07-2023",
+      holiday: "Bridge Public Holiday",
+  },
+  {
+      hdate: "01-08-2023",
+      holiday: "Buddhist Lent Day",
+  },
+  {
+      hdate: "12-08-2023",
+      holiday: "The Queen's Birthday",
+  },
+  {
+      hdate: "14-08-2023",
+      holiday: "Day off for The Queen's Birthday",
+  },
+  {
+      hdate: "13-10-2023",
+      holiday: "Anniversary of the Death of King Bhumibol",
+  },
+  {
+      hdate: "16-11-2023",
+      holiday: "Test"
+  },
+  {
       hdate: "23-10-2023",
-      holiday: "Ayutha Pooja",
-    },
-    {
-      hdate: "24-10-2023",
-      holiday: "Vijaya Dasami",
-    },
-    {
-      hdate: "12-11-2023",
-      holiday: "Deepavali",
-    },
-    {
-      hdate: "25-12-2023",
-      holiday: "Christmas",
-    },
-  ];
+      holiday: "Chulalongkorn Day",
+  },
+  {
+      hdate: "05-12-2023",
+      holiday: "King Bhumibol's Birthday/Father's Day",
+  },
+  {
+      hdate: "10-12-2023",
+      holiday: "Constitution Day",
+  },
+  {
+      hdate: "11-12-2023",
+      holiday: "Substitute Holiday for Constitution Day",
+  },
+  {
+      hdate: "31-12-2023",
+      holiday: "New Year's Eve",
+  },
+];
+
   const calendar = document.querySelector("#calendar");
   const monthBanner = document.querySelector("#month");
   let navigation = 0;
@@ -158,7 +187,6 @@ const holidays = [
           eventDiv.innerText = holidayOfTheDay.holiday;
           dayBox.appendChild(eventDiv);
         }
-  
         dayBox.addEventListener("click", () => {
           showModal(dateText);
         });
@@ -184,7 +212,7 @@ const holidays = [
       navigation++;
       loadCalendar();
     });
-    modal.addEventListener("click", closeModal);
+
     closeButtons.forEach((btn) => {
       btn.addEventListener("click", closeModal);
     });
@@ -192,6 +220,7 @@ const holidays = [
       events = events.filter((e) => e.date !== clicked);
       localStorage.setItem("events", JSON.stringify(events));
       closeModal();
+      updateEventBoxes();
     });
   
     btnSave.addEventListener("click", function () {
@@ -207,14 +236,15 @@ const holidays = [
       } else {
         txtTitle.classList.add("error");
       }
+      updateEventBoxes();
     });
   }
   
-  const modal = document.querySelector("#modal");
   const viewEventForm = document.querySelector("#viewEvent");
   const addEventForm = document.querySelector("#addEvent");
   
   function showModal(dateText) {
+    closeModal();
     clicked = dateText;
     const eventOfTheDay = events.find((e) => e.date == dateText);
     if (eventOfTheDay) {
@@ -225,17 +255,70 @@ const holidays = [
       //Add new Event
       addEventForm.style.display = "block";
     }
-    modal.style.display = "block";
   }
   
   //Close Modal
   function closeModal() {
     viewEventForm.style.display = "none";
     addEventForm.style.display = "none";
-    modal.style.display = "none";
     clicked = null;
     loadCalendar();
   }
-  
+
+  function updateEventBoxes() {
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+
+    const formatDateString = (date) => {
+        return `${date.getDate().toString().padStart(2, '0')}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getFullYear()}`;
+    };
+
+    const todayStr = formatDateString(today);
+    const tomorrowStr = formatDateString(tomorrow);
+
+    const todayEventDiv = document.getElementById('todayEvent');
+    const tmrEventDiv = document.getElementById('tmrEvent');
+
+    const todayEvents = events.filter(e => e.date === todayStr);
+    const todayHolidays = holidays.filter(h => h.hdate === todayStr);
+
+    const tmrEvents = events.filter(e => e.date === tomorrowStr);
+    const tmrHolidays = holidays.filter(h => h.hdate === tomorrowStr);
+
+    todayEventDiv.innerHTML = '';
+    tmrEventDiv.innerHTML = '';
+
+    const createListItem = (text, color) => {
+        const li = document.createElement('li');
+        li.textContent = text;
+        li.style.color = color;
+        return li;
+    };
+
+    if (todayEvents.length === 0 && todayHolidays.length === 0) {
+        todayEventDiv.appendChild(createListItem('None', 'grey'));
+    } else {
+        todayEvents.forEach(e => {
+            todayEventDiv.appendChild(createListItem(e.title, 'red'));
+        });
+        todayHolidays.forEach(h => {
+            todayEventDiv.appendChild(createListItem(h.holiday, 'green'));
+        });
+    }
+
+    if (tmrEvents.length === 0 && tmrHolidays.length === 0) {
+        tmrEventDiv.appendChild(createListItem('None', 'grey'));
+    } else {
+        tmrEvents.forEach(e => {
+            tmrEventDiv.appendChild(createListItem(e.title, 'red'));
+        });
+        tmrHolidays.forEach(h => {
+            tmrEventDiv.appendChild(createListItem(h.holiday, 'green'));
+        });
+    }
+}
+
   buttons();
   loadCalendar();
+  updateEventBoxes();
