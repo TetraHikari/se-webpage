@@ -24,18 +24,30 @@
         SE Blog
     </div>
     <div id="posts-container">
-        {% for post in posts %}
+        {% for post in posts|sort(attribute='time', reverse=true) %}
         <div class="post-box year{{ post.yearpost }}">
             <div class="blog-title">{{ post.title }}</div>
             <div class="blog-content">{{ post.content }}</div>
             <div class="blog-date">Posted by: {{ post.postedby }}, {{ post.time }}</div>
+            <div class="blog-like">Like: {{post.like}}</div> 
             <div class="delete-container">
+                {% if username in post.liked_by %} {# Check if the current user has liked the post #}
+                <button type="button" disabled>Already Liked</button>
+                {% else %}
+                    <form method="post" action="/like-post/{{ post.post_id }}/{{ username }}" style="display:inline;">
+                        <button type="submit">Like</button>
+                    </form>
+                {% endif %}
+
+                {% if post.username == username %} {# Check if the post belongs to the current user #}   
                 <form method="post" action="/delete-post/{{ post.post_id }}">
                     <button class="Btn deleteBtn" type="submit" >Delete</button>
                 </form>
+                {% endif %}
             </div>
+            
         </div>
-        {% endfor %}
+        {% endfor %} 
         <div id="postForm" class="postForm">
             <form method="post" action="/create-post" enctype="multipart/form-data">
                 <div class="postWrapper">
@@ -50,7 +62,6 @@
                 <input id="postBtn" class="Btn postBtn" type="submit" value="Create Post">
                 <input id="cancelBtn" class="Btn cancelBtn" type="submit" value="Cancel" onclick="cancelPost()">
                 </div>
-                
             </form>
         </div>
     </div>
@@ -58,9 +69,11 @@
 
   </article>
   <nav id="mainNav">
-    <a href="http://localhost:8000/menu">
-    <img src="static/pic/se2.png">
-    </a>
+    <form method="get" action="/main-menu">
+        <button type="submit" id="logoBtn" style="background-color: transparent; border: 0em">
+            <img src="static/pic/se2.png">
+        </button>
+    </form>
     <div class="navWrapper">
         <div class="navBtn">
             <!-- <a id="dashBoardBtn" href="http://localhost:8000/dashboard"><img src="static/pic/dash.svg">Dashboard</a> -->

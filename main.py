@@ -136,7 +136,35 @@ async def create_post(request: Request, title: str = Form(...), content: str = F
 
 
 
-@app.post("/delete-post/{post_id}", response_class=HTMLResponse)
+# @app.post("/delete-post/{post_id}", response_class=HTMLResponse)
+# async def delete_post(request: Request, post_id: str, username: str = Cookie(None)):
+#     root = open_db_client()
+#     updated_posts = []
+
+#     try:
+#         # Check if the post belongs to the current user
+#         if username not in root or post_id not in root[username].posts:
+#             raise HTTPException(status_code=403, detail="Permission denied: Post not found or does not belong to the user")
+
+#         # Delete the post
+#         del root[username].posts[post_id]
+#         commit()
+
+#         # Update the posts for the current user
+#         for user in root:
+#             account_posts = read_all_post(root, user)
+#             updated_posts.extend(account_posts)
+
+#     except HTTPException as e:
+#         raise e
+#     finally:
+#         # Close the database connection
+#         shutdown_db_client()
+
+#     # Return the updated blog page
+#     return templates.TemplateResponse("blog.html", {"request": request, "username": username, "posts": updated_posts})
+
+@app.post("/delete-post/{post_id}", response_class=RedirectResponse)
 async def delete_post(request: Request, post_id: str, username: str = Cookie(None)):
     root = open_db_client()
     updated_posts = []
@@ -162,13 +190,40 @@ async def delete_post(request: Request, post_id: str, username: str = Cookie(Non
         shutdown_db_client()
 
     # Return the updated blog page
-    return templates.TemplateResponse("blog.html", {"request": request, "username": username, "posts": updated_posts})
+    return RedirectResponse(url=f"/se-blog", status_code=303)
 
 
 
 
 # Update the like_post function in main.py
-@app.post("/like-post/{post_id}/{current_username}", response_class=HTMLResponse)
+# @app.post("/like-post/{post_id}/{current_username}", response_class=HTMLResponse)
+# async def like_post(request: Request, post_id: str, current_username: str):
+#     root = open_db_client()
+#     updated_posts = []
+
+#     try:
+#         for user in root:
+#             for post in read_all_post(root, user):
+#                 if post["post_id"] == post_id:
+#                     # Check if the user has already liked the post
+#                     if current_username not in post["liked_by"]:
+#                         add_like(root, post_id, post["like"] + 1, current_username)
+
+#         # Update the posts for the current user
+#         for user in root:
+#             account_posts = read_all_post(root, user)
+#             updated_posts.extend(account_posts)
+
+#     except HTTPException as e:
+#         raise e
+#     finally:
+#         # Close the database connection
+#         shutdown_db_client()
+
+#     # Return the updated blog page with the like count
+#     return templates.TemplateResponse("blog.html", {"request": request, "posts": updated_posts, "username": current_username})
+
+@app.post("/like-post/{post_id}/{current_username}", response_class=RedirectResponse)
 async def like_post(request: Request, post_id: str, current_username: str):
     root = open_db_client()
     updated_posts = []
@@ -193,8 +248,7 @@ async def like_post(request: Request, post_id: str, current_username: str):
         shutdown_db_client()
 
     # Return the updated blog page with the like count
-    return templates.TemplateResponse("blog.html", {"request": request, "posts": updated_posts, "username": current_username})
-
+    return RedirectResponse(url=f"/se-blog", status_code=303)
 
 
 
