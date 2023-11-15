@@ -8,16 +8,6 @@
     <p>Username: {{ username }}</p>
     <p>Email: {{ email }}</p>
 
-    {% if subject %}
-        <p>Subject: {{ subject }}</p>
-        <!-- Add button for professors to assign grades -->
-        <form method="get" action="/assign-grade" style="display:inline;">
-            <button type="submit">Assign Grade</button>
-        </form>
-    {% else %}
-        <p>Year: {{ year }}</p>
-    {% endif %}
-    
     <!-- Add this form for the logout button -->
     <form method="post" action="/logout" style="display:inline;">
         <button type="submit">Logout</button>
@@ -26,5 +16,28 @@
     <form method="get" action="/se-blog" style="display:inline;">
         <button type="submit">SE-Blog</button>
     </form>
+
+    <!-- Additional information based on user type -->
+    {% if year %}
+        <p>Year: {{ year }}</p>
+    {% endif %}
+
+    {% if subjects %}
+        {% for subject in subjects %}
+            <p>Subject: {{ subject }}</p>
+        {% endfor %}
+    {% endif %}
+
+    {% if is_professor %}
+        <!-- Professor-specific button(s) -->
+        <form method="get" action="/assign-grade" style="display:inline;">
+            <button type="submit">Assign Grade</button>
+        </form>
+    {% else %}
+        <!-- Student-specific button(s) -->
+        <form method="get" action="/view-grades" style="display:inline;">
+            <button type="submit">View Grades</button>
+        </form>
+    {% endif %}
 </body>
 </html>

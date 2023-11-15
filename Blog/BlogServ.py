@@ -38,7 +38,7 @@ from db.database import*
 
 # Blog Services
 def create_post(root, username, post_id, title, content, created_at, like):
-    if isinstance(root[username], Accounts) or isinstance(root[username], Professor):
+    if isinstance(root[username], Student) or isinstance(root[username], Professor):
         root[username].posts[post_id] = {
             "post_id": post_id,
             "title": title,
@@ -54,7 +54,7 @@ def create_post(root, username, post_id, title, content, created_at, like):
 
 def read_all_post(root, username):
     post_list = []
-    if isinstance(root[username], Accounts) or isinstance(root[username], Professor):
+    if isinstance(root[username], Student) or isinstance(root[username], Professor):
         for post_id, post_data in root[username].posts.items():
             post_list.append(
                 {
@@ -100,7 +100,7 @@ def read_all_post(root, username):
 #                     print("Like added")
 
 def add_post(root, username, post_id, title, content, created_at, like):
-    if isinstance(root[username], Accounts) or isinstance(root[username], Professor):
+    if isinstance(root[username], Student) or isinstance(root[username], Professor):
         if "posts" not in root[username].__dict__:
             root[username].__dict__["posts"] = OOBTree()
 
@@ -119,7 +119,7 @@ def add_post(root, username, post_id, title, content, created_at, like):
 
 def add_like(root, post_id, new_like_count, username):
     for user in root:
-        if isinstance(root[user], Accounts) or isinstance(root[user], Professor):
+        if isinstance(root[user], Student) or isinstance(root[user], Professor):
             if "posts" in root[user].__dict__:
                 for post_key in list(root[user].posts.keys()):
                     # one user can give 1 like to 1 post

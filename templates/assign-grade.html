@@ -1,0 +1,32 @@
+<!-- FILEPATH: /C:/Users/Acer/Desktop/SE_Website - Copy/templates/assigngrade.html -->
+
+<html>
+<head>
+</head>
+<body>
+    <center>
+        <form method="post" action="/submit-grades"> <!-- Assuming you have a route to handle grade submission -->
+          <h1>Assign Grade</h1>
+          <h3>Subject: {{ subject }}</h3>
+            <table>
+                <thead>
+                  <tr>
+                    <th>Student Name</th>
+                    <th>Total score 100%</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for student in students %}
+                  <tr>
+                    <td>ID:{{ student.username }} Mr. {{ student.firstname }} {{ student.lastname }}</td>
+                    <td><input type="number" name="score"></td>
+                  </tr>
+                  {% endfor %}
+                  <!-- Add more rows for other students if needed -->
+                </tbody>
+              </table>
+              <button type="submit">Submit Grades</button>
+        </form>
+    </center>
+</body>
+</html>

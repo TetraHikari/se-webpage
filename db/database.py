@@ -5,17 +5,17 @@ from persistent import Persistent
 from transaction import commit
 from BTrees.OOBTree import OOBTree  # Import OOBTree
 
-
-class Accounts(Persistent):
-    def __init__(self, username, email, password, year, name, lastname):
+class Student(Persistent):
+    def __init__(self, username, email, password, year, firstname, lastname):
         self.email = email
         self.username = username
         self.password = password
-        self.name = name
+        self.firstname = firstname
         self.lastname = lastname
         self.year = year
         self.posts = OOBTree()
-
+        self.subjects = OOBTree()
+        self.room_reserve = OOBTree()
 
     def get_username(self):
         return self.username
@@ -30,30 +30,41 @@ class Accounts(Persistent):
         return self.year
     
     def get_fullname(self):
-        return self.name + " " + self.lastname
+        return self.firstname + " " + self.lastname
 
     def all_data(self):
         data = {
             "username": self.username,
             "email": self.email,
             "password": self.password,
-            "year": self.year
+            "year": self.year,
+            "firstname": self.firstname,
+            "lastname": self.lastname
         }
         return data
     
-    def __str__(self):
-        return f"username: {self.username}, email: {self.email}, password: {self.password}, year: {self.year}"
-
+    #Return Object
+    def get_subjects(self):
+        return self.subjects
+    
+    def get_posts(self):
+        return self.posts
+    
+    def get_room_reserve(self):
+        return self.room_reserve
+    
+    
 
 class Professor(Persistent):
-    def __init__(self, username, email, password, firstname, lastname, subject):
+    def __init__(self, username, email, password, firstname, lastname):
         self.username = username
         self.email = email
         self.password = password
         self.firstname = firstname
         self.lastname = lastname
-        self.subject = subject
+        self.subjects = OOBTree()
         self.posts = OOBTree()
+        self.room_reserve = OOBTree()
         
     def get_username(self):
         return self.username
@@ -69,9 +80,7 @@ class Professor(Persistent):
     
     def get_lastname(self):
         return self.lastname
-    
-    def get_subject(self):
-        return self.subject
+
     
     def all_data(self):
         data = {
@@ -80,19 +89,18 @@ class Professor(Persistent):
             "password": self.password,
             "firstname": self.firstname,
             "lastname": self.lastname,
-            "subject": self.subject
         }
         return data
     
-    def __str__(self):
-        return f"username: {self.username}, email: {self.email}, password: {self.password}, firstname: {self.firstname}, lastname: {self.lastname}, subject: {self.subject}"
+    def get_subjects(self):
+        return self.subjects
     
-# class Library(Persistent):
-#     def __init__(self, name,id)
-#         self.name = name
-
-# class RoomReser(Persistent):
-
+    def get_room_reserve(self):
+        return self.room_reserve
+    
+    def get_posts(self):
+        return self.posts
+    
 def open_db_client():
     global db, connection
     storage = FileStorage.FileStorage('db/account.fs')

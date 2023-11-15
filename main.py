@@ -36,36 +36,51 @@ async def login(request: Request):
     return templates.TemplateResponse("login.html", {"request": request})
 
 
+
 @app.post("/login", response_class=HTMLResponse)
 async def login(request: Request, username: str = Form(...), password: str = Form(...)):
     user = User(username=username, password=password)
     root = open_db_client()
+
     try:
         for account in root:
             current_account = root[account]
 
-            # Check if the account is an instance of Accounts class
-            if isinstance(current_account, Accounts):
+            if isinstance(current_account, Student):
+                # Check if the account is a student
                 if current_account.username == user.username and current_account.password == user.password:
-                    response = templates.TemplateResponse("main-menu.html", {"request": request, "username": current_account.username, "email": current_account.email, "year": current_account.year, "name": current_account.get_fullname()})
-                    response.set_cookie(key="username", value=current_account.username)
-                    response.set_cookie(key="email", value=current_account.email)
-                    response.set_cookie(key="firstname", value=current_account.name)
-                    response.set_cookie(key="lastname", value=current_account.lastname)
-                    response.set_cookie(key="year", value=current_account.year)
-                    shutdown_db_client()
-                    return response
-
-            # Check if the account is an instance of Professor class
-            elif isinstance(current_account, Professor):
-                if current_account.username == user.username and current_account.password == user.password:
-                    response = templates.TemplateResponse("main-menu.html", {"request": request, "username": current_account.username, "email": current_account.email, "subject": current_account.subject, "name": current_account.firstname+" "+current_account.lastname})
+                    response = templates.TemplateResponse("main-menu.html", {
+                        "request": request,
+                        "username": current_account.username,
+                        "email": current_account.email,
+                        "year": current_account.year,
+                        "name": current_account.get_fullname(),
+                        "subjects": get_subject_from_student(root, current_account.username)
+                    })
                     response.set_cookie(key="username", value=current_account.username)
                     response.set_cookie(key="email", value=current_account.email)
                     response.set_cookie(key="firstname", value=current_account.firstname)
                     response.set_cookie(key="lastname", value=current_account.lastname)
-                    response.set_cookie(key="subject", value=current_account.subject)
-                    shutdown_db_client()
+                    response.set_cookie(key="year", value=current_account.year)
+                    return response
+
+            elif isinstance(current_account, Professor):
+                # Check if the account is a professor
+                if current_account.username == user.username and current_account.password == user.password:
+                    subject = get_subject_from_professor(root, current_account.username)
+                    response = templates.TemplateResponse("main-menu.html", {
+                        "request": request,
+                        "username": current_account.username,
+                        "email": current_account.email,
+                        "subjects": subject,
+                        "name": current_account.firstname + " " + current_account.lastname,
+                        "is_professor": True
+                    })
+                    response.set_cookie(key="username", value=current_account.username)
+                    response.set_cookie(key="email", value=current_account.email)
+                    response.set_cookie(key="firstname", value=current_account.firstname)
+                    response.set_cookie(key="lastname", value=current_account.lastname)
+                    response.set_cookie(key="subject", value=subject)
                     return response
 
     except KeyError:
@@ -78,7 +93,7 @@ async def login(request: Request, username: str = Form(...), password: str = For
 async def main_menu(request: Request, username: str = Cookie(None), email: str = Cookie(None), year: int = Cookie(None), firstname: str = Cookie(None), lastname: str = Cookie(None), subject: str = Cookie(None)):
     return templates.TemplateResponse("main-menu.html", {"request": request, "username": username, "email": email, "year": year, "name": firstname+" "+lastname, "subject": subject})
 
-#Blog
+
 
 @app.get("/se-blog", response_class=HTMLResponse)
 async def se_blog(request: Request, username: str = Cookie(None), email: str = Cookie(None), year: int = Cookie(None)):
@@ -137,8 +152,6 @@ async def create_post(request: Request, title: str = Form(...), content: str = F
     # Return the updated blog page
     return templates.TemplateResponse("blog.html", {"request": request, "username": username, "posts": all_posts})
 
-
-
 @app.post("/delete-post/{post_id}", response_class=HTMLResponse)
 async def delete_post(request: Request, post_id: str, username: str = Cookie(None)):
     root = open_db_client()
@@ -167,10 +180,6 @@ async def delete_post(request: Request, post_id: str, username: str = Cookie(Non
     # Return the updated blog page
     return templates.TemplateResponse("blog.html", {"request": request, "username": username, "posts": updated_posts})
 
-
-
-
-# Update the like_post function in main.py
 @app.post("/like-post/{post_id}/{current_username}", response_class=HTMLResponse)
 async def like_post(request: Request, post_id: str, current_username: str):
     root = open_db_client()
@@ -198,25 +207,31 @@ async def like_post(request: Request, post_id: str, current_username: str):
     # Return the updated blog page with the like count
     return templates.TemplateResponse("blog.html", {"request": request, "posts": updated_posts, "username": current_username})
 
+
+
 @app.get("/assign-grade", response_class=HTMLResponse)
-async def assign_grade(request: Request, username: str = Cookie(None), email: str = Cookie(None), subject: str = Cookie(None)):
-    # Assuming you have a function to retrieve students from the database
-    students = get_students_from_database()  # Implement this function
+async def assign_grade(request: Request, username: str = Cookie(None), subject: str = Cookie(None)):
+    # Open the database connection
+    root = open_db_client()
 
-    return templates.TemplateResponse("assigngrade.html", {"request": request, "username": username, "email": email, "subject": subject, "students": students})
+    try:
+        students = get_student_from_subject(root, subject_name)
+        return templates.TemplateResponse("assign-grade.html",
+                                          {"request": request, 
+                                           "username": username,
+                                           "subject": subject[2:-2],
+                                           "students": students})
+    finally:
+        # Close the database connection
+        shutdown_db_client()
 
-# Handle the form submission
+@app.get("/grades", response_class=HTMLResponse)
+async def grades(request: Request, username: str = Cookie(None)):
+    return templates.TemplateResponse("grades.html", {"request": request, "username": username})
+
 @app.post("/assign-grade", response_class=HTMLResponse)
-async def submit_grade(request: Request, form: GradeForm, username: str = Cookie(None), email: str = Cookie(None), subject: str = Cookie(None)):
-    # Get the student_id and score from the form
-    student_id = form.student_id
-    score = form.score
-
-    # Update the student's score in the database
-    update_student_score(student_id, score)  # Implement this function
-
-    # Redirect back to the /assign-grade page or any other page
-    return RedirectResponse(url="/assign-grade")
+async def grades(request: Request, username: str = Cookie(None)):
+    return templates.TemplateResponse("grades.html", {"request": request, "username": username})
 
 
 if __name__ == "__main__":
