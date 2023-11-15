@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SE Blog</title>
+</head>
+<body>
+    <h1>username {{ username }}</h1>
+    {% for post in posts %}
+        <h3>{{ post.title }}</h3>
+        <p>{{ post.content }}</p>
+        <p>Posted on: {{ post.time }}</p>
+        <form method="post" action="/delete-post/{{ post.post_id }}" style="display:inline;">
+            <button type="submit">Delete</button>
+        </form>
+        <hr>
+    {% endfor %}
+    
+    <h1>Create a New Post</h1>
+    <form method="post" action="/create-post" enctype="multipart/form-data">
+        <label for="title">Title:</label>
+        <input type="text" name="title" id="title" required><br>
+        <label for="content">Content:</label>
+        <textarea name="content" id="content" required></textarea><br>
+        <input type="submit" value="Create Post">
+    </form>
+
+    <form method="get" action="/main-menu" style="display:inline;">
+        <button type="submit">menu</button>
+    </form>
+</body>
+</html>
