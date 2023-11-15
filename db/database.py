@@ -1,20 +1,20 @@
 import uuid
 from persistent import Persistent
-
-
-class Post(Persistent):
-    def __init__(self, title, content):
-        self.title = title
-        self.content = content
+from ZODB import FileStorage, DB
+from persistent import Persistent
+from transaction import commit
+from BTrees.OOBTree import OOBTree  # Import OOBTree
 
 
 class Accounts(Persistent):
-    def __init__(self, username, email, password, year):
+    def __init__(self, username, email, password, year, name, lastname):
         self.email = email
         self.username = username
         self.password = password
+        self.name = name
+        self.lastname = lastname
         self.year = year
-        self.posts = []
+        self.posts = OOBTree()
 
     def get_username(self):
         return self.username
@@ -27,6 +27,9 @@ class Accounts(Persistent):
 
     def get_year(self):
         return self.year
+    
+    def get_fullname(self):
+        return self.name + " " + self.lastname
 
     def all_data(self):
         data = {
@@ -35,30 +38,12 @@ class Accounts(Persistent):
             "password": self.password,
             "year": self.year
         }
-
         return data
-
-    def create_post(self, title, content):
-        post_id = str(uuid.uuid4())  # Generate a unique post_id using uuid
-        self.posts.append(
-            {"post_id": post_id, 
-             "title": title, 
-             "content": content}
-        )
-
-    def update_post(self, post_id, new_title, new_content):
-        if post_id in self.posts:
-            self.posts[post_id]["title"] = {"title": new_title, "content": new_content}
-
-
-    def delete_post(self, post_id):
-        if post_id in self.posts:
-            del self.posts[post_id]
     
+    def __str__(self):
+        return f"username: {self.username}, email: {self.email}, password: {self.password}, year: {self.year}"
 
-from ZODB import FileStorage, DB
-from persistent import Persistent
-
+    
 def open_db_client():
     global db, connection
     storage = FileStorage.FileStorage('db/account.fs')
@@ -72,66 +57,62 @@ def shutdown_db_client():
     db.close()
     connection.close()
     print("database disconnected")
+    
+def create_account(root, username, email, password, year, name, lastname):
+    root[username] = Accounts(username, email, password, year, name, lastname)
+    commit()
+    print("account created")
+    
+def read_account(root, username):
+    return root[username].all_data()
+
+def read_all_account(root):
+    for key in root.keys():
+        print(root[key].all_data())
+        
+
+def update_account(root, username, email, password, year):
+    root[username].email = email
+    root[username].password = password
+    root[username].year = year
+    commit()
+    print("account updated")
+    
+def delete_account(root, username):
+    del root[username]
+    commit()
+    print("account deleted")
+
+    
 
 
-# from transaction import commit
 
-# storage = FileStorage.FileStorage('db/account.fs')
-# db = DB(storage)
-# connection = db.open()
-# root = connection.root()
-
-# person1 = Accounts("65011610","65011610@kmitl.ac.th","123456",1)
-# person2 = Accounts("65011611","65011611@kmitl.ac.th","123456",1)
-# person3 = Accounts("65011612","65011612@kmitl.ac.th","123456",1)
-
-# person1.create_post("Hello World", "This is my first post 65011610")
-# person2.create_post("Hello World", "This is my first post 65011611")
-# person3.create_post("Hello World", "This is my first post 65011612")
-
-# # Store the Accounts objects with usernames as keys
-# root["65011610"] = person1
-# root["65011611"] = person2
-# root["65011612"] = person3
+# create_account(root, "65011610", "65011610@kmitl.ac.th", "123456", 2, "Tonkla", "Pokaew")
+# create_account(root, "65011611", "65011611@kmitl.ac.th", "123456", 3, "John", "Doe")
+# create_account(root, "65011612", "65011610@kmitl.ac.th", "123456", 2, "Peeranut", "Kongthong")
+# create_account(root, "65011613", "65011610@kmitl.ac.th", "123456", 2, "Ibrahim", "Ali")
+# create_account(root, "65011614", "65011610@kmitl.ac.th", "123456", 2, "Mark", "Zuckerberg")
 
 # commit()
 
-# Read
 
-# print(root["65011610"].get_username())
-# print(root["65011610"].get_email())
-# print(root["65011610"].get_password())
-# print(root["65011610"].get_year())
-# print()
-# for value in root["65011610"].allData().values():
-#     print(value)
-
+# root = open_db_client()
 
 # print(root["65011610"].username)
 # print(root["65011610"].email)
 # print(root["65011610"].password)
+# print(root["65011610"].year)
+# print(root["65011610"].get_fullname())
 
-# print(root["65011611"].username)
-# print(root["65011611"].email)
-# print(root["65011611"].password)
-
-# print(root["65011612"].username)
-# print(root["65011612"].email)
-# print(root["65011612"].password)
-
-#Read Posts
-# for user in root:
-#     for post in root[user].posts:
-#         print(post["post_id"])
-#         print(post["title"])
-#         print(post["content"])
-#         print()
+# shutdown_db_client()
 
 
 
-# # Close the connection
-# connection.close()
-# db.close()
+
+    
+
+
+    
 
 
 

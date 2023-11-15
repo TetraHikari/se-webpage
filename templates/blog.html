@@ -8,8 +8,8 @@
     {% for post in posts %}
         <h3>{{ post.title }}</h3>
         <p>{{ post.content }}</p>
-        <p>Posted on: {{ post.created_at }}</p>
-        <form method="post" action="/delete-post/{{ post._id }}" style="display:inline;">
+        <p>Posted on: {{ post.time }}</p>
+        <form method="post" action="/delete-post/{{ post.post_id }}" style="display:inline;">
             <button type="submit">Delete</button>
         </form>
         <hr>
@@ -22,6 +22,10 @@
         <label for="content">Content:</label>
         <textarea name="content" id="content" required></textarea><br>
         <input type="submit" value="Create Post">
+    </form>
+
+    <form method="get" action="/main-menu" style="display:inline;">
+        <button type="submit">menu</button>
     </form>
 </body>
 </html>

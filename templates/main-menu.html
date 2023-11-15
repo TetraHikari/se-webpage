@@ -1,8 +1,21 @@
+<!DOCTYPE html>
 <html>
 <head>
-    <title>SE-Website</title>
+    <title>Main Menu</title>
 </head>
 <body>
-    <h1>Menu</h1>
+    <h1>Welcome, {{ name }}</h1>
+    <p>Username: {{ username }}</p>
+    <p>Email: {{ email }}</p>
+    <p>Year: {{ year }}</p>
+    
+    <!-- Add this form for the logout button -->
+    <form method="post" action="/logout" style="display:inline;">
+        <button type="submit">Logout</button>
+    </form>
+
+    <form method="get" action="/se-blog" style="display:inline;">
+        <button type="submit">SE-Blog</button>
+    </form>
 </body>
 </html>
