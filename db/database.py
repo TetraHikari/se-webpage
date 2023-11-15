@@ -87,24 +87,7 @@ def delete_account(root, username):
 
 
 
-# create_account(root, "65011610", "65011610@kmitl.ac.th", "123456", 2, "Tonkla", "Pokaew")
-# create_account(root, "65011611", "65011611@kmitl.ac.th", "123456", 3, "John", "Doe")
-# create_account(root, "65011612", "65011610@kmitl.ac.th", "123456", 2, "Peeranut", "Kongthong")
-# create_account(root, "65011613", "65011610@kmitl.ac.th", "123456", 2, "Ibrahim", "Ali")
-# create_account(root, "65011614", "65011610@kmitl.ac.th", "123456", 2, "Mark", "Zuckerberg")
 
-# commit()
-
-
-# root = open_db_client()
-
-# print(root["65011610"].username)
-# print(root["65011610"].email)
-# print(root["65011610"].password)
-# print(root["65011610"].year)
-# print(root["65011610"].get_fullname())
-
-# shutdown_db_client()
 
 
 

@@ -97,53 +97,56 @@ async def create_post(request: Request, title: str = Form(...), content: str = F
         post_id = str(uuid.uuid4())
 
         # Create a new post
-        post = Post(post_id=post_id,title=title, content=content, created_at=datetime.datetime.now().ctime())
-
-        # Add the post to the user's posts in the database
-        root[username].posts[post_id] = {
+        post = {
             "post_id": post_id,
             "title": title,
             "content": content,
             "time": datetime.datetime.now().ctime()
         }
 
+        # Add the post to the user's posts in the database
+        root[username].posts[post_id] = post
+
         # Commit the changes to the database
         commit()
-        
+
+        # Iterate over all accounts in the database and collect posts
         for user in root:
             account_posts = read_all_post(root, user)
             all_posts.extend(account_posts)
-            
+
     except HTTPException as e:
         raise e
     finally:
         # Close the database connection
         shutdown_db_client()
-
+    print(all_posts)
 
     # Return the updated blog page
     return templates.TemplateResponse("blog.html", {"request": request, "username": username, "posts": all_posts})
 
+
+
 @app.post("/delete-post/{post_id}", response_class=HTMLResponse)
 async def delete_post(request: Request, post_id: str, username: str = Cookie(None)):
     root = open_db_client()
-    print(f"Username: {username}, Post ID: {post_id}")
-    print(read_all_post(root, username))
+    updated_posts = []
 
     try:
-        # Ensure the user exists in the database
-        if username not in root:
-            raise HTTPException(status_code=404, detail="User not found")
-
-        # Ensure the post exists in the user's posts
-        if post_id not in root[username].posts:
-            raise HTTPException(status_code=404, detail="Post not found")
-
-        # Delete the post from the user's posts in the database
-        del root[username].posts[post_id]
-
-        # Commit the changes to the database
+        for user in root:
+            # Create a copy of the keys to avoid RuntimeError
+            user_posts_keys = list(root[user].posts.keys())
+            
+            for post_key in user_posts_keys:
+                if post_key == post_id:
+                    print(f"Username: {user}, Post ID: {post_id}")
+                    del root[user].posts[post_key]
         commit()
+
+        for user in root:
+            account_posts = read_all_post(root, user)
+            updated_posts.extend(account_posts)
+
     except HTTPException as e:
         raise e
     finally:
@@ -151,7 +154,8 @@ async def delete_post(request: Request, post_id: str, username: str = Cookie(Non
         shutdown_db_client()
 
     # Return the updated blog page
-    return templates.TemplateResponse("blog.html", {"request": request, "username": username, "posts": read_all_post(root, username)})
+    return templates.TemplateResponse("blog.html", {"request": request, "username": username, "posts": updated_posts})
+
 
 if __name__ == "__main__":
     import uvicorn

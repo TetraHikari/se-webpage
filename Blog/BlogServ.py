@@ -40,16 +40,27 @@ def clear_all_posts(root, username):
 
 
 root = open_db_client()
-for i in root:
-    clear_all_posts(root, i)
-shutdown_db_client()
+# for i in root:
+#     clear_all_posts(root, i)
+# shutdown_db_client()
+
+
+# create_account(root, "65011610", "65011610@kmitl.ac.th", "123456", 2, "Tonkla", "Pokaew")
+# create_account(root, "65011611", "65011611@kmitl.ac.th", "123456", 3, "John", "Doe")
+# create_account(root, "65011612", "65011610@kmitl.ac.th", "123456", 2, "Peeranut", "Kongthong")
+# create_account(root, "65011613", "65011610@kmitl.ac.th", "123456", 2, "Ibrahim", "Ali")
+# create_account(root, "65011614", "65011610@kmitl.ac.th", "123456", 2, "Mark", "Zuckerberg")
 
 
 
-# print(root["65011611"].username)
-# print(root["65011611"].email)
-# print(root["65011611"].password)
-# print(root["65011611"].year)
+
+
+# print(root["65011610"].username)
+# print(root["65011610"].email)
+# print(root["65011610"].password)
+# print(root["65011610"].year)
+# print(root["65011610"].get_fullname())
+
 
 
 
@@ -59,13 +70,13 @@ shutdown_db_client()
 # create_post(root, "65011610", str(uuid.uuid4()), "title4", "content4",datetime.datetime.now().ctime())
 
 
-# for user in root:
-#     for post in read_all_post(root, user):
-#         print(post["title"])
-#         print(post["content"])
-#         print(post["time"] )
-#         print()
+for user in root:
+    for post in read_all_post(root, user):
+        print(post["title"])
+        print(post["content"])
+        print(post["time"] )
+        print()
     
-# shutdown_db_client()
+shutdown_db_client()
 
 

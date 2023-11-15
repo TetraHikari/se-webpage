@@ -6,10 +6,6 @@ import socket
 import time
 import struct
 
-client = MongoClient('mongodb://localhost:27017')
-db = client['se-blog']
-collection = db['posts']
-
 def RequestTimefromNtp(addr='0.de.pool.ntp.org'):
     REF_TIME_1970 = 2208988800  # Reference time
     client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
