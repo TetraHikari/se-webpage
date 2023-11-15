@@ -16,6 +16,7 @@ class Accounts(Persistent):
         self.year = year
         self.posts = OOBTree()
 
+
     def get_username(self):
         return self.username
 
@@ -43,7 +44,55 @@ class Accounts(Persistent):
     def __str__(self):
         return f"username: {self.username}, email: {self.email}, password: {self.password}, year: {self.year}"
 
+
+class Professor(Persistent):
+    def __init__(self, username, email, password, firstname, lastname, subject):
+        self.username = username
+        self.email = email
+        self.password = password
+        self.firstname = firstname
+        self.lastname = lastname
+        self.subject = subject
+        self.posts = OOBTree()
+        
+    def get_username(self):
+        return self.username
     
+    def get_email(self):
+        return self.email
+    
+    def get_password(self):
+        return self.password
+    
+    def get_firstname(self):
+        return self.firstname
+    
+    def get_lastname(self):
+        return self.lastname
+    
+    def get_subject(self):
+        return self.subject
+    
+    def all_data(self):
+        data = {
+            "username": self.username,
+            "email": self.email,
+            "password": self.password,
+            "firstname": self.firstname,
+            "lastname": self.lastname,
+            "subject": self.subject
+        }
+        return data
+    
+    def __str__(self):
+        return f"username: {self.username}, email: {self.email}, password: {self.password}, firstname: {self.firstname}, lastname: {self.lastname}, subject: {self.subject}"
+    
+# class Library(Persistent):
+#     def __init__(self, name,id)
+#         self.name = name
+
+# class RoomReser(Persistent):
+
 def open_db_client():
     global db, connection
     storage = FileStorage.FileStorage('db/account.fs')
@@ -57,32 +106,6 @@ def shutdown_db_client():
     db.close()
     connection.close()
     print("database disconnected")
-    
-def create_account(root, username, email, password, year, name, lastname):
-    root[username] = Accounts(username, email, password, year, name, lastname)
-    commit()
-    print("account created")
-    
-def read_account(root, username):
-    return root[username].all_data()
-
-def read_all_account(root):
-    for key in root.keys():
-        print(root[key].all_data())
-        
-
-def update_account(root, username, email, password, year):
-    root[username].email = email
-    root[username].password = password
-    root[username].year = year
-    commit()
-    print("account updated")
-    
-def delete_account(root, username):
-    del root[username]
-    commit()
-    print("account deleted")
-
     
 
 

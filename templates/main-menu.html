@@ -7,7 +7,16 @@
     <h1>Welcome, {{ name }}</h1>
     <p>Username: {{ username }}</p>
     <p>Email: {{ email }}</p>
-    <p>Year: {{ year }}</p>
+
+    {% if subject %}
+        <p>Subject: {{ subject }}</p>
+        <!-- Add button for professors to assign grades -->
+        <form method="get" action="/assign-grade" style="display:inline;">
+            <button type="submit">Assign Grade</button>
+        </form>
+    {% else %}
+        <p>Year: {{ year }}</p>
+    {% endif %}
     
     <!-- Add this form for the logout button -->
     <form method="post" action="/logout" style="display:inline;">
