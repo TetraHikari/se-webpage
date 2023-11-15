@@ -3,7 +3,7 @@ from persistent import Persistent
 from ZODB import FileStorage, DB
 from persistent import Persistent
 from transaction import commit
-from BTrees.OOBTree import OOBTree  # Import OOBTree
+from BTrees import OOBTree  # Import OOBTree
 
 
 class Accounts(Persistent):
