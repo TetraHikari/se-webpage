@@ -301,18 +301,13 @@ async def room_reservation(request: Request, username: str = Cookie(None)):
 async def reserve_room(request: Request, room_id: str = Form(...), username: str = Cookie(None)):
     root = open_db_client()
     try:
-        # Check if the room is available for reservation
-        room = root.get(room_id)
-        if room and isinstance(room, Room) and not room.reservation:
-            # Reserve the room
-            reserved_room(root, room_id)
-            message = f"Room {room_id} reserved successfully!"
-        else:
-            message = f"Room {room_id} is unavailable for reservation."
-
-        # Retrieve updated room information
-        rooms = {}  # Replace this with a function to retrieve room information from the database
-        return templates.TemplateResponse("room.html", {"request": request, "rooms": rooms, "message": message})
+        reserved_room(root, room_id)
+        rooms = []
+        for room_id in root.keys():
+            if isinstance(root[room_id], Room):
+                rooms.append(room_detail(root, room_id))
+        print(rooms)
+        return templates.TemplateResponse("room.html", {"request": request, "rooms": rooms})
     finally:
         shutdown_db_client()
 
