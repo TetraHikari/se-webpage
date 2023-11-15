@@ -101,7 +101,8 @@ async def create_post(request: Request, title: str = Form(...), content: str = F
             "post_id": post_id,
             "title": title,
             "content": content,
-            "time": datetime.datetime.now().ctime()
+            "time": datetime.datetime.now().ctime(),
+            "like":0
         }
 
         # Add the post to the user's posts in the database
@@ -120,7 +121,6 @@ async def create_post(request: Request, title: str = Form(...), content: str = F
     finally:
         # Close the database connection
         shutdown_db_client()
-    print(all_posts)
 
     # Return the updated blog page
     return templates.TemplateResponse("blog.html", {"request": request, "username": username, "posts": all_posts})
@@ -133,16 +133,15 @@ async def delete_post(request: Request, post_id: str, username: str = Cookie(Non
     updated_posts = []
 
     try:
-        for user in root:
-            # Create a copy of the keys to avoid RuntimeError
-            user_posts_keys = list(root[user].posts.keys())
-            
-            for post_key in user_posts_keys:
-                if post_key == post_id:
-                    print(f"Username: {user}, Post ID: {post_id}")
-                    del root[user].posts[post_key]
+        # Check if the post belongs to the current user
+        if username not in root or post_id not in root[username].posts:
+            raise HTTPException(status_code=403, detail="Permission denied: Post not found or does not belong to the user")
+
+        # Delete the post
+        del root[username].posts[post_id]
         commit()
 
+        # Update the posts for the current user
         for user in root:
             account_posts = read_all_post(root, user)
             updated_posts.extend(account_posts)
@@ -155,6 +154,39 @@ async def delete_post(request: Request, post_id: str, username: str = Cookie(Non
 
     # Return the updated blog page
     return templates.TemplateResponse("blog.html", {"request": request, "username": username, "posts": updated_posts})
+
+
+
+
+# Update the like_post function in main.py
+@app.post("/like-post/{post_id}/{current_username}", response_class=HTMLResponse)
+async def like_post(request: Request, post_id: str, current_username: str):
+    root = open_db_client()
+    updated_posts = []
+
+    try:
+        for user in root:
+            for post in read_all_post(root, user):
+                if post["post_id"] == post_id:
+                    # Check if the user has already liked the post
+                    if current_username not in post["liked_by"]:
+                        add_like(root, post_id, post["like"] + 1, current_username)
+
+        # Update the posts for the current user
+        for user in root:
+            account_posts = read_all_post(root, user)
+            updated_posts.extend(account_posts)
+
+    except HTTPException as e:
+        raise e
+    finally:
+        # Close the database connection
+        shutdown_db_client()
+
+    # Return the updated blog page with the like count
+    return templates.TemplateResponse("blog.html", {"request": request, "posts": updated_posts, "username": current_username})
+
+
 
 
 if __name__ == "__main__":

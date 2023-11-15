@@ -5,13 +5,26 @@
 </head>
 <body>
     <h1>username {{ username }}</h1>
-    {% for post in posts %}
+    {% for post in posts|sort(attribute='time', reverse=true) %}
         <h3>{{ post.title }}</h3>
         <p>{{ post.content }}</p>
         <p>Posted on: {{ post.time }}</p>
-        <form method="post" action="/delete-post/{{ post.post_id }}" style="display:inline;">
-            <button type="submit">Delete</button>
-        </form>
+        <p>Like: {{ post.like }}</p>
+
+        {% if username in post.liked_by %} {# Check if the current user has liked the post #}
+            <button type="button" disabled>Already Liked</button>
+        {% else %}
+            <form method="post" action="/like-post/{{ post.post_id }}/{{ username }}" style="display:inline;">
+                <button type="submit">Like</button>
+            </form>
+        {% endif %}
+        
+
+        {% if post.username == username %} {# Check if the post belongs to the current user #}
+            <form method="post" action="/delete-post/{{ post.post_id }}" style="display:inline;">
+                <button type="submit">Delete</button>
+            </form>
+        {% endif %}
         <hr>
     {% endfor %}
     
@@ -25,7 +38,8 @@
     </form>
 
     <form method="get" action="/main-menu" style="display:inline;">
-        <button type="submit">menu</button>
+        <button type="submit">Menu</button>
     </form>
+
 </body>
 </html>
