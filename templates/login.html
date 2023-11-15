@@ -1,18 +1,38 @@
-<!-- FILEPATH: /c:/Users/Acer/OneDrive - KMITL/SE-Website/templates/login.html -->
-
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
   <head>
-    <title>Login Page</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="static/css/login.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@700&display=swap">
   </head>
   <body>
-    <h1>Login</h1>
-    <form action="/login" method="post">
-      <label for="username">Username:</label>
-      <input type="text" id="username" name="username"><br>
-      <label for="password">Password:</label>
-      <input type="password" id="password" name="password"><br>
-      <input type="submit" value="Submit">
-    </form>
+    <div class="container">
+        <div class="headerWrapper">
+            <div class="title"><h1>Welcome Back</h1></div>
+            <div class="logo"><img src="static/pic/logo.jpg" alt=""></div>
+        </div>
+        <div class="queryContainer">
+            <form action="/login" method="post">
+            <div class="textQueryWrapper">
+                <label for="username">Username</label>
+                <input type="username" id="username" name="username">
+            </div>
+            <div class="textQueryWrapper">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password">
+            </div>
+            <div class="buttonQueryWrapper">
+                <h6>Forgot Password?</h6>
+                <input type="submit" value="Submit">
+            </div>
+            <br><br>
+            <div class="createNew">
+                <h6>Don't Have An Account?<a href=""> Create new</a></h6>
+            </div>
+            </form>
+        </div>
+    </div>
   </body>
 </html>

@@ -1,6 +1,7 @@
 from fastapi import FastAPI, Request, Form, Cookie, Response,requests, HTTPException
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
+from fastapi.staticfiles import StaticFiles
 import sys
 from Login.models import*
 import datetime
@@ -14,6 +15,8 @@ from db.database import*
 
 app = FastAPI()
 templates = Jinja2Templates(directory="./templates")
+app.mount("/static", StaticFiles(directory="./static"), name="static")
+
 
 
 @app.get("/")
@@ -30,7 +33,7 @@ async def logout(response: Response, request: Request):
     response.delete_cookie("year")
     
     # Redirect to the home page or login page
-    return templates.TemplateResponse("login.html", {"request": request})
+    return RedirectResponse(url="/login", status_code=302)
 
 @app.get("/login", response_class=HTMLResponse)
 async def login(request: Request):
@@ -52,22 +55,24 @@ async def login(request: Request, username: str = Form(...), password: str = For
             print("Fullname:", current_account.get_fullname())
             
             if current_account.username == user.username and current_account.password == user.password:
-                response = templates.TemplateResponse("main-menu.html", {"request": request, "username": current_account.username, "email": current_account.email, "year": current_account.year, "name": current_account.get_fullname()})
+                response = RedirectResponse("/main-menu", status_code=302)
                 response.set_cookie(key="username", value=current_account.username)
                 response.set_cookie(key="email", value=current_account.email)
                 response.set_cookie(key="firstname", value=current_account.name)
                 response.set_cookie(key="lastname", value=current_account.lastname)
                 response.set_cookie(key="year", value=current_account.year)
+                response.set_cookie(key="fullname", value=current_account.get_fullname())
                 shutdown_db_client()
                 return response
+            
     except KeyError:
         raise HTTPException(status_code=401, detail="Invalid username or password")
     finally:
         shutdown_db_client()
 
 @app.get("/main-menu", response_class=HTMLResponse)
-async def main_menu(request: Request, username: str = Cookie(None), email: str = Cookie(None), year: int = Cookie(None)):
-    return templates.TemplateResponse("main-menu.html", {"request": request, "username": username, "email": email, "year": year})
+async def main_menu(request: Request, username: str = Cookie(None), fullname: str = Cookie(None), email: str = Cookie(None), year: int = Cookie(None)):
+    return templates.TemplateResponse("main-menu.html", {"request": request,"username": username, "fullname": fullname, "email": email, "year": year})
 
 #Blog
 
