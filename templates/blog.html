@@ -69,7 +69,7 @@
 
   </article>
   <nav id="mainNav">
-    <form method="get" action="/main-menu">
+    <form method="get" action="/home">
         <button type="submit" id="logoBtn" style="background-color: transparent; border: 0em">
             <img src="static/pic/se2.png">
         </button>
@@ -77,7 +77,7 @@
     <div class="navWrapper">
         <div class="navBtn">
             <!-- <a id="dashBoardBtn" href="http://localhost:8000/dashboard"><img src="static/pic/dash.svg">Dashboard</a> -->
-            <form method="get" action="/dashboard">
+            <form method="get" action="/main-menu">
                 <button type="submit" id="dashBoardBtn">
                     <img src="static/pic/dash.svg" style="opacity: 0.60;"><div>Dashboard</div>
                 </button>
@@ -93,12 +93,20 @@
         </div>
         <div class="navBtn">
             <!-- <a id="gradeBtn" href="http://localhost:8000/grades"><img src="static/pic/award.svg" style="opacity: 0.60;">Grades</a> -->
-            <form method="get" action="/grades">
+        {% if is_professor %}
+            <form method="get" action="/assign-grade">
                 <button type="submit" id="gradeBtn">
                     <img src="static/pic/award.svg" style="opacity: 0.60;"><div>Grades</div>
                 </button>
             </form>
-        
+        {% else %}
+            <form method="get" action="/view-grades">
+                <button type="submit" id="gradeBtn">
+                    <img src="static/pic/award.svg" style="opacity: 0.60;"><div>Grades</div>
+                </button>
+            </form>
+        {% endif %}
+
           </div>
         <div class="navBtn">
             <!-- <a id="newsBtn" href="http://localhost:8000/news"><img src="static/pic/news.svg" style="opacity: 0.60;">News</a> -->

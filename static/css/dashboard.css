@@ -128,7 +128,7 @@ nav img{
     line-height: 14px; /* 87.5% */
 
     padding: 5px 25px; /* Adjust padding as needed */
-    border-radius: 20px; /* Set border-radius for a circular background */
+    border-radius: 30px; /* Set border-radius for a circular background */
     border: #313131 0px solid;
     transition: color 0.4s;
     z-index: 1;

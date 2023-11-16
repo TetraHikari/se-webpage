@@ -47,11 +47,10 @@ def room_detail(root, room_id):
     data["reservation"] = root[room_id].reservation
     return data
 
-
-# # Open the database connection
+# Open the database connection
 # root = open_db_client()
 
-# # Create 5 example rooms
+# Create 5 example rooms
 # room1 = create_room(root, "Room101", "Small meeting room", 10)
 # room2 = create_room(root, "Room102", "Medium meeting room", 15)
 # room3 = create_room(root, "Room201", "Large meeting room", 20)

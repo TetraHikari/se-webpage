@@ -5,19 +5,17 @@ from persistent import Persistent
 from transaction import commit
 from BTrees.OOBTree import OOBTree  # Import OOBTree
 
-
-class Accounts(Persistent):
-    def __init__(self, username, email, password, year, name, lastname):
+class Student(Persistent):
+    def __init__(self, username, email, password, year, firstname, lastname):
         self.email = email
         self.username = username
         self.password = password
-        self.name = name
+        self.firstname = firstname
         self.lastname = lastname
         self.year = year
         self.posts = OOBTree()
-        self.books = OOBTree()
+        self.subjects = OOBTree()
         self.room_reserve = OOBTree()
-
 
     def get_username(self):
         return self.username
@@ -32,7 +30,22 @@ class Accounts(Persistent):
         return self.year
     
     def get_fullname(self):
-        return self.name + " " + self.lastname
+        return self.firstname + " " + self.lastname
+
+    def all_data(self):
+        data = {
+            "username": self.username,
+            "email": self.email,
+            "password": self.password,
+            "year": self.year,
+            "firstname": self.firstname,
+            "lastname": self.lastname
+        }
+        return data
+    
+    #Return Object
+    def get_subjects(self):
+        return self.subjects
     
     def get_posts(self):
         return self.posts
@@ -40,57 +53,53 @@ class Accounts(Persistent):
     def get_room_reserve(self):
         return self.room_reserve
     
-    def get_books(self):
-        return self.books
-
     
 
+class Professor(Persistent):
+    def __init__(self, username, email, password, firstname, lastname):
+        self.username = username
+        self.email = email
+        self.password = password
+        self.firstname = firstname
+        self.lastname = lastname
+        self.subjects = OOBTree()
+        self.posts = OOBTree()
+        self.room_reserve = OOBTree()
+        
+    def get_username(self):
+        return self.username
+    
+    def get_email(self):
+        return self.email
+    
+    def get_password(self):
+        return self.password
+    
+    def get_firstname(self):
+        return self.firstname
+    
+    def get_lastname(self):
+        return self.lastname
+
+    
     def all_data(self):
         data = {
             "username": self.username,
             "email": self.email,
             "password": self.password,
-            "year": self.year
+            "firstname": self.firstname,
+            "lastname": self.lastname,
         }
         return data
-
     
-    def __str__(self):
-        return f"username: {self.username}, email: {self.email}, password: {self.password}, year: {self.year}"
+    def get_subjects(self):
+        return self.subjects
     
-class Book(Persistent):
-
-    def __init__(self, book_id, title, author, year, genre, isbn, url):
-        self.book_id = book_id
-        self.title = title
-        self.author = author
-        self.year = year
-        self.genre = genre
-        self.isbn = isbn
-        self.url = url
-
-    def get_book_id(self):
-        return self.book_id
+    def get_room_reserve(self):
+        return self.room_reserve
     
-    def get_title(self):
-        return self.title
-    
-    def get_author(self):
-        return self.author
-    
-    def get_year(self):
-        return self.year
-    
-    def get_genre(self):
-        return self.genre
-    
-    def get_isbn(self):
-        return self.isbn
-    
-    def get_url(self):
-        return self.url
-
-        # You can add more methods as needed, like getters or setters.
+    def get_posts(self):
+        return self.posts
 
 class Room(Persistent):
     def __init__(self, room_id):
@@ -103,8 +112,6 @@ class Room(Persistent):
     def is_reserved(self):
         return self.reservation
 
-    
-    
 def open_db_client():
     global db, connection
     storage = FileStorage.FileStorage('db/account.fs')
@@ -118,32 +125,6 @@ def shutdown_db_client():
     db.close()
     connection.close()
     print("database disconnected")
-    
-def create_account(root, username, email, password, year, name, lastname):
-    root[username] = Accounts(username, email, password, year, name, lastname)
-    commit()
-    print("account created")
-    
-def read_account(root, username):
-    return root[username].all_data()
-
-def read_all_account(root):
-    for key in root.keys():
-        print(root[key].all_data())
-        
-
-def update_account(root, username, email, password, year):
-    root[username].email = email
-    root[username].password = password
-    root[username].year = year
-    commit()
-    print("account updated")
-    
-def delete_account(root, username):
-    del root[username]
-    commit()
-    print("account deleted")
-
     
 
 

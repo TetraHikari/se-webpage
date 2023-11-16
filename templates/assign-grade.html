@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
-    <link rel="stylesheet" href="static/css/home.css">
+    <title>SE Blog</title>
+    <link rel="stylesheet" href="static/css/grade.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@700&display=swap">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" />
-    <link rel="stylesheet" href="static/css/calendar.css">
+    
+
 </head>
 <body>
   <header id="pageHeader">
@@ -20,72 +20,40 @@
     </div>
   </header>
   <article id="content">
-    <div class="todayDate" id="todayDate"></div>
-    <div class="eventWrapper">
-        <div class="normal">Upcoming Events</div>
-        <div class="eventBoxWrapper">
-            <div class="todayEvent eventBox">
-              <div>Today</div>
-              <ul id="todayEvent">
-                <!-- js update -->
-              </ul>
-            </div>
-            <div class="tmrEvent eventBox">
-              <div>Tomorrow</div>
-              <ul id="tmrEvent">
-                <!-- js update -->
-              </ul>
-            </div>
-        </div>
+    <div>
+        <form method="post" action="/submit-grades"> <!-- Assuming you have a route to handle grade submission -->
+            <h1>Assign Grade</h1>
+            <h3>Subject: {{ subject }}</h3>
+              <table>
+                  <thead>
+                    <tr>
+                      <th>Student Name</th>
+                      <th>Total score 100%</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for student in students %}
+                    <tr>
+                      <td>ID:{{ student.username }} Mr. {{ student.firstname }} {{ student.lastname }}</td>
+                      <td><input type="number" name="scores" min="0" max="100"></td>
+                      <input type="hidden" name="student_usernames" value="{{ student.username }}">
+                    </tr>
+                    {% endfor %}
+                    <!-- Add more rows for other students if needed -->
+                  </tbody>
+                </table>
+                <button type="submit">Submit Grades</button>
+          </form>
+          <form method="get" action="/main-menu" style="display:inline;">
+            <button type="submit">Menu</button>
+          </form>
     </div>
-    <div class="calendarWrapper">
-        <div class="calendarBox" id="calendarBox">
-            <div class="container">
-                <div class="header">
-                  <div id="month"></div>
-                  <div>
-                    <button id="btnBack"><i class="fa fa-angle-left"></i></button>
-                    <button id="btnNext"><i class="fa fa-angle-right"></i></button>
-                  </div>
-                </div>
-                <div class="weekdays">
-                  <div>Sun</div>
-                  <div>Mon</div>
-                  <div>Tue</div>
-                  <div>Wed</div>
-                  <div>Thu</div>
-                  <div>Fri</div>
-                  <div>Sat</div>
-                </div>
-                <div id="calendar"></div>
-              </div>
-
-              <div id="addEvent">
-                <div class="eventWrapper">
-                  <h2>Add Event</h2>
-                  <input type="text" id="txtTitle" placeholder="Event Title" />
-                  <button id="btnSave">Save</button>
-                  <button class="btnClose">Close</button>
-                </div>
-              </div>
-          
-              <div id="viewEvent">
-                <div class="eventWrapper">
-                  <h2>Event</h2>
-                  <p id="eventText">This is Sample Event</p>
-                  <button id="btnDelete">Delete</button>
-                  <button class="btnClose">Close</button>
-                </div>
-              </div>
-        </div>
-    </div>
-
   </article>
   <nav id="mainNav">
     <form method="get" action="/home">
-      <button type="submit" id="logoBtn" style="background-color: transparent; border: 0em">
-          <img src="static/pic/se2.png">
-      </button>
+        <button type="submit" id="logoBtn" style="background-color: transparent; border: 0em">
+            <img src="static/pic/se2.png">
+        </button>
     </form>
     <div class="navWrapper">
         <div class="navBtn">
@@ -104,21 +72,13 @@
                 </button>
             </form>
         </div>
-        <div class="navBtn">
+        <div class="navBtn active">
             <!-- <a id="gradeBtn" href="http://localhost:8000/grades"><img src="static/pic/award.svg" style="opacity: 0.60;">Grades</a> -->
-            {% if is_professor %}
             <form method="get" action="/assign-grade">
                 <button type="submit" id="gradeBtn">
                     <img src="static/pic/award.svg" style="opacity: 0.60;"><div>Grades</div>
                 </button>
             </form>
-        {% else %}
-            <form method="get" action="/view-grades">
-                <button type="submit" id="gradeBtn">
-                    <img src="static/pic/award.svg" style="opacity: 0.60;"><div>Grades</div>
-                </button>
-            </form>
-        {% endif %}
         
           </div>
         <div class="navBtn">
@@ -153,9 +113,8 @@
             </form>
         </div>
     </div>
-   </nav>
-  <footer id="pageFooter">Footer</footer>
-  <script src="static/js/calendar.js"></script>
-  <script src="static/js/menu.js"></script>
+    </nav>
+  <footer id="pageFooter">
+  </footer>
 </body>
 </html>

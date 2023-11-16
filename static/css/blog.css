@@ -349,6 +349,9 @@ button[id="newPostBtn"]{
     display: flex;
     justify-content: flex-end;
 }
+.year0 {
+    background-color: orange;
+}
 
 .year1 {
     background-color: blue;

@@ -1,217 +1,242 @@
-body{
-    /* line-height: 1.5; */
+* {
+    font-family: Urbanist;
+}
+
+body {
+    display: grid;
+    grid-template-areas:
+        "nav header"
+        "nav article"
+        "nav footer";
+    grid-template-rows: 80px 1fr 80px;  
+    grid-template-columns: 20% 1fr;
+    grid-row-gap: 10px;
+    grid-column-gap: 10px;
+    height: 100vh;
     margin: 0;
-    padding: 0;
-    font-family:'Urbanist', serif;
+    background-color: #E6F2F2;
+    
 }
-a{
-    text-decoration: none;
+img{
+    max-width: fit-content;
 }
-h6,h5{
-    font-weight: 400!important;
+
+footer, article, nav, div {
+    padding: 1.2em;
 }
-h6{
-    font-size: 1rem;
-} 
-h1, h2, h4, h5, h6{
-    margin-top: 0;
-    margin-bottom: 0.5rem;
-    /* font-weight: 500; */
-    line-height: 1.2;
+
+header{
+    padding-top: 3em;
 }
-button{
-    margin: 0;
-    font-family: inherit;
-    font-size: inherit;
-    line-height: inherit;
+
+header{
+    display: flex;
+    align-items: center;
+    padding-left: 1em;
 }
-.pic {
-    max-width: 100%;
+
+header input{
+    border-radius: 76px;
+    background: #F6F7FB;
+    box-shadow: 0px 62px 85px -22px rgba(175, 175, 175, 0.14), 0px 0px 19px 1px rgba(204, 204, 204, 0.15);
+    box-shadow: 0px 0px 11px 0px rgba(0, 0, 0, 0.08);
+    border: none;
+    width: 25rem;
+    height: 2rem;
+    
+
+}
+
+header input::placeholder{
+    background-image: url("https://img.icons8.com/ios-glyphs/30/000000/search--v1.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: 5px 50%;
+    padding-left: 23px;
+    flex-shrink: 0;
+
+    color: rgba(49, 49, 49, 0.35); /* Set text color with opacity */
+    /* Menu/Menu Text */
+    font-family: Urbanist, sans-serif;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 14px; /* 87.5% */
+}
+
+.headerWrapper{
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    align-items: center;
+    gap: 2em;
+}
+.headerWrapper label{
+    color: var(--secondary-color-secondary-color, #313131);
+    text-align: center;
+    font-family: 'Urbanist', sans-serif; /* Use the font-family with a fallback */
+    font-size: 19px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 120%;
+}
+
+nav{
+    background: #FFF;
+    box-shadow: 23px 0px 14px -18px rgba(0, 0, 0, 0.07);
+    text-align: center;
+
+}
+
+nav img{
+    width: 100%;
     height: auto;
-    width:auto\9; 
 }
-.sideBar{
-    overflow-y: hidden;
-    position: fixed;
-    height: 100%;
+
+.navWrapper{
+    
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 0em;
+    padding-top: 2em;
+
+}
+
+.navBtn{
+    display: flex;
+    flex-direction: column;
+}
+
+.navBtn form button{
+    width: 100%;
+    background-color: transparent;
+}
+
+.navBtn a, .navBtn form button{
+    display: flex;
+    flex-direction: row;
+    gap: 2em;
+    justify-content: start;
+    align-items: center;
+    text-decoration: none;
+
+    color: rgba(49, 49, 49, 0.60); /* Set text color with opacity */
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 14px; /* 87.5% */
+
+    padding: 5px 25px; /* Adjust padding as needed */
+    border-radius: 20px; /* Set border-radius for a circular background */
+    border: #313131 0px solid;
+    transition: color 0.4s;
+    z-index: 1;
+    position: relative;
+    
+}
+.navBtn:not(.active) a::before, .navBtn:not(.active) form button::before {
+    content: "";
+    position: absolute;
+    left: 0;
     top: 0;
     width: 100%;
-    display: none;
-}
-.sideBarBox{
-    width: 40%;
-    background-color: white;
-    padding-top: 50px;
-    padding-left: 20px;
-}
-.sideBarButton{
-    width: 100%;
-    text-align: right;
-}
-.sideBarButton button{
-    margin-right: 50px;
-    background-color: rgba(255, 0, 0, 0);
-    border: 0;
-}
-.sideBarButton h1{
-    margin: 0;
-}
-.menu-hambutger{
-    display: none;
-}
-.navbar-pc{
-    animation: fade-down 1s;
-    display: flex;
-    width: 90%;
-    height: 50px;
-    margin: auto auto;
-    margin-top: 50px;
-}
-.contents{
-    animation: fade-up 1s;
-    width: 85%;
-    margin: 0 5% 0 10%;
-    color: #313131;
-
-}
-.nav-links, .login-pic, .title{
-    margin: auto;
-}
-.main-contentContainer{
-    display: flex;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 70px;
-}
-.main-contentWrapper{
-    margin-top: auto;
-    margin-bottom: auto; 
-    margin-right: auto;
-}
-.hashTag{
-    border-radius: 0.2em; 
-    color: #20776E;
-    background-color: #e5f2f23b;
-    padding: 2px auto;
-    width: 40px;
-    text-align: center;
-}
-.hashTag h6{
-    margin: 0;
-}
-.buttonContainer{
-    display: flex;
-    box-sizing: border-box;
-}
-.buttonContainer button[type="button"]{
-    margin-right: 3em; 
-    border: 0px;
-    border-radius: 0.3em;
-    padding: 0.75em 1.75em;
-    background-color: #20776E;
-    color: white;
-}
-.buttonContainer a{
-    text-decoration:none;
-    color: #20776E;
-    margin: auto 0;
-}
-.newsFeedContainer{
-    display: flex;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 150px;
-}
-.newsPicWrapper{
-    margin-top: auto;
-    margin-bottom: auto; 
-    margin-right: 40px;
-    text-align: center;
-}
-.newsPicWrapper img{
-    width: 100%;
-    height: auto;
-    width: 650px;
-    border-radius: 45px;
-}
-.newsPicWrapper h6{
-    font-weight: bold!important;
-}
-.newsDesWrapper{
-    margin: auto auto;
-}
-
-
-@media screen and (min-width: 1081px) {
-    #navbar-pc {
-        display: flex;
-    }
-}
-
-
-@media screen and (max-width: 1080px) {
-    .nav-links{
-        display: none;
-    }
-    .menu-hambutger{
-        display: flex;
-        
-    }
-    .title h6{
-        font-size: 1.5rem;
-    }
-    .login-pic a, .login-pic h6{
-        font-size: 2rem;
-    }
-    .login-pic{
-        padding-top: 0.2rem;
-    }
-
-}
-
-@keyframes fade-up{
-    0%{
-        opacity: 0;
-        transform: translateY(30px) scale(0.9);
-    }
-
-
-    100%{
-        opacity: 1;
-        transform: translateY(0px) scale(1);
-    }
-}
-
-@keyframes fade-down{
-    0%{
-        opacity: 0;
-        transform: translateY(-30px) scale(0.9);
-    }
-
-
-    100%{
-        opacity: 1;
-        transform: translateY(0px) scale(1);
-    }
-}
-.logo{
-    margin-right: auto;
-}
-.logo img{
     height: 100%;
+    background: #0EA6FA;
+    border-radius: 30px; /* Set border-radius for a circular background */
+    z-index: -1;
+    transition: transform 0.5s;
+    transition-timing-function: cubic-bezier(0.5, 1.6, 0.4, 0.7);
+    transform: scaleX(0);
+    transform-origin: 0 0;
 }
-.navbar-pc div a{
-    text-decoration: none;color: #313131;
+
+.navBtn:not(.active) a:hover::before, .navBtn:not(.active) form button:hover::before{
+    transform: scaleX(1);
 }
-.nav-links h6, .title h6, .login-pic h6{
-    margin:0;
+
+
+.navBtn a:hover, .navBtn form button:hover{
+    color: #FFF;
 }
-.menu-hambutger{
-    margin-top:0.5rem;
+
+.navBtn a:hover svg , .navBtn form button:hover svg{
+    fill: #FFF;
 }
-.nav-links input[id="search"]{
-    background-color: #F6F7FB;
-    border: 0;
-    border-radius: 5px;
-    padding: 5px 10px;
+
+.navBtn.active a, .navBtn.active form button{
+    background-color: #0EA6FA;
+    color: #FFF;
+    opacity: 1;
+}
+
+
+.todayDate{
+    color: #313131;
+    font-size: 2.5em;
+    padding: 0em;
+}
+
+.normal{
+    color: #313131;
+    font-size: 1.5em;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+    padding-left: 0em;
+}
+
+.eventBoxWrapper{
+    display: flex;
+    flex-direction: row;
+    gap: 10em;
+    padding-left: 0em;
+
+}
+
+.eventBox{
+    background: #ffffff;
+    border-radius: 20px; /* Set border-radius for a circular background */
+    width: 25em;
+    height: 7em;
+}
+
+#tmrEvent, #todayEvent{
+    padding-top: 0em;
+    margin-top: 0em;
+}
+
+#pageHeader {
+grid-area: header;
+}
+#pageFooter {
+grid-area: footer;
+background-color: transparent;
+}
+#mainArticle { 
+grid-area: article;      
+}
+
+#mainNav { 
+grid-area: nav;
+}
+
+#content {
+    grid-area: article;
+    overflow-y: auto; /* Enables vertical scrolling */
+    padding: 1.2em;
+    /* set a max height if you want the container to have a specific height */
+    /* otherwise, it will take the remaining height from the grid */
+}
+
+/* Stack the layout on small devices/viewports. */
+@media all and (max-width: 575px) {
+    body { 
+        grid-template-areas: 
+        "header"
+        "article"
+        "nav"
+        "footer";
+        grid-template-rows: 80px 1fr 70px 70px;  
+        grid-template-columns: 1fr;
+    }
 }
