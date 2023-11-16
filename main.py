@@ -379,31 +379,108 @@ async def view_grade(request: Request, username: str = Cookie(None), subject: st
         
         
 @app.get("/room-reservation", response_class=HTMLResponse)
-async def room_reservation(request: Request, username: str = Cookie(None)):
+async def read_item(
+    request: Request,
+    username: str = Cookie(None),
+):
     root = open_db_client()
     try:
-        rooms = []
         
-        for room_id in root.keys():
-            if isinstance(root[room_id], Room):
-                rooms.append(room_detail(root, room_id))
-        print(rooms)
-
-        return templates.TemplateResponse("room.html", {"request": request, "rooms": rooms})
+        rooms = []
+        for time in times:
+            rooms.append(get_room_from_timeslot(root, time))
+        reservation_details = reservation_detail(root, username)
+        
+        return templates.TemplateResponse(
+            "room.html",
+            {
+                "request": request,
+                "times": times,
+                "rooms": rooms,
+                "username": username,
+                "reservation_details": reservation_details,
+            },
+        )
     finally:
         shutdown_db_client()
 
-@app.post("/reserve-room", response_class=HTMLResponse)
-async def reserve_room(request: Request, room_id: str = Form(...), username: str = Cookie(None)):
+@app.post("/submit-reservation", response_class=HTMLResponse)
+async def submit_reservation(
+    request: Request,
+    username: str = Cookie(None),
+    room: str = Form(...),
+    begin_time: str = Form(...),
+    end_time: str = Form(...),
+):
+             
+    begin_time_index = times.index(begin_time)
+    end_time_index = times.index(end_time)
+    
     root = open_db_client()
     try:
-        reserved_room(root, room_id)
-        rooms = []
-        for room_id in root.keys():
-            if isinstance(root[room_id], Room):
-                rooms.append(room_detail(root, room_id))
-        print(rooms)
-        return templates.TemplateResponse("room.html", {"request": request, "rooms": rooms})
+        if end_time_index <= begin_time_index:
+            raise HTTPException(status_code=400, detail="Invalid time range")
+        
+        if username not in root:
+            raise HTTPException(status_code=404, detail="User not found")
+        
+        # Check if the room is already reserved during the selected time slot
+        for i in range(begin_time_index, end_time_index):
+            if root[room].reservation[times[i]]["status"] == "reserved":
+                raise HTTPException(status_code=400, detail="Room is already reserved")
+        
+        # Reserve the room for the selected time slot
+        for i in range(begin_time_index, end_time_index+1):
+            reserve_room(root, room, times[i], username)
+                
+        # Get the updated list of reserved rooms
+        updated_rooms = []
+        for time in times:
+            updated_rooms.append(get_room_from_timeslot(root, time))
+        reservation_details = reservation_detail(root, username)
+        
+        # Display the updated rooms in the response
+        return templates.TemplateResponse(
+            "room.html",
+            {
+                "request": request,
+                "times": times,
+                "rooms": updated_rooms,
+                "username": username,
+                "reservation_details": reservation_details,
+            },
+        )
+    finally:
+        shutdown_db_client()
+
+@app.post("/cancel-reservation", response_class=HTMLResponse)
+async def cancel_reservation(
+    request: Request,
+    username: str = Cookie(None),
+    room_id: str = Form(...),
+    slot: str = Form(...),  # Change 'begin_time' to 'slot'
+):
+    root = open_db_client()
+    try:
+        print(f"User {username} is cancelling reservation for room {room_id} at time {slot}")
+        cancel_room(root, room_id, slot)
+        
+        # Get the updated list of reserved rooms
+        updated_rooms = []
+        for time in times:
+            updated_rooms.append(get_room_from_timeslot(root, time))
+        reservation_details = reservation_detail(root, username)
+        
+        # Display the updated rooms in the response
+        return templates.TemplateResponse(
+            "room.html",
+            {
+                "request": request,
+                "times": times,
+                "rooms": updated_rooms,
+                "username": username,
+                "reservation_details": reservation_details,
+            },)
     finally:
         shutdown_db_client()
 

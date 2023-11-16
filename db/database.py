@@ -102,15 +102,64 @@ class Professor(Persistent):
         return self.posts
 
 class Room(Persistent):
-    def __init__(self, room_id):
+    def __init__(self, room_id, room_description="Lecture Room", room_capacity=30):
         self.room_id = room_id
-        self.reservation = False
+        self.description = room_description
+        self.capacity = room_capacity
+        self.reservation = OOBTree() # {"room_id": {"7:00", Flase}}
         
     def get_room_id(self):
         return self.room_id
     
-    def is_reserved(self):
+    def get_reservation(self):
         return self.reservation
+    
+    def all_data(self):
+        data = {
+            "room_id": self.room_id,
+            "description": self.description,
+            "capacity": self.capacity,
+            "reservation": self.reservation
+        }
+        return data
+    
+class Book(Persistent):
+    def __init__(self, book_id, book_name, book_author, book_description, book_price, book_image):
+        self.book_id = book_id
+        self.book_name = book_name
+        self.book_author = book_author
+        self.book_description = book_description
+        self.book_price = book_price
+        self.book_image = book_image
+        
+    def get_book_id(self):
+        return self.book_id
+    
+    def get_book_name(self):
+        return self.book_name
+    
+    def get_book_author(self):
+        return self.book_author
+    
+    def get_book_description(self):
+        return self.book_description
+    
+    def get_book_price(self):
+        return self.book_price
+    
+    def get_book_image(self):
+        return self.book_image
+    
+    def all_data(self):
+        data = {
+            "book_id": self.book_id,
+            "book_name": self.book_name,
+            "book_author": self.book_author,
+            "book_description": self.book_description,
+            "book_price": self.book_price,
+            "book_image": self.book_image
+        }
+        return data
 
 def open_db_client():
     global db, connection

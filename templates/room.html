@@ -1,69 +1,165 @@
-<!-- FILEPATH: /path/to/templates/room_reservation.html -->
-
-<html>
+<!doctype html>
+<html lang="en">
 <head>
-    <title>Room Reservation</title>
-    <style>
-        table {
-            border-collapse: collapse;
-            width: 50%;
-            margin: auto;
-        }
-
-        th, td {
-            border: 1px solid black;
-            padding: 8px;
-            text-align: center;
-        }
-
-        th {
-            background-color: #f2f2f2;
-        }
-
-        .available {
-            background-color: #8eff8e; /* Green for available rooms */
-        }
-
-        .unavailable {
-            background-color: #ff8e8e; /* Red for unavailable rooms */
-        }
-
-        .reservation-form {
-            text-align: center;
-            margin-top: 20px;
-        }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daasboard</title>
+    <link rel="stylesheet" href="static/css/room.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" />
 </head>
 <body>
-    <h1>Room Reservation</h1>
-    
+  <header id="pageHeader">
+    <input type="text" placeholder="Search">
+    <div class="headerWrapper">
+    <a href="https://www.google.com/"><img src="static/pic/bell.png" style="fill: #FFF; filter: drop-shadow(0px 0px 3px rgba(0, 0, 0, 0.15));"></a>
+    <a href="https://www.google.com/"><img src="static/pic/msg.png" style="fill: #FFF; filter: drop-shadow(0px 0px 3px rgba(0, 0, 0, 0.15));"></a>
+    <a href="https://www.google.com/"><img src="static/pic/user.png"></a>
+    <label>{{ username }}</label>
+    </div>
+  </header>
+  <article id="content">
     <table>
-        <thead>
+        <tr>
+            <th>Time</th>
+            <th>801</th>
+            <th>802</th>
+            <th>803</th>
+            <th>804</th>
+            <th>805</th>
+        </tr>
+        {% for time_slot in times %}
             <tr>
-                <th>Room ID</th>
-                <th>Description</th>
-                <th>Capacity</th>
-                <th>Status</th>
+                <td>{{ time_slot }}</td>
+                {% for room_info in rooms[loop.index0] %}
+                    {% set status = room_info.status %}
+                    <td class="{{ 'reserved' if status == 'reserved' else 'available' }}"></td>
+                {% endfor %}
             </tr>
-        </thead>
-        <tbody>
-            {% for room in rooms %}
-                <tr class="{% if room.reservation %}unavailable{% else %}available{% endif %}">
-                    <td>{{ room.room_id }}</td>
-                    <td>{{ room.description }}</td>
-                    <td>{{ room.capacity }}</td>
-                    <td>{% if room.reservation %}Reserved{% else %}Available{% endif %}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
+        {% endfor %}
     </table>
-
-    <div class="reservation-form">
-        <form method="post" action="/reserve-room">
-            <label for="room_id">Enter Room ID for Reservation:</label>
-            <input type="text" id="room_id" name="room_id" required>
-            <button type="submit">Reserve Room</button>
+    
+    <div>
+        <h2>Reservation Form</h2>
+        <form action="/submit-reservation" method="post">
+            <label for="room">Select Room:</label>
+            <select name="room" id="room">
+                {% for room_id in ['801', '802', '803', '804', '805'] %}
+                    <option value="{{ room_id }}">{{ room_id }}</option>
+                {% endfor %}
+            </select>
+    
+            <label for="begin-time">Begin Time:</label>
+            <select name="begin_time" id="begin-time">
+                {% for hour in range(8, 19) %}
+                    <option value="{{ '%02d:00' % hour }}">{{ "%02d:00" % hour }}</option>
+                {% endfor %}
+            </select>
+    
+            <label for="end-time">End Time:</label>
+            <select name="end_time" id="end-time">
+                {% for hour in range(8, 20) %}
+                    <option value="{{ '%02d:00' % hour }}">{{ "%02d:00" % hour }}</option>
+                {% endfor %}
+            </select>
+    
+            <input type="submit" value="Reserve">
         </form>
     </div>
+    
+    <div>
+        <h2>Reserved Rooms</h2>
+        <h3>Username: {{ username }}</h3>
+        <p>Your Reserved Room:</p>
+        <ul>
+            {% for detail in reservation_details %}
+                <li>
+                    {{ detail.slot }} - Room: {{ detail.room_id }}
+                    <form action="/cancel-reservation" method="post" style="display: inline;">
+                        <input type="hidden" name="room_id" value="{{ detail.room_id }}">
+                        <input type="hidden" name="username" value="{{ username }}">
+                        <input type="hidden" name="slot" value="{{ detail.slot }}">
+                        <button type="submit">Cancel</button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+        <form method="get" action="/main-menu" style="display:inline;">
+            <button type="submit">Menu</button>
+        </form>
+    </div>
+  </article>
+  <nav id="mainNav">
+    <form method="get" action="/home">
+      <button type="submit" id="logoBtn" style="background-color: transparent; border: 0em">
+          <img src="static/pic/se2.png">
+      </button>
+    </form>
+    <div class="navWrapper">
+      <div class="navBtn">
+        <!-- <a id="dashBoardBtn" href="http://localhost:8000/dashboard"><img src="static/pic/dash.svg">Dashboard</a> -->
+        <form method="get" action="/main-menu">
+            <button type="submit" id="dashBoardBtn">
+                <img src="static/pic/dash.svg" style="opacity: 0.60;"><div>Dashboard</div>
+            </button>
+        </form>
+    </div>
+    <div class="navBtn">
+        <!-- <a id="coursesBtn" href="http://localhost:8000/courses"><img src="static/pic/book.svg" style="opacity: 0.60;">Courses</a> -->
+        <form method="get" action="/courses">
+            <button type="submit" id="coursesBtn">
+                <img src="static/pic/book.svg" style="opacity: 0.60;"><div>Courses</div>
+            </button>
+        </form>
+    </div>
+    <div class="navBtn">
+        <!-- <a id="gradeBtn" href="http://localhost:8000/grades"><img src="static/pic/award.svg" style="opacity: 0.60;">Grades</a> -->
+        {% if is_professor %}
+            <form method="get" action="/assign-grade">
+                <button type="submit" id="gradeBtn">
+                    <img src="static/pic/award.svg" style="opacity: 0.60;"><div>Grades</div>
+                </button>
+            </form>
+        {% else %}
+            <form method="get" action="/view-grades">
+                <button type="submit" id="gradeBtn">
+                    <img src="static/pic/award.svg" style="opacity: 0.60;"><div>Grades</div>
+                </button>
+            </form>
+        {% endif %}
+      </div>
+    <div class="navBtn">
+        <!-- <a id="newsBtn" href="http://localhost:8000/news"><img src="static/pic/news.svg" style="opacity: 0.60;">News</a> -->
+        <form method="get" action="/news">
+            <button type="submit" id="newsBtn">
+                <img src="static/pic/news.svg" style="opacity: 0.60;"><div>News</div>
+            </button>
+        </form>
+    </div>
+    <div class="navBtn">
+      <form method="get" action="/se-blog">
+          <button type="submit" id="blogBtn">
+              <img src="static/pic/edit.svg" style="opacity: 0.60;"><div>Blog</div>
+          </button>
+      </form>
+    </div>      
+    <div class="navBtn">
+        <!-- <a id="questionBtn" href="http://localhost:8000/question"><img src="static/pic/questionmarks.svg" style="opacity: 0.60;">Questions</a> -->
+        <form method="get" action="/library">
+            <button type="submit" id="questionBtn">
+                <img src="static/pic/questionmarks.svg" style="opacity: 0.60;"><div>Library</div>
+            </button>
+        </form>
+    </div>
+    <div class="navBtn active">
+        <!-- <a id="settingBtn" href="http://localhost:8000/setting"><img src="static/pic/setting.svg" style="opacity: 0.60;">Settings</a> -->
+        <form method="get" action="/room-reservation">
+            <button type="submit" id="settingBtn">
+                <img src="static/pic/setting.svg" style="opacity: 0.60;"><div>Reservation</div>
+            </button>
+        </form>
+    </div>
+   </nav>
+  <footer id="pageFooter">Footer</footer>
 </body>
 </html>
