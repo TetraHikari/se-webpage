@@ -334,8 +334,15 @@ async def submit_grades(
             student_set_score(root, student_username, subject[2:-2], score)
             
         
-        #window alert
-        return templates.TemplateResponse("assign-grade.html", {"request": request, "username": username, "subject": subject[2:-2], "is_professor": is_professor, "email": email},)
+        students = get_student_from_subject(root, subject[2:-2])
+        return templates.TemplateResponse("assign-grade.html",
+                                          {"request": request, 
+                                           "username": username,
+                                           "subject": subject[2:-2],
+                                           "students": students,
+                                           "is_professor": is_professor,
+                                           "email": email},
+                                           )
     finally:
         shutdown_db_client()
         

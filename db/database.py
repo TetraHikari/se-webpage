@@ -161,54 +161,6 @@ class Book(Persistent):
         }
         return data
     
-class Book(Persistent):
-    def __init__(self, book_id, title, author, year, genre, isbn, book_url, cover_url):
-        self.book_id = book_id
-        self.title = title
-        self.author = author
-        self.year = year
-        self.genre = genre
-        self.isbn = isbn
-        self.book_url = book_url
-        self.cover_url = cover_url
-
-    def get_book_id(self):
-        return self.book_id
-    
-    def get_title(self):
-        return self.title
-    
-    def get_author(self):
-        return self.author
-    
-    def get_year(self):
-        return self.year
-    
-    def get_genre(self):
-        return self.genre
-    
-    def get_isbn(self):
-        return self.isbn
-    
-    def get_book_url(self):
-        return self.book_url
-    
-    def get_cover_url(self):
-        return self.cover_url
-    
-    def all_data(self):
-        data = {
-            "book_id": self.book_id,
-            "title": self.title,
-            "author": self.author,
-            "year": self.year,
-            "genre": self.genre,
-            "isbn": self.isbn,
-            "book_url": self.book_url,
-            "cover_url": self.cover_url
-        }
-        return data
-
 def open_db_client():
     global db, connection
     storage = FileStorage.FileStorage('db/account.fs')
