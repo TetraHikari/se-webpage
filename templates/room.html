@@ -1,0 +1,69 @@
+<!-- FILEPATH: /path/to/templates/room_reservation.html -->
+
+<html>
+<head>
+    <title>Room Reservation</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 50%;
+            margin: auto;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .available {
+            background-color: #8eff8e; /* Green for available rooms */
+        }
+
+        .unavailable {
+            background-color: #ff8e8e; /* Red for unavailable rooms */
+        }
+
+        .reservation-form {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Room Reservation</h1>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Room ID</th>
+                <th>Description</th>
+                <th>Capacity</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for room in rooms %}
+                <tr class="{% if room.reservation %}unavailable{% else %}available{% endif %}">
+                    <td>{{ room.room_id }}</td>
+                    <td>{{ room.description }}</td>
+                    <td>{{ room.capacity }}</td>
+                    <td>{% if room.reservation %}Reserved{% else %}Available{% endif %}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="reservation-form">
+        <form method="post" action="/reserve-room">
+            <label for="room_id">Enter Room ID for Reservation:</label>
+            <input type="text" id="room_id" name="room_id" required>
+            <button type="submit">Reserve Room</button>
+        </form>
+    </div>
+</body>
+</html>

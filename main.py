@@ -7,15 +7,14 @@ from Login.models import*
 import datetime
 from Blog.models import*
 from Blog.BlogServ import*
-current_dir = os.path.dirname(__file__)
-parent_dir = os.path.abspath(os.path.join(current_dir, os.pardir))
-sys.path.append(parent_dir)
+from Library.models import*
+from Library.LibraryServ import*
+from RoomReser.models import*
+from RoomReser.RoomServ import*
 from db.database import*
-
 app = FastAPI()
 templates = Jinja2Templates(directory="./templates")
 app.mount("/static", StaticFiles(directory="./static"), name="static")
-
 
 @app.get("/")
 async def home(request: Request):
@@ -35,6 +34,30 @@ async def logout(response: Response, request: Request):
 
 @app.get("/login", response_class=HTMLResponse)
 async def login(request: Request):
+    #initializing database
+    # root = open_db_client()
+
+    # # Create 5 example accounts
+    # create_account(root, "65011610", "65011610@kmitl", "123456", 1, "Peeranat", "Patarakittisopol")
+    # create_account(root, "65011611", "65011611@kmitl", "123456", 2, "Peeranat", "Patarakittisopol")
+    # create_account(root, "65011612", "65011612@kmitl", "123456", 3, "Peeranat", "Patarakittisopol")
+    # create_account(root, "65011613", "65011613@kmitl", "123456", 4, "Peeranat", "Patarakittisopol")
+
+    # # Create 5 example books
+    # create_book(root, "The Hunger Games", "Suzanne Collins", 2008, "Science Fiction", "978-0439023481", "https://www.amazon.com/Hunger-Games-Book/dp/B002MQYOFW")    
+    # create_book(root, "Harry Potter and the Philosopher's Stone", "J. K. Rowling", 1997, "Fantasy", "978-0747532743", "https://www.amazon.com/Harry-Potter-Philosophers-Stone-Rowling/dp/0747532745")
+    # create_book(root, "To Kill a Mockingbird", "Harper Lee", 1960, "Fiction", "978-0446310789", "https://www.amazon.com/Kill-Mockingbird-Harper-Lee/dp/0446310786")
+    # create_book(root, "Pride and Prejudice", "Jane Austen", 1813, "Romance", "978-0141439518", "https://www.amazon.com/Pride-Prejudice-Jane-Austen/dp/0141439513")
+    # create_book(root, "Twilight", "Stephenie Meyer", 2005, "Fantasy", "978-0316015844", "https://www.amazon.com/Twilight-Saga-Book-1/dp/0316015849")
+
+    # create_room(root, "Room101", "Small meeting room", 10)
+    # create_room(root, "Room102", "Medium meeting room", 15)
+    # create_room(root, "Room201", "Large meeting room", 20)
+    # create_room(root, "Room202", "Conference room", 30)
+    # create_room(root, "Room301", "Training room", 25)
+
+    # shutdown_db_client()
+
     return templates.TemplateResponse("login.html", {"request": request})
 
 @app.post("/login", response_class=HTMLResponse)
@@ -134,7 +157,63 @@ async def create_post(request: Request, title: str = Form(...), content: str = F
     # Return the updated blog page
     return templates.TemplateResponse("blog.html", {"request": request, "username": username, "posts": all_posts})
 
+@app.get("/room-reservation", response_class=HTMLResponse)
+async def room_reservation(request: Request, username: str = Cookie(None)):
+    root = open_db_client()
+    try:
+        rooms = []
+        
+        for room_id in root.keys():
+            if isinstance(root[room_id], Room):
+                rooms.append(room_detail(root, room_id))
+        print(rooms)
 
+        return templates.TemplateResponse("room.html", {"request": request, "rooms": rooms})
+    finally:
+        shutdown_db_client()
+
+@app.post("/reserve-room", response_class=HTMLResponse)
+async def reserve_room(request: Request, room_id: str = Form(...), username: str = Cookie(None)):
+    root = open_db_client()
+    try:
+        reserved_room(root, room_id)
+        rooms = []
+        for room_id in root.keys():
+            if isinstance(root[room_id], Room):
+                rooms.append(room_detail(root, room_id))
+        print(rooms)
+        return templates.TemplateResponse("room.html", {"request": request, "rooms": rooms})
+    finally:
+        shutdown_db_client()
+
+@app.get("/library", response_class=HTMLResponse)
+async def library(request: Request, username: str = Cookie(None)):
+    root = open_db_client()
+    try:
+        books = []
+        
+        for book_id in root.keys():
+            if isinstance(root[book_id], Book):
+                books.append(book_detail(root, book_id))
+        print(books)
+
+        return templates.TemplateResponse("library.html", {"request": request, "books": books})
+    finally:
+        shutdown_db_client()
+
+@app.post("/add-book", response_class=RedirectResponse)
+async def add_book(request: Request, title: str = Form(...), author: str = Form(...), year: int = Form(...), genre: str = Form(...), isbn: str = Form(...), url: str = Form(...), username: str = Cookie(None)):
+    root = open_db_client()
+    try:
+        create_book(root, title, author, year, genre, isbn, url)
+        books = []
+        for book_id in root.keys():
+            if isinstance(root[book_id], Book):
+                books.append(book_detail(root, book_id))
+        print(books)
+        return RedirectResponse(url=f"/library", status_code=303)
+    finally:
+        shutdown_db_client()
 
 # @app.post("/delete-post/{post_id}", response_class=HTMLResponse)
 # async def delete_post(request: Request, post_id: str, username: str = Cookie(None)):
@@ -249,6 +328,8 @@ async def like_post(request: Request, post_id: str, current_username: str):
 
     # Return the updated blog page with the like count
     return RedirectResponse(url=f"/se-blog", status_code=303)
+
+
 
 
 

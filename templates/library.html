@@ -3,11 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Menu</title>
-    <link rel="stylesheet" href="static/css/menu.css">
+    <title>Library</title>
+    <link rel="stylesheet" href="static/css/library.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@700&display=swap">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" />
-    <link rel="stylesheet" href="static/css/calendar.css">
 </head>
 <body>
   <header id="pageHeader">
@@ -20,66 +19,45 @@
     </div>
   </header>
   <article id="content">
-    <div class="todayDate" id="todayDate"></div>
-    <div class="eventWrapper">
-        <div class="normal">Upcoming Events</div>
-        <div class="eventBoxWrapper">
-            <div class="todayEvent eventBox">
-              <div>Today</div>
-              <ul id="todayEvent">
-                <!-- js update -->
-              </ul>
-            </div>
-            <div class="tmrEvent eventBox">
-              <div>Tomorrow</div>
-              <ul id="tmrEvent">
-                <!-- js update -->
-              </ul>
-            </div>
-        </div>
+    <div class="library-header">
+        Library
     </div>
-    <div class="calendarWrapper">
-        <div class="calendarBox" id="calendarBox">
-            <div class="container">
-                <div class="header">
-                  <div id="month"></div>
-                  <div>
-                    <button id="btnBack"><i class="fa fa-angle-left"></i></button>
-                    <button id="btnNext"><i class="fa fa-angle-right"></i></button>
-                  </div>
-                </div>
-                <div class="weekdays">
-                  <div>Sun</div>
-                  <div>Mon</div>
-                  <div>Tue</div>
-                  <div>Wed</div>
-                  <div>Thu</div>
-                  <div>Fri</div>
-                  <div>Sat</div>
-                </div>
-                <div id="calendar"></div>
-              </div>
-
-              <div id="addEvent">
-                <div class="eventWrapper">
-                  <h2>Add Event</h2>
-                  <input type="text" id="txtTitle" placeholder="Event Title" />
-                  <button id="btnSave">Save</button>
-                  <button class="btnClose">Close</button>
-                </div>
-              </div>
-          
-              <div id="viewEvent">
-                <div class="eventWrapper">
-                  <h2>Event</h2>
-                  <p id="eventText">This is Sample Event</p>
-                  <button id="btnDelete">Delete</button>
-                  <button class="btnClose">Close</button>
-                </div>
-              </div>
+    <div>
+      {% for book in books %}
+        <div>
+          {{ book.title }}
+          {{ book.author }}
+          {{ book.year }}
+          {{ book.genre }}
+          {{ book.isbn }}
+          {{ book.url }}
         </div>
+      {% endfor %}
     </div>
+    <div>
+      <h1>Add a New Book to the Library</h1>
+      <form action="/add-book" method="post">
+          <label for="title">Title:</label><br>
+          <input type="text" id="title" name="title" required><br>
+  
+          <label for="author">Author:</label><br>
+          <input type="text" id="author" name="author" required><br>
+  
+          <label for="year">Year:</label><br>
+          <input type="number" id="year" name="year" required><br>
+  
+          <label for="genre">Genre:</label><br>
+          <input type="text" id="genre" name="genre" required><br>
+  
+          <label for="isbn">ISBN:</label><br>
+          <input type="text" id="isbn" name="isbn" required><br>
 
+          <label for="url">URL:</label><br>
+          <input type="text" id="url" name="url" required><br>
+  
+          <input type="submit" value="Add Book">
+      </form>
+    </div>
   </article>
   <nav id="mainNav">
     <a href="http://localhost:8000/menu">
@@ -128,15 +106,15 @@
         </div>      
         <div class="navBtn">
             <!-- <a id="questionBtn" href="http://localhost:8000/question"><img src="static/pic/questionmarks.svg" style="opacity: 0.60;">Questions</a> -->
-            <form method="get" action="/library">
+            <form method="get" action="/question">
                 <button type="submit" id="questionBtn">
-                    <img src="static/pic/questionmarks.svg" style="opacity: 0.60;"><div>Library</div>
+                    <img src="static/pic/questionmarks.svg" style="opacity: 0.60;"><div>Questions</div>
                 </button>
             </form>
         </div>
         <div class="navBtn">
             <!-- <a id="settingBtn" href="http://localhost:8000/setting"><img src="static/pic/setting.svg" style="opacity: 0.60;">Settings</a> -->
-            <form method="get" action="/room-reservation">
+            <form method="get" action="/setting">
                 <button type="submit" id="settingBtn">
                     <img src="static/pic/setting.svg" style="opacity: 0.60;"><div>Settings</div>
                 </button>
