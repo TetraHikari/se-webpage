@@ -60,7 +60,7 @@ async def login(request: Request, username: str = Form(...), password: str = For
             if isinstance(current_account, Student):
                 # Check if the account is a student
                 if current_account.username == user.username and current_account.password == user.password:
-                    response = templates.TemplateResponse("dashboard.html", {
+                    response = templates.TemplateResponse("home.html", {
                         "request": request,
                         "username": current_account.username,
                         "email": current_account.email,
@@ -75,13 +75,14 @@ async def login(request: Request, username: str = Form(...), password: str = For
                     response.set_cookie(key="lastname", value=current_account.lastname)
                     response.set_cookie(key="year", value=current_account.year)
                     response.set_cookie(key="is_professor", value=False)
+                    response.set_cookie(key="subject", value=get_subject_from_student(root, current_account.username))
                     return response
 
             elif isinstance(current_account, Professor):
                 # Check if the account is a professor
                 if current_account.username == user.username and current_account.password == user.password:
                     subject = get_subject_from_professor(root, current_account.username)
-                    response = templates.TemplateResponse("dashboard.html", {
+                    response = templates.TemplateResponse("home.html", {
                         "request": request,
                         "username": current_account.username,
                         "email": current_account.email,
@@ -105,12 +106,20 @@ async def login(request: Request, username: str = Form(...), password: str = For
 
 
 @app.get("/main-menu", response_class=HTMLResponse)
-async def main_menu(request: Request, username: str = Cookie(None), email: str = Cookie(None), year: int = Cookie(None), firstname: str = Cookie(None), lastname: str = Cookie(None), subject: str = Cookie(None), is_professor: bool = Cookie(None)):
-    return templates.TemplateResponse("dashboard.html", {"request": request, "username": username, "email": email, "year": year, "name": firstname+" "+lastname, "subject": subject, "is_professor": is_professor},)
+async def main_menu(request: Request, username: str = Cookie(None), email: str = Cookie(None), year: int = Cookie(None), firstname: str = Cookie(None), lastname: str = Cookie(None), is_professor: bool = Cookie(None)):
+    try:
+        root = open_db_client()
+        return templates.TemplateResponse("home.html", {"request": request, "username": username, "email": email, "year": year, "name": firstname+" "+lastname, "subjects": get_subject_from_student(root, username), "is_professor": is_professor},)
+    finally:
+        shutdown_db_client()
 
 @app.get("/home", response_class=HTMLResponse)
-async def home(request: Request, username: str = Cookie(None), email: str = Cookie(None), year: int = Cookie(None), firstname: str = Cookie(None), lastname: str = Cookie(None), subject: str = Cookie(None), is_professor: bool = Cookie(None)):
-    return templates.TemplateResponse("home.html", {"request": request, "username": username, "email": email, "year": year, "name": firstname+" "+lastname, "subject": subject, "is_professor": is_professor},)
+async def home(request: Request, username: str = Cookie(None), email: str = Cookie(None), year: int = Cookie(None), firstname: str = Cookie(None), lastname: str = Cookie(None), is_professor: bool = Cookie(None)):
+    try:
+        root = open_db_client()
+        return templates.TemplateResponse("home.html", {"request": request, "username": username, "email": email, "year": year, "name": firstname+" "+lastname, "subjects": get_subject_from_student(root, username), "is_professor": is_professor},)
+    finally:
+        shutdown_db_client()
 
 @app.get("/se-blog", response_class=HTMLResponse)
 async def se_blog(request: Request, username: str = Cookie(None), email: str = Cookie(None), year: int = Cookie(None), is_professor: bool = Cookie(None)):
@@ -218,33 +227,6 @@ async def create_post(request: Request, title: str = Form(...), content: str = F
     # Return the updated blog page
     return RedirectResponse(url=f"/se-blog", status_code=303)
 
-# @app.post("/delete-post/{post_id}", response_class=HTMLResponse)
-# async def delete_post(request: Request, post_id: str, username: str = Cookie(None)):
-#     root = open_db_client()
-#     updated_posts = []
-
-#     try:
-#         # Check if the post belongs to the current user
-#         if username not in root or post_id not in root[username].posts:
-#             raise HTTPException(status_code=403, detail="Permission denied: Post not found or does not belong to the user")
-
-#         # Delete the post
-#         del root[username].posts[post_id]
-#         commit()
-
-#         # Update the posts for the current user
-#         for user in root:
-#             account_posts = read_all_post(root, user)
-#             updated_posts.extend(account_posts)
-
-#     except HTTPException as e:
-#         raise e
-#     finally:
-#         # Close the database connection
-#         shutdown_db_client()
-
-#     # Return the updated blog page
-#     return templates.TemplateResponse("blog.html", {"request": request, "username": username, "posts": updated_posts})
 
 @app.post("/delete-post/{post_id}", response_class=RedirectResponse)
 async def delete_post(request: Request, post_id: str, username: str = Cookie(None)):
@@ -494,4 +476,4 @@ async def news(request: Request):
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="localhost", port=13000)
+    uvicorn.run(app, host="localhost", port=8000)
