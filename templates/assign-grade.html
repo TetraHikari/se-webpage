@@ -144,11 +144,11 @@
   <footer id="pageFooter">
   </footer>
   <script>
+    const button = document.querySelector(".submitgrade");
     document.addEventListener("DOMContentLoaded", function () {
 
         button.addEventListener("click", function () {
             showAlert();
-            generatePDF();
         });
 
         showAlert = () => {

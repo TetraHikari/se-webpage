@@ -6,60 +6,54 @@
     <title>SE Blog</title>
     <link rel="stylesheet" href="static/css/grade.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@700&display=swap">
-    
-
 </head>
 <body>
   <header id="pageHeader">
     <input type="text" placeholder="Search">
     <div class="headerWrapper">
     
-    <a href="/"><img src="static/pic/msg.png" style="fill: #FFF; filter: drop-shadow(0px 0px 3px rgba(0, 0, 0, 0.15)); width:50px; height:auto;"></a>
-    <a href="/home"><img src="static/pic/user.png"></a>
-    <label>{{ username }}</label>
-    </div>
-  </header>
+        <a href="/"><img src="static/pic/msg.png" style="fill: #FFF; filter: drop-shadow(0px 0px 3px rgba(0, 0, 0, 0.15)); width:50px; height:auto;"></a>
+        <a href="/home"><img src="static/pic/user.png"></a>
+        <label>{{ username }}</label>
+        </div>
+    </header>
   <article id="content">
-    <div class="blog-header">
-        Grades
-    </div>
-    <div id="view-grades">
-        <h1>View Grades</h1>
-    <p>Welcome, {{ name }} ({{ username }})!</p>
+    <div class="transcript" >
+        <center>
+        <div id="view-grades">
+        <h1>( Unofficial Transcript )</h1>
+        <h2>School of Engineering</h2>
+        <h2>King Mongkut's Institute of Technology Ladkrabang</h2>
+        <img src="https://th.bing.com/th/id/R.3594eed41fb750667487141f9ca23d68?rik=hA28CS4RZxM8XQ&riu=http%3a%2f%2fwww.kosen.kmitl.ac.th%2fimages%2fnotices%2f15749260940.png&ehk=xMsnD3iUHrZru8jJ7nyi45gc2wwzkK6CPSho94ANs14%3d&risl=&pid=ImgRaw&r=0" style="width: 100px; height: auto;">
 
-    {% if subject %}
-        <h2>Your Subjects:</h2>
-        <ul>
-            {% for subj in subject %}
-                <li>{{ subj }}</li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>No subjects found.</p>
-    {% endif %}
-
-    {% if scores %}
-        <h2>Your Scores:</h2>
-        <table border="1">
-            <thead>
-                <tr>
-                    <th>Subject</th>
-                    <th>Score</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for subj, score in scores.items() %}
+        {% if scores %}
+        <p>Name: {{name}} Year: {{ year }}</p>
+        <p>Student ID: {{username}}</p>
+            <table border="1">
+                <thead>
                     <tr>
-                        <td>{{ subj }}</td>
-                        <td>{{ score }}</td>
+                        <th>Course Title</th>
+                        <th>Score</th>
                     </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    {% else %}
-        <p>No scores found.</p>
-    {% endif %}
+                </thead>
+                <tbody >
+                    {% for subj, score in scores.items() %}
+                        <tr>
+                            <td>{{ subj }}</td>
+                            <td style="text-align: center;" >{{ score }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            
+        {% else %}
+            <p>No scores found.</p>
+        {% endif %}
+        
     </div>
+    
+    <button id="printTranscriptBtn">Print Transcript</button>
+    </center>
   </article>
   <nav id="mainNav">
     <form method="get" action="/home">
@@ -68,7 +62,7 @@
         </button>
     </form>
     <div class="navWrapper">
-        <div class="navBtn">
+        <div class="navBtn ">
             <!-- <a id="dashBoardBtn" href="http://localhost:8000/dashboard"><img src="static/pic/dash.svg">Dashboard</a> -->
             <form method="get" action="/main-menu">
                 <button type="submit" id="dashBoardBtn">
@@ -76,7 +70,7 @@
                 </button>
             </form>
         </div>
-        <div class="navBtn">
+        <div class="navBtn active">
             <!-- <a id="gradeBtn" href="http://localhost:8000/grades"><img src="static/pic/award.svg" style="opacity: 0.60;">Grades</a> -->
         {% if is_professor %}
             <form method="get" action="/assign-grade">
@@ -129,5 +123,50 @@
     </nav>
   <footer id="pageFooter">
   </footer>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const printButton = document.getElementById("printTranscriptBtn");
+
+        printButton.addEventListener("click", function () {
+            printTranscript();
+        });
+
+        function printTranscript() {
+            // Your existing styles
+            const styles = `
+                h1, h2, p {
+                    font-size: 1.5em;
+                }
+                table {
+                    border-collapse: collapse;
+                    width: 80%;
+                    font-size: 1.3em;
+                }
+                th, td {
+                    padding: 10px;
+                }
+                #printTranscriptBtn {
+                    display: none; 
+                }
+            `;
+
+            // Clone the transcript content
+            const transcriptContent = document.querySelector('.transcript').cloneNode(true);
+
+            // Open a new window and write the content to it
+            const transcriptWindow = window.open('', '_blank');
+            transcriptWindow.document.write('<html><head><title>Transcript</title>');
+            transcriptWindow.document.write('<style>' + styles + '</style></head><body>');
+            transcriptWindow.document.write(transcriptContent.innerHTML);
+            transcriptWindow.document.write('</body></html>');
+
+            // Print the new window
+            transcriptWindow.print();
+
+            // Close the document stream
+            transcriptWindow.document.close();
+        }
+    });
+</script>
 </body>
 </html>

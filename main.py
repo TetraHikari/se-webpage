@@ -323,6 +323,7 @@ async def view_grade(request: Request, username: str = Cookie(None), subject: st
                                                "subject": subjects,
                                                "scores": read_student_score(root, username),
                                                "is_professor": is_professor,
+                                               "year": root[username].year,
                                                })
     finally:
         # Close the database connection

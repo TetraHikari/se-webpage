@@ -1,6 +1,19 @@
 * {
     font-family: Urbanist;
 }
+h1, h2, p{
+    font-size: 1.5em;
+}
+table{
+    border-collapse: collapse;
+    width: 80%;
+    font-size: 1.3em;
+}
+
+
+th,td{
+    padding: 10px;
+}
 
 body {
     display: grid;
@@ -75,6 +88,7 @@ header input::placeholder{
     align-items: center;
     gap: 2em;
 }
+
 .headerWrapper label{
     color: var(--secondary-color-secondary-color, #313131);
     text-align: center;
