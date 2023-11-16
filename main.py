@@ -292,7 +292,6 @@ async def read_item(
 ):
     root = open_db_client()
     try:
-        times = ["08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00"]
         
         rooms = []
         for time in times:
@@ -324,8 +323,6 @@ async def submit_reservation(
     begin_time: str = Form(...),
     end_time: str = Form(...),
 ):
-    times = ["08:00", "09:00", "10:00", "11:00", "12:00",
-             "13:00", "14:00", "15:00", "16:00", "17:00", "18:00"]
              
     begin_time_index = times.index(begin_time)
     end_time_index = times.index(end_time)
@@ -372,40 +369,32 @@ async def cancel_reservation(
     request: Request,
     username: str = Cookie(None),
     room_id: str = Form(...),
-    begin_time: str = Form(...),
-    end_time: str = Form(...),
+    slot: str = Form(...),  # Change 'begin_time' to 'slot'
 ):
     root = open_db_client()
     try:
-        times = ["08:00", "09:00", "10:00", "11:00", "12:00",
-                 "13:00", "14:00", "15:00", "16:00", "17:00", "18:00"]
-        begin_time_index = times.index(begin_time)
-        end_time_index = times.index(end_time)
-        # Check if the user has a reservation for the specified time slot
-        for time_slot in times[begin_time_index:end_time_index+1]:
-            if root[room_id].reservation[time_slot]["status"] == "reserved" and \
-               root[room_id].reservation[time_slot]["username"] == username:
-                # Cancel the reservation
-                cancel_room_reservation(root, room_id, time_slot)
-                commit()
-
-                # Redirect to the room reservation page with updated details
-                return templates.TemplateResponse(
-                    "room.html",
-                    {
-                        "request": request,
-                        "times": ["08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00"],
-                        "rooms": get_room_from_timeslot(root, time_slot),
-                        "username": username,
-                        "reservation_details": reservation_detail(root, username),
-                    },
-                )
-
-        # If no reservation found for the specified time slot
-        raise HTTPException(status_code=404, detail="Reservation not found for the specified time slot")
-
+        print(f"User {username} is cancelling reservation for room {room_id} at time {slot}")
+        cancel_room(root, room_id, slot)
+        
+        # Get the updated list of reserved rooms
+        updated_rooms = []
+        for time in times:
+            updated_rooms.append(get_room_from_timeslot(root, time))
+        reservation_details = reservation_detail(root, username)
+        
+        # Display the updated rooms in the response
+        return templates.TemplateResponse(
+            "room.html",
+            {
+                "request": request,
+                "times": times,
+                "rooms": updated_rooms,
+                "username": username,
+                "reservation_details": reservation_details,
+            },)
     finally:
         shutdown_db_client()
+
 
 
 

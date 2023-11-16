@@ -93,7 +93,7 @@
 
         <label for="end-time">End Time:</label>
         <select name="end_time" id="end-time">
-            {% for hour in range(9, 19) %}
+            {% for hour in range(8, 20) %}
                 <option value="{{ '%02d:00' % hour }}">{{ "%02d:00" % hour }}</option>
             {% endfor %}
         </select>
@@ -102,24 +102,18 @@
     </form>
 </div>
 
-<!-- ... your existing HTML code ... -->
-
 <div>
     <h2>Reserved Rooms</h2>
     <h3>Username: {{ username }}</h3>
     <p>Your Reserved Room:</p>
     <ul>
-        {% set unique_room_ids = reservation_details | groupby('room_id') %}
-        {% for room_id, details in unique_room_ids %}
+        {% for detail in reservation_details %}
             <li>
-                {{ details[0].slot }} - Room: {{ details[0].room_id }}
-                {% if details | length > 1 %}
-                    to {{ details[-1].slot }}
-                {% endif %}
+                {{ detail.slot }} - Room: {{ detail.room_id }}
                 <form action="/cancel-reservation" method="post" style="display: inline;">
-                    <input type="hidden" name="room_id" value="{{ room_id }}">
-                    <input type="hidden" name="begin_time" value="{{ details[0].slot }}" />
-                    <input type="hidden" name="end_time" value="{{ details[-1].slot }}" />
+                    <input type="hidden" name="room_id" value="{{ detail.room_id }}">
+                    <input type="hidden" name="username" value="{{ username }}">
+                    <input type="hidden" name="slot" value="{{ detail.slot }}">
                     <button type="submit">Cancel</button>
                 </form>
             </li>
@@ -128,10 +122,9 @@
     <form method="get" action="/main-menu" style="display:inline;">
         <button type="submit">Menu</button>
     </form>
-    
 </div>
 
-<!-- ... your existing HTML code ... -->
+
 
 
 </body>

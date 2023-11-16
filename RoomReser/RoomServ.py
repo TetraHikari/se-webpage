@@ -54,6 +54,10 @@ def reserve_room(root, room_id, slot, username):
     root[room_id].reservation[slot] = {"status": "reserved","username": username}
     commit()
     
+def cancel_room(root, room_id, slot):
+    root[room_id].reservation[slot] = {"status": "available","username": ""}
+    commit()
+    
 def reservation_detail(root, username):
     room_list = []
     for key in root:
@@ -62,10 +66,23 @@ def reservation_detail(root, username):
                 if root[key].reservation[slot]["username"] == username:
                     room_list.append({"room_id": key, "slot": slot})
     return room_list
+times = ["08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00"]
+# root = open_db_client()
 
-def cancel_room_reservation(root, room_id, time_slot):
-    root[room_id].reservation[time_slot] = {"status": "available", "username": ""}
-    commit()
+# cancel_room(root, "801", "08:00")
+# cancel_room(root, "801", "09:00")
+# cancel_room(root, "801", "10:00")
+# cancel_room(root, "801", "11:00")
+# cancel_room(root, "801", "12:00")
+# cancel_room(root, "801", "13:00")
+# cancel_room(root, "801", "14:00")
+# cancel_room(root, "801", "15:00")
+# cancel_room(root, "801", "16:00")
+# cancel_room(root, "801", "17:00")
+# cancel_room(root, "801", "18:00")
+
+# shutdown_db_client()
+
 
 # root = open_db_client()
 # # Create 801 Lecture Room
