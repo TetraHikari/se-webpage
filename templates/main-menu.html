@@ -82,9 +82,11 @@
 
   </article>
   <nav id="mainNav">
-    <a href="http://localhost:8000/menu">
-        <img src="static/pic/se2.png">
-    </a>
+    <form method="get" action="/main-menu">
+      <button type="submit" id="logoBtn" style="background-color: transparent; border: 0em">
+          <img src="static/pic/se2.png">
+      </button>
+    </form>
     <div class="navWrapper">
         <div class="navBtn">
             <!-- <a id="dashBoardBtn" href="http://localhost:8000/dashboard"><img src="static/pic/dash.svg">Dashboard</a> -->
@@ -142,6 +144,7 @@
                 </button>
             </form>
         </div>
+    </div>
    </nav>
   <footer id="pageFooter">Footer</footer>
   <script src="static/js/calendar.js"></script>

@@ -56,38 +56,44 @@ def add_post(root, username, post_id, title, content,created_at,like, postedby, 
 
 def add_like(root, post_id, new_like_count, username):
     for user in root:
-        for post_key in list(root[user].posts.keys()):
-            #one user can give 1 like to 1 post
-            if post_key == post_id:
-                if "liked_by" not in root[user].posts[post_key]:
-                    root[user].posts[post_key]["liked_by"] = []
+        # Check if the object is an instance of Accounts
+        if isinstance(root[user], Accounts):
+            for post_key in list(root[user].posts.keys()):
+                # One user can give 1 like to 1 post
+                if post_key == post_id:
+                    if "liked_by" not in root[user].posts[post_key]:
+                        root[user].posts[post_key]["liked_by"] = []
 
-                if username not in root[user].posts[post_key]["liked_by"]:
-                    updated_post = root[user].posts[post_key].copy()
-                    updated_post["like"] = new_like_count
-                    root[user].posts[post_key] = updated_post
-                    root[user].posts[post_key]["liked_by"].append(username)
-                    commit()
-                    print("Like added")
+                    if username not in root[user].posts[post_key]["liked_by"]:
+                        updated_post = root[user].posts[post_key].copy()
+                        updated_post["like"] = new_like_count
+                        updated_post["liked_by"].append(username)  # Update liked_by in the copied dict
+                        root[user].posts[post_key] = updated_post  # Replace the old post with the updated one
+                        commit()
+                        print("Like added")
+
 
 
 def read_all_post(root, username):
     post_list = []
-    for post_id, post_data in root[username].posts.items():
-        post_list.append(
-            {
-                "username": username,
-                "post_id": post_id,
-                "title": post_data.get("title", ""),
-                "content": post_data.get("content", ""),
-                "time": post_data.get("time", ""),  # Provide a default value if 'time' is not present
-                "like": post_data.get("like", 0),
-                "liked_by": post_data.get("liked_by", []),
-                "postedby": post_data.get("postedby", ""),
-                "yearpost": post_data.get("yearpost", "")  # Add this line
-            }
-        )
+    # Check if the object associated with the username is an instance of Accounts
+    if isinstance(root.get(username, None), Accounts):
+        for post_id, post_data in root[username].posts.items():
+            post_list.append(
+                {
+                    "username": username,
+                    "post_id": post_id,
+                    "title": post_data.get("title", ""),
+                    "content": post_data.get("content", ""),
+                    "time": post_data.get("time", ""),  # Provide a default value if 'time' is not present
+                    "like": post_data.get("like", 0),
+                    "liked_by": post_data.get("liked_by", []),
+                    "postedby": post_data.get("postedby", ""),
+                    "yearpost": post_data.get("yearpost", "")  # Add this line
+                }
+            )
     return post_list
+
 
 def clear_all_posts(root, username):
     root[username].posts = {}

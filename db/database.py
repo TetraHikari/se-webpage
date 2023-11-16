@@ -90,9 +90,6 @@ class Book(Persistent):
     def get_url(self):
         return self.url
 
-    def __str__(self):
-        return f"{self.title} by {self.author}, {self.year}"
-
         # You can add more methods as needed, like getters or setters.
 
 class Room(Persistent):

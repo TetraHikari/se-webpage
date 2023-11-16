@@ -20,7 +20,7 @@
   font-weight: 600;
 }
 
-button {
+.calendarBox button {
   width: 75px;
   cursor: pointer;
   border: none;

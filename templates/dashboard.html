@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Library</title>
-    <link rel="stylesheet" href="static/css/library.css">
+    <title>Daasboard</title>
+    <link rel="stylesheet" href="static/css/dashboard.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@700&display=swap">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" />
 </head>
@@ -19,45 +19,11 @@
     </div>
   </header>
   <article id="content">
-    <div class="library-header">
-        Library
-    </div>
     <div>
-      {% for book in books %}
-        <div>
-          {{ book.title }}
-          {{ book.author }}
-          {{ book.year }}
-          {{ book.genre }}
-          {{ book.isbn }}
-          {{ book.url }}
-        </div>
-      {% endfor %}
+        Dashboard
     </div>
-    <div>
-      <h1>Add a New Book to the Library</h1>
-      <form action="/add-book" method="post">
-          <label for="title">Title:</label><br>
-          <input type="text" id="title" name="title" required><br>
-  
-          <label for="author">Author:</label><br>
-          <input type="text" id="author" name="author" required><br>
-  
-          <label for="year">Year:</label><br>
-          <input type="number" id="year" name="year" required><br>
-  
-          <label for="genre">Genre:</label><br>
-          <input type="text" id="genre" name="genre" required><br>
-  
-          <label for="isbn">ISBN:</label><br>
-          <input type="text" id="isbn" name="isbn" required><br>
+    </div>
 
-          <label for="url">URL:</label><br>
-          <input type="text" id="url" name="url" required><br>
-  
-          <input type="submit" value="Add Book">
-      </form>
-    </div>
   </article>
   <nav id="mainNav">
     <form method="get" action="/main-menu">
@@ -66,7 +32,7 @@
       </button>
     </form>
     <div class="navWrapper">
-      <div class="navBtn">
+      <div class="navBtn active">
         <!-- <a id="dashBoardBtn" href="http://localhost:8000/dashboard"><img src="static/pic/dash.svg">Dashboard</a> -->
         <form method="get" action="/dashboard">
             <button type="submit" id="dashBoardBtn">
@@ -106,7 +72,7 @@
           </button>
       </form>
     </div>      
-    <div class="navBtn active">
+    <div class="navBtn">
         <!-- <a id="questionBtn" href="http://localhost:8000/question"><img src="static/pic/questionmarks.svg" style="opacity: 0.60;">Questions</a> -->
         <form method="get" action="/library">
             <button type="submit" id="questionBtn">
@@ -124,7 +90,5 @@
     </div>
    </nav>
   <footer id="pageFooter">Footer</footer>
-  <script src="static/js/calendar.js"></script>
-  <script src="static/js/menu.js"></script>
 </body>
 </html>

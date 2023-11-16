@@ -129,7 +129,7 @@ nav img{
 
     padding: 5px 25px; /* Adjust padding as needed */
     border-radius: 20px; /* Set border-radius for a circular background */
-    /* border: #313131 1px solid; */
+    border: #313131 0px solid;
     transition: color 0.4s;
     z-index: 1;
     position: relative;

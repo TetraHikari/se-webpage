@@ -12,6 +12,9 @@ from Library.LibraryServ import*
 from RoomReser.models import*
 from RoomReser.RoomServ import*
 from db.database import*
+current_dir = os.path.dirname(__file__)
+parent_dir = os.path.abspath(os.path.join(current_dir, os.pardir))
+sys.path.append(parent_dir)
 app = FastAPI()
 templates = Jinja2Templates(directory="./templates")
 app.mount("/static", StaticFiles(directory="./static"), name="static")
@@ -103,8 +106,10 @@ async def se_blog(request: Request, username: str = Cookie(None), email: str = C
     try:
         # Iterate over all accounts in the database
         for user in root:
-            account_posts = read_all_post(root, user)
-            all_posts.extend(account_posts)
+            # Check if the object is an instance of Accounts
+            if isinstance(root[user], Accounts):
+                account_posts = read_all_post(root, user)
+                all_posts.extend(account_posts)
     finally:
         shutdown_db_client()
 
@@ -145,8 +150,10 @@ async def create_post(request: Request, title: str = Form(...), content: str = F
 
         # Iterate over all accounts in the database and collect posts
         for user in root:
-            account_posts = read_all_post(root, user)
-            all_posts.extend(account_posts)
+            # Check if the object is an instance of Accounts
+            if isinstance(root[user], Accounts):
+                account_posts = read_all_post(root, user)
+                all_posts.extend(account_posts)
 
     except HTTPException as e:
         raise e
@@ -214,6 +221,10 @@ async def add_book(request: Request, title: str = Form(...), author: str = Form(
         return RedirectResponse(url=f"/library", status_code=303)
     finally:
         shutdown_db_client()
+
+@app.get("/dashboard", response_class=HTMLResponse)
+async def dashboard(request: Request, username: str = Cookie(None), email: str = Cookie(None), year: int = Cookie(None)): #no book
+    root = open_db_client()
 
 # @app.post("/delete-post/{post_id}", response_class=HTMLResponse)
 # async def delete_post(request: Request, post_id: str, username: str = Cookie(None)):
@@ -309,16 +320,20 @@ async def like_post(request: Request, post_id: str, current_username: str):
 
     try:
         for user in root:
-            for post in read_all_post(root, user):
-                if post["post_id"] == post_id:
-                    # Check if the user has already liked the post
-                    if current_username not in post["liked_by"]:
-                        add_like(root, post_id, post["like"] + 1, current_username)
+            # Check if the object is an instance of Accounts
+            if isinstance(root[user], Accounts):
+                for post in read_all_post(root, user):
+                    if post["post_id"] == post_id:
+                        # Check if the user has already liked the post
+                        if current_username not in post.get("liked_by", []):
+                            add_like(root, post_id, post["like"] + 1, current_username)
 
         # Update the posts for the current user
         for user in root:
-            account_posts = read_all_post(root, user)
-            updated_posts.extend(account_posts)
+            # Again, check if the object is an instance of Accounts
+            if isinstance(root[user], Accounts):
+                account_posts = read_all_post(root, user)
+                updated_posts.extend(account_posts)
 
     except HTTPException as e:
         raise e
@@ -329,10 +344,6 @@ async def like_post(request: Request, post_id: str, current_username: str):
     # Return the updated blog page with the like count
     return RedirectResponse(url=f"/se-blog", status_code=303)
 
-
-
-
-
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="localhost", port=9000)
+    uvicorn.run(app, host="localhost", port=8000)
