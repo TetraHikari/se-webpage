@@ -102,15 +102,26 @@ class Professor(Persistent):
         return self.posts
 
 class Room(Persistent):
-    def __init__(self, room_id):
+    def __init__(self, room_id, room_description="Lecture Room", room_capacity=30):
         self.room_id = room_id
-        self.reservation = False
+        self.description = room_description
+        self.capacity = room_capacity
+        self.reservation = OOBTree() # {"room_id": {"7:00", Flase}}
         
     def get_room_id(self):
         return self.room_id
     
-    def is_reserved(self):
+    def get_reservation(self):
         return self.reservation
+    
+    def all_data(self):
+        data = {
+            "room_id": self.room_id,
+            "description": self.description,
+            "capacity": self.capacity,
+            "reservation": self.reservation
+        }
+        return data
 
 def open_db_client():
     global db, connection

@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Request, Form, Cookie, Response,requests, HTTPException
+from fastapi import FastAPI, Request, Form, Cookie, Response,requests, HTTPException, Depends
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
 from typing import List
@@ -9,10 +9,10 @@ from Blog.models import*
 from Blog.BlogServ import*
 from Grade.GradeServ import*
 from Grade.models import*
-from RoomReser.models import*
 from RoomReser.RoomServ import*
 sys.path.insert(1, 'C:\\Users\\Acer\\Desktop\\SE_Website\\db')
 from db.database import*
+
 
 app = FastAPI()
 templates = Jinja2Templates(directory="./templates")
@@ -270,46 +270,144 @@ async def view_grade(request: Request, username: str = Cookie(None), subject: st
         for subject_name, score in read_student_score(root, username).items():
             subjects.append(subject_name)
             scores.append(score)
+        reservation_details = reservation_detail(root, username)
             
         return templates.TemplateResponse("view-grades.html",
                                               {"request": request,
                                                "username": username,
                                                "name": root[username].get_fullname(),
                                                "subject": subjects,
-                                               "scores": read_student_score(root, username)})
+                                               "scores": read_student_score(root, username),
+                                               "reservation_details": reservation_details,}
+                                            )
     finally:
         # Close the database connection
         shutdown_db_client()
         
         
 @app.get("/room-reservation", response_class=HTMLResponse)
-async def room_reservation(request: Request, username: str = Cookie(None)):
+async def read_item(
+    request: Request,
+    username: str = Cookie(None),
+):
     root = open_db_client()
     try:
-        rooms = []
+        times = ["08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00"]
         
-        for room_id in root.keys():
-            if isinstance(root[room_id], Room):
-                rooms.append(room_detail(root, room_id))
-        print(rooms)
-
-        return templates.TemplateResponse("room.html", {"request": request, "rooms": rooms})
+        rooms = []
+        for time in times:
+            rooms.append(get_room_from_timeslot(root, time))
+        reservation_details = reservation_detail(root, username)
+        
+        return templates.TemplateResponse(
+            "room.html",
+            {
+                "request": request,
+                "times": times,
+                "rooms": rooms,
+                "username": username,
+                "reservation_details": reservation_details,
+            },
+        )
     finally:
         shutdown_db_client()
+        
+        from fastapi import Form, HTTPException
 
-@app.post("/reserve-room", response_class=HTMLResponse)
-async def reserve_room(request: Request, room_id: str = Form(...), username: str = Cookie(None)):
+from fastapi.responses import HTMLResponse
+
+@app.post("/submit-reservation", response_class=HTMLResponse)
+async def submit_reservation(
+    request: Request,
+    username: str = Cookie(None),
+    room: str = Form(...),
+    begin_time: str = Form(...),
+    end_time: str = Form(...),
+):
+    times = ["08:00", "09:00", "10:00", "11:00", "12:00",
+             "13:00", "14:00", "15:00", "16:00", "17:00", "18:00"]
+             
+    begin_time_index = times.index(begin_time)
+    end_time_index = times.index(end_time)
+    
     root = open_db_client()
     try:
-        reserved_room(root, room_id)
-        rooms = []
-        for room_id in root.keys():
-            if isinstance(root[room_id], Room):
-                rooms.append(room_detail(root, room_id))
-        print(rooms)
-        return templates.TemplateResponse("room.html", {"request": request, "rooms": rooms})
+        if end_time_index <= begin_time_index:
+            raise HTTPException(status_code=400, detail="Invalid time range")
+        
+        if username not in root:
+            raise HTTPException(status_code=404, detail="User not found")
+        
+        # Check if the room is already reserved during the selected time slot
+        for i in range(begin_time_index, end_time_index):
+            if root[room].reservation[times[i]]["status"] == "reserved":
+                raise HTTPException(status_code=400, detail="Room is already reserved")
+        
+        # Reserve the room for the selected time slot
+        for i in range(begin_time_index, end_time_index+1):
+            reserve_room(root, room, times[i], username)
+                
+        # Get the updated list of reserved rooms
+        updated_rooms = []
+        for time in times:
+            updated_rooms.append(get_room_from_timeslot(root, time))
+        reservation_details = reservation_detail(root, username)
+        
+        # Display the updated rooms in the response
+        return templates.TemplateResponse(
+            "room.html",
+            {
+                "request": request,
+                "times": times,
+                "rooms": updated_rooms,
+                "username": username,
+                "reservation_details": reservation_details,
+            },
+        )
     finally:
         shutdown_db_client()
+        
+@app.post("/cancel-reservation", response_class=HTMLResponse)
+async def cancel_reservation(
+    request: Request,
+    username: str = Cookie(None),
+    room_id: str = Form(...),
+    begin_time: str = Form(...),
+    end_time: str = Form(...),
+):
+    root = open_db_client()
+    try:
+        times = ["08:00", "09:00", "10:00", "11:00", "12:00",
+                 "13:00", "14:00", "15:00", "16:00", "17:00", "18:00"]
+        begin_time_index = times.index(begin_time)
+        end_time_index = times.index(end_time)
+        # Check if the user has a reservation for the specified time slot
+        for time_slot in times[begin_time_index:end_time_index+1]:
+            if root[room_id].reservation[time_slot]["status"] == "reserved" and \
+               root[room_id].reservation[time_slot]["username"] == username:
+                # Cancel the reservation
+                cancel_room_reservation(root, room_id, time_slot)
+                commit()
+
+                # Redirect to the room reservation page with updated details
+                return templates.TemplateResponse(
+                    "room.html",
+                    {
+                        "request": request,
+                        "times": ["08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00"],
+                        "rooms": get_room_from_timeslot(root, time_slot),
+                        "username": username,
+                        "reservation_details": reservation_detail(root, username),
+                    },
+                )
+
+        # If no reservation found for the specified time slot
+        raise HTTPException(status_code=404, detail="Reservation not found for the specified time slot")
+
+    finally:
+        shutdown_db_client()
+
+
 
 if __name__ == "__main__":
     import uvicorn

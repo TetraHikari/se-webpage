@@ -1,69 +1,138 @@
-<!-- FILEPATH: /path/to/templates/room_reservation.html -->
-
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>Room Reservation</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schedule Table</title>
     <style>
         table {
+            width: 100%;
             border-collapse: collapse;
-            width: 50%;
-            margin: auto;
         }
-
         th, td {
             border: 1px solid black;
-            padding: 8px;
+            padding: 5px;
             text-align: center;
         }
-
         th {
             background-color: #f2f2f2;
         }
-
+        /* Style for available rooms */
         .available {
-            background-color: #8eff8e; /* Green for available rooms */
+            background-color: #8eff8e; /* Green color for available rooms */
         }
-
-        .unavailable {
-            background-color: #ff8e8e; /* Red for unavailable rooms */
+        /* Style for reserved rooms */
+        .reserved {
+            background-color: #ff8e8e; /* Red color for reserved rooms */
         }
-
-        .reservation-form {
-            text-align: center;
-            margin-top: 20px;
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            display: block;
+            text-align: left;
+            text-decoration: none;
+        }
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+        .dropdown:hover .dropdown-content {
+            display: block;
         }
     </style>
 </head>
 <body>
-    <h1>Room Reservation</h1>
-    
-    <table>
-        <thead>
-            <tr>
-                <th>Room ID</th>
-                <th>Description</th>
-                <th>Capacity</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for room in rooms %}
-                <tr class="{% if room.reservation %}unavailable{% else %}available{% endif %}">
-                    <td>{{ room.room_id }}</td>
-                    <td>{{ room.description }}</td>
-                    <td>{{ room.capacity }}</td>
-                    <td>{% if room.reservation %}Reserved{% else %}Available{% endif %}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
 
-    <div class="reservation-form">
-        <form method="post" action="/reserve-room">
-            <label for="room_id">Enter Room ID for Reservation:</label>
-            <input type="text" id="room_id" name="room_id" required>
-            <button type="submit">Reserve Room</button>
-        </form>
-    </div>
+<table>
+    <tr>
+        <th>Time</th>
+        <th>801</th>
+        <th>802</th>
+        <th>803</th>
+        <th>804</th>
+        <th>805</th>
+    </tr>
+    {% for time_slot in times %}
+        <tr>
+            <td>{{ time_slot }}</td>
+            {% for room_info in rooms[loop.index0] %}
+                {% set status = room_info.status %}
+                <td class="{{ 'reserved' if status == 'reserved' else 'available' }}"></td>
+            {% endfor %}
+        </tr>
+    {% endfor %}
+</table>
+
+<div>
+    <h2>Reservation Form</h2>
+    <form action="/submit-reservation" method="post">
+        <label for="room">Select Room:</label>
+        <select name="room" id="room">
+            {% for room_id in ['801', '802', '803', '804', '805'] %}
+                <option value="{{ room_id }}">{{ room_id }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="begin-time">Begin Time:</label>
+        <select name="begin_time" id="begin-time">
+            {% for hour in range(8, 19) %}
+                <option value="{{ '%02d:00' % hour }}">{{ "%02d:00" % hour }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="end-time">End Time:</label>
+        <select name="end_time" id="end-time">
+            {% for hour in range(9, 19) %}
+                <option value="{{ '%02d:00' % hour }}">{{ "%02d:00" % hour }}</option>
+            {% endfor %}
+        </select>
+
+        <input type="submit" value="Reserve">
+    </form>
+</div>
+
+<!-- ... your existing HTML code ... -->
+
+<div>
+    <h2>Reserved Rooms</h2>
+    <h3>Username: {{ username }}</h3>
+    <p>Your Reserved Room:</p>
+    <ul>
+        {% set unique_room_ids = reservation_details | groupby('room_id') %}
+        {% for room_id, details in unique_room_ids %}
+            <li>
+                {{ details[0].slot }} - Room: {{ details[0].room_id }}
+                {% if details | length > 1 %}
+                    to {{ details[-1].slot }}
+                {% endif %}
+                <form action="/cancel-reservation" method="post" style="display: inline;">
+                    <input type="hidden" name="room_id" value="{{ room_id }}">
+                    <input type="hidden" name="begin_time" value="{{ details[0].slot }}" />
+                    <input type="hidden" name="end_time" value="{{ details[-1].slot }}" />
+                    <button type="submit">Cancel</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+    <form method="get" action="/main-menu" style="display:inline;">
+        <button type="submit">Menu</button>
+    </form>
+    
+</div>
+
+<!-- ... your existing HTML code ... -->
+
+
 </body>
 </html>
