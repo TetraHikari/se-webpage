@@ -1,0 +1,357 @@
+table {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 6px;
+}
+th, td {
+    border: 1px solid black;
+    padding: 5px;
+    text-align: center;
+}
+th {
+    background-color: #f2f2f2;
+}
+/* Style for available rooms */
+.available {
+    background-color: #8eff8e; /* Green color for available rooms */
+}
+/* Style for reserved rooms */
+.reserved {
+    background-color: #ff8e8e; /* Red color for reserved rooms */
+}
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    z-index: 1;
+}
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    display: block;
+    text-align: left;
+    text-decoration: none;
+}
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+
+* {
+    font-family: Urbanist;
+}
+
+body {
+    display: grid;
+    grid-template-areas:
+        "nav header"
+        "nav article"
+        "nav footer";
+    grid-template-rows: 80px 1fr 80px;  
+    grid-template-columns: 20% 1fr;
+    grid-row-gap: 10px;
+    grid-column-gap: 10px;
+    height: 100vh;
+    margin: 0;
+    background-color: #E6F2F2;
+    
+}
+img{
+    max-width: fit-content;
+}
+
+footer, article, nav, div {
+    padding: 1.2em;
+}
+
+header{
+    padding-top: 3em;
+}
+
+header{
+    display: flex;
+    align-items: center;
+    padding-left: 1em;
+}
+
+header input{
+    border-radius: 76px;
+    background: #F6F7FB;
+    box-shadow: 0px 62px 85px -22px rgba(175, 175, 175, 0.14), 0px 0px 19px 1px rgba(204, 204, 204, 0.15);
+    box-shadow: 0px 0px 11px 0px rgba(0, 0, 0, 0.08);
+    border: none;
+    width: 25rem;
+    height: 2rem;
+    
+
+}
+
+header input::placeholder{
+    background-image: url("https://img.icons8.com/ios-glyphs/30/000000/search--v1.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: 5px 50%;
+    padding-left: 23px;
+    flex-shrink: 0;
+
+    color: rgba(49, 49, 49, 0.35); /* Set text color with opacity */
+    /* Menu/Menu Text */
+    font-family: Urbanist, sans-serif;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 14px; /* 87.5% */
+}
+
+.headerWrapper{
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    align-items: center;
+    gap: 2em;
+}
+.headerWrapper label{
+    color: var(--secondary-color-secondary-color, #313131);
+    text-align: center;
+    font-family: 'Urbanist', sans-serif; /* Use the font-family with a fallback */
+    font-size: 19px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 120%;
+}
+
+nav{
+    background: #FFF;
+    box-shadow: 23px 0px 14px -18px rgba(0, 0, 0, 0.07);
+    text-align: center;
+
+}
+
+nav img{
+    width: 100%;
+    height: auto;
+}
+
+.navWrapper{
+    
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 0em;
+    padding-top: 2em;
+
+}
+
+.navBtn{
+    display: flex;
+    flex-direction: column;
+}
+
+.navBtn form button{
+    width: 100%;
+    background-color: transparent;
+}
+
+.navBtn a, .navBtn form button{
+    display: flex;
+    flex-direction: row;
+    gap: 2em;
+    justify-content: start;
+    align-items: center;
+    text-decoration: none;
+
+    color: rgba(49, 49, 49, 0.60); /* Set text color with opacity */
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 14px; /* 87.5% */
+
+    padding: 5px 25px; /* Adjust padding as needed */
+    border-radius: 30px; /* Set border-radius for a circular background */
+    border: #313131 0px solid;
+    transition: color 0.4s;
+    z-index: 1;
+    position: relative;
+    
+}
+.navBtn:not(.active) a::before, .navBtn:not(.active) form button::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: #0EA6FA;
+    border-radius: 30px; /* Set border-radius for a circular background */
+    z-index: -1;
+    transition: transform 0.5s;
+    transition-timing-function: cubic-bezier(0.5, 1.6, 0.4, 0.7);
+    transform: scaleX(0);
+    transform-origin: 0 0;
+}
+
+.navBtn:not(.active) a:hover::before, .navBtn:not(.active) form button:hover::before{
+    transform: scaleX(1);
+}
+
+
+.navBtn a:hover, .navBtn form button:hover{
+    color: #FFF;
+}
+
+.navBtn a:hover svg , .navBtn form button:hover svg{
+    fill: #FFF;
+}
+
+.navBtn.active a, .navBtn.active form button{
+    background-color: #0EA6FA;
+    color: #FFF;
+    opacity: 1;
+}
+
+
+#pageHeader {
+grid-area: header;
+}
+#pageFooter {
+grid-area: footer;
+background-color: transparent;
+}
+#mainArticle { 
+grid-area: article;      
+}
+
+#mainNav { 
+grid-area: nav;
+}
+
+#content {
+    grid-area: article;
+    overflow-y: auto; /* Enables vertical scrolling */
+    padding: 1.2em;
+    /* set a max height if you want the container to have a specific height */
+    /* otherwise, it will take the remaining height from the grid */
+}
+
+/* Stack the layout on small devices/viewports. */
+@media all and (max-width: 575px) {
+    body { 
+        grid-template-areas: 
+        "header"
+        "article"
+        "nav"
+        "footer";
+        grid-template-rows: 80px 1fr 70px 70px;  
+        grid-template-columns: 1fr;
+    }
+}
+
+#formWrapper{
+    display: none;
+    color: #313131;
+    margin-top : 3em;
+    background-color: white;
+    border-radius: 30px;
+    filter:drop-shadow(0px 4px 5px rgba(0, 0, 0, 0.2));
+    
+}
+
+.reservedWrapper{
+    color: #313131;
+    margin-top : 3em;
+    background-color: white;
+    border-radius: 30px;
+    filter:drop-shadow(0px 4px 5px rgba(0, 0, 0, 0.2));
+}
+
+li{
+    padding : 0.5em;
+}
+
+
+.reservation-header{
+    text-align: center;
+    padding: 20px;
+    font-size: 24px;
+    margin-bottom: 20px;
+    border-radius: 20px;
+    max-width: 100%;
+}
+
+.btn{
+    background-color: #0EA6FA;
+    color: #FFF;
+    opacity: 1;
+    border-radius: 30px;
+    padding: 5px 25px;
+    border: #313131 0px solid;
+    transition: color 0.4s;
+    z-index: 1;
+    position: relative;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 14px;
+    text-decoration: none;
+}
+
+.cancelBtn{
+    display: none;
+    background-color: red;
+    bottom: 1px;
+    
+}
+
+.reservedWrapper:hover .cancelBtn {
+    display: inline;
+    display: block;
+    bottom: 1px;
+}
+
+.ulContainer{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    gap: 2em;
+
+}
+
+.newPostContainer{
+    display: flex;
+    justify-content: center;
+    padding: 0em;
+}
+
+.tableContainer{
+    border-radius: 30px;
+    background-color: white;
+    filter:drop-shadow(0px 4px 5px rgba(0, 0, 0, 0.2));
+    padding-bottom: 25px;
+}
+
+
+
+
+button[id="newPostBtn"]{
+    border-radius: 1em;
+    border: 0em solid;
+    background-color: #FFA500;
+
+    color: #FFF;
+
+    font-family: Urbanist;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 14px; /* 87.5% */
+    padding: 1em;
+}

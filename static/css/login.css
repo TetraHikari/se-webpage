@@ -1,0 +1,107 @@
+body{
+    margin: 0;
+    padding: 0;
+}
+.container{
+    margin-top: 120px;
+    width: 50%; 
+    margin-left: auto;
+    margin-right: auto;
+}
+.headerWrapper{
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+.title{
+    margin-top: auto;
+    margin-bottom: auto;
+
+
+    color: #51526C;
+    font-family: Urbanist;
+    font-size: 2em;
+    font-style: normal;
+    font-weight: 600;
+}
+.logo{
+    text-align: center;
+    margin-top: auto;
+    margin-bottom: auto;
+    
+}
+.queryContainer{
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+}
+.textQueryWrapper{
+    box-sizing: border-box;
+    margin-bottom: 1rem;
+}
+.textQueryWrapper label{
+    color: #20776E;
+}
+.textQueryWrapper input{
+    border: solid 0px #000000;
+    width: 100%;
+    padding: .5em 1em;
+
+    border-radius: 8px;
+    background: #F9F9F9;
+    color: black;
+}
+.textQueryWrapper label{
+    color: #20776E;
+    font-family: Urbanist;
+    font-size: 1em;
+    font-style: normal;
+    font-weight: 600;
+}
+.buttonQueryWrapper{
+    display: flex;
+    box-sizing: border-box;
+}
+.buttonQueryWrapper h6{
+    margin-right: auto;
+    margin-top: auto;
+    margin-bottom: auto;
+
+    color: #51526C;
+
+    /* Button Text/Primary Button Text */
+    font-family: Urbanist;
+    font-size: 1em;
+    font-style: normal;
+    font-weight: 600;
+    padding-left: 25px;
+}
+.buttonQueryWrapper button, input{
+    border: 0px;
+    border-radius: 0.3em;
+    padding: 0.75em 1.75em;
+    background-color: #20776E;
+
+    color: var(--netral-color-netral, #FFF);
+    /* Button Text/Primary Button Text */
+    font-family: Urbanist;
+    font-size: 1em;
+    font-weight: lighter;
+}
+.createNew{
+    text-align: center;
+}
+.createNew h6{
+    text-decoration:none;
+    color: #51526C;
+    font-family: Urbanist;
+    font-size: 1em;
+}
+.createNew h6 a{
+    text-decoration:none;
+    color: #20776E;
+    font-family: Urbanist;
+    font-size: 1em;
+}

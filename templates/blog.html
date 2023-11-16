@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SE Blog</title>
+    <link rel="stylesheet" href="static/css/blog.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@700&display=swap">
+    
+</head>
+<body>
+  <header id="pageHeader">
+    <input type="text" placeholder="Search">
+    <div class="headerWrapper">
+   
+    <a href="/"><img src="static/pic/msg.png" style="fill: #FFF; filter: drop-shadow(0px 0px 3px rgba(0, 0, 0, 0.15)); width:50px; height:auto;"></a>
+    <a href="/home"><img src="static/pic/user.png"></a>
+    <label>{{ username }}</label>
+    </div>
+  </header>
+  <article id="content">
+    <div class="blog-header">
+        SE Blog
+    </div>
+    <div id="posts-container">
+        {% for post in posts|sort(attribute='time', reverse=true) %}
+        <div class="post-box year{{ post.yearpost }}">
+            <div class="blog-title">{{ post.title }}</div>
+            <div class="blog-content">{{ post.content }}</div>
+            <div class="blog-date">Posted by: {{ post.postedby }}, {{ post.time }}</div>
+            <div class="blog-like">Like: {{post.like}}</div> 
+            <div class="delete-container">
+                {% if username in post.liked_by %} {# Check if the current user has liked the post #}
+                <button type="button" disabled>Already Liked</button>
+                {% else %}
+                    <form method="post" action="/like-post/{{ post.post_id }}/{{ username }}" style="display:inline;">
+                        <button type="submit">Like</button>
+                    </form>
+                {% endif %}
+
+                {% if post.username == username %} {# Check if the post belongs to the current user #}   
+                <form method="post" action="/delete-post/{{ post.post_id }}">
+                    <button class="Btn deleteBtn" type="submit" >Delete</button>
+                </form>
+                {% endif %}
+            </div>
+            
+        </div>
+        {% endfor %} 
+        <div id="postForm" class="postForm">
+            <form method="post" action="/create-post" enctype="multipart/form-data">
+                <div class="postWrapper">
+                <label for="title" style="padding-right:25px;">Title:</label>
+                <input type="text" name="title" id="title" required><br>
+                </div>
+                <div class="postWrapper">
+                <label for="content">Content:</label>
+                <textarea type="text" name="content" id="content" required></textarea><br>
+                </div>
+                <div class="BtnPostWrapper">
+                <input id="postBtn" class="Btn postBtn" type="submit" value="Create Post">
+                <input id="cancelBtn" class="Btn cancelBtn" type="submit" value="Cancel" onclick="cancelPost()">
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+  </article>
+  <nav id="mainNav">
+    <form method="get" action="/home">
+        <button type="submit" id="logoBtn" style="background-color: transparent; border: 0em">
+            <img src="static/pic/se2.png">
+        </button>
+    </form>
+    <div class="navWrapper">
+        <div class="navBtn">
+            <!-- <a id="dashBoardBtn" href="http://localhost:8000/dashboard"><img src="static/pic/dash.svg">Dashboard</a> -->
+            <form method="get" action="/main-menu">
+                <button type="submit" id="dashBoardBtn">
+                    <img src="static/pic/dash.svg" style="opacity: 0.60;"><div>Dashboard</div>
+                </button>
+            </form>
+        </div>
+        <div class="navBtn">
+            <!-- <a id="gradeBtn" href="http://localhost:8000/grades"><img src="static/pic/award.svg" style="opacity: 0.60;">Grades</a> -->
+        {% if is_professor %}
+            <form method="get" action="/assign-grade">
+                <button type="submit" id="gradeBtn">
+                    <img src="static/pic/award.svg" style="opacity: 0.60;"><div>Grades</div>
+                </button>
+            </form>
+        {% else %}
+            <form method="get" action="/view-grades">
+                <button type="submit" id="gradeBtn">
+                    <img src="static/pic/award.svg" style="opacity: 0.60;"><div>Grades</div>
+                </button>
+            </form>
+        {% endif %}
+
+          </div>
+        <div class="navBtn">
+            <!-- <a id="newsBtn" href="http://localhost:8000/news"><img src="static/pic/news.svg" style="opacity: 0.60;">News</a> -->
+            <form method="get" action="/news">
+                <button type="submit" id="newsBtn">
+                    <img src="static/pic/news.svg" style="opacity: 0.60;"><div>News</div>
+                </button>
+            </form>
+        </div>
+        <div class="navBtn active">
+          <form method="get" action="/se-blog">
+              <button type="submit" id="blogBtn">
+                  <img src="static/pic/edit.svg" style="opacity: 0.60;"><div>Blog</div>
+              </button>
+          </form>
+        </div>      
+        <div class="navBtn">
+            <!-- <a id="questionBtn" href="http://localhost:8000/question"><img src="static/pic/questionmarks.svg" style="opacity: 0.60;">Questions</a> -->
+            <form method="get" action="/library">
+                <button type="submit" id="questionBtn">
+                    <img src="static/pic/questionmarks.svg" style="opacity: 0.60;"><div>Library</div>
+                </button>
+            </form>
+        </div>
+        <div class="navBtn">
+            <!-- <a id="settingBtn" href="http://localhost:8000/setting"><img src="static/pic/setting.svg" style="opacity: 0.60;">Settings</a> -->
+            <form method="get" action="/room-reservation">
+                <button type="submit" id="settingBtn">
+                    <img src="static/pic/setting.svg" style="opacity: 0.60;"><div>Reservation</div>
+                </button>
+            </form>
+        </div>
+    </div>
+    </nav>
+  <footer id="pageFooter">
+    <div class="newPostContainer">
+        <button id="newPostBtn" type="submit" onclick="showForm()">New Post</button>
+    </div>
+  </footer>
+  <script src="static/js/blog.js"></script>
+</body>
+</html>
