@@ -124,40 +124,50 @@ class Room(Persistent):
         return data
     
 class Book(Persistent):
-    def __init__(self, book_id, book_name, book_author, book_description, book_price, book_image):
+    def __init__(self, book_id, title, author, year, genre, isbn, book_url, cover_url):
         self.book_id = book_id
-        self.book_name = book_name
-        self.book_author = book_author
-        self.book_description = book_description
-        self.book_price = book_price
-        self.book_image = book_image
-        
+        self.title = title
+        self.author = author
+        self.year = year
+        self.genre = genre
+        self.isbn = isbn
+        self.book_url = book_url
+        self.cover_url = cover_url
+
     def get_book_id(self):
         return self.book_id
     
-    def get_book_name(self):
-        return self.book_name
+    def get_title(self):
+        return self.title
     
-    def get_book_author(self):
-        return self.book_author
+    def get_author(self):
+        return self.author
     
-    def get_book_description(self):
-        return self.book_description
+    def get_year(self):
+        return self.year
     
-    def get_book_price(self):
-        return self.book_price
+    def get_genre(self):
+        return self.genre
     
-    def get_book_image(self):
-        return self.book_image
+    def get_isbn(self):
+        return self.isbn
+    
+    def get_book_url(self):
+        return self.book_url
+    
+    def get_cover_url(self):
+        return self.cover_url
     
     def all_data(self):
         data = {
             "book_id": self.book_id,
-            "book_name": self.book_name,
-            "book_author": self.book_author,
-            "book_description": self.book_description,
-            "book_price": self.book_price,
-            "book_image": self.book_image
+            "title": self.title,
+            "author": self.author,
+            "year": self.year,
+            "genre": self.genre,
+            "isbn": self.isbn,
+            "book_url": self.book_url,
+            "cover_url": self.cover_url
         }
         return data
     

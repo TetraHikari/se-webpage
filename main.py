@@ -11,6 +11,8 @@ from Grade.GradeServ import*
 from Grade.models import*
 from RoomReser.models import*
 from RoomReser.RoomServ import*
+from Library.models import*
+from Library.LibraryServ import*
 from fastapi.staticfiles import StaticFiles
 current_dir = os.path.dirname(__file__)
 parent_dir = os.path.abspath(os.path.join(current_dir, os.pardir))
@@ -433,14 +435,41 @@ async def cancel_reservation(
     finally:
         shutdown_db_client()
 
-@app.get("/library", response_class=HTMLResponse)
-async def library(request: Request, username: str = Cookie(None), is_professor: bool = Cookie(None), email: str = Cookie(None)):
-    return templates.TemplateResponse("library.html", {"request": request, "username": username, "is_professor": is_professor, "email": email})
+
 
 @app.get("/news", response_class=HTMLResponse)
 async def news(request: Request, username: str = Cookie(None), is_professor: bool = Cookie(None), email: str = Cookie(None)):
     return templates.TemplateResponse("news.html", {"request": request, "username": username, "is_professor": is_professor, "email": email})
 
+@app.get("/library", response_class=HTMLResponse)
+async def library(request: Request, username: str = Cookie(None), is_professor: bool = Cookie(None), email: str = Cookie(None)):
+    root = open_db_client()
+    try:
+        books = get_all_books(root)
+        return templates.TemplateResponse("library.html", {"request": request, "username": username, "books": books, "is_professor": is_professor, "email": email})
+    finally:
+        shutdown_db_client()
+
+@app.post("/add-book", response_class=RedirectResponse)
+async def add_book(request: Request, username: str = Cookie(None), is_professor: bool = Cookie(None), email: str = Cookie(None), title: str = Form(...), author: str = Form(...), year: str = Form(...), genre: str = Form(...), isbn: str = Form(...), book_url: str = Form(...), cover_url: str = Form(...)):
+    root = open_db_client()
+    try:
+        create_book(root, title, author, year, genre, isbn, book_url, cover_url)
+        return RedirectResponse(url=f"/library", status_code=303)
+    finally:
+        shutdown_db_client()
+
+
+@app.post("/delete-book/{book_id}", response_class=RedirectResponse)
+async def delete_book(request: Request, book_id: str, username: str = Cookie(None), is_professor: bool = Cookie(None), email: str = Cookie(None)):
+    root = open_db_client()
+    try:
+        delete_book_from_id(root, book_id)
+        return RedirectResponse(url=f"/library", status_code=303)
+    finally:
+        shutdown_db_client()
+
+
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="localhost", port=1200)
+    uvicorn.run(app, host="localhost", port=7000)
