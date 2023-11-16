@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="static/css/grade.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@700&display=swap">
     
-
 </head>
 <body>
   <header id="pageHeader">
@@ -17,34 +16,70 @@
     <a href="/main-menu"><img src="static/pic/user.png"></a>
     <label>{{ username }}</label>
     </div>
+    <style>
+        table{
+            padding: 20px;
+            background-color: bisque;
+            width:55%;
+            font-size: 1.3em;
+            border-radius: 30px;
+        }
+
+        td{
+            padding: 10px;
+        }
+        .submitgrade{
+            margin-top: 20px;
+            margin-left: 20%;
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .submitgrade:hover{
+            background-color: #45a049;
+        }
+        .text-header{
+            background-color: sandybrown;
+            margin-bottom: 4%;
+            width: 50%;
+            border-radius: 30px;
+            font-size: 1.2em;
+        }
+
+    </style>
   </header>
   <article id="content">
-    <div>
+    <div class = "assigngrade">
         <form method="post" action="/submit-grades"> <!-- Assuming you have a route to handle grade submission -->
-            <h1>Assign Grade</h1>
-            <h3>Subject: {{ subject }}</h3>
+            <div class="text-header">
+                <h1>Assign Grade</h1>
+                <h3>Subject: {{ subject }}</h3>
+             </div>
               <table>
                   <thead>
                     <tr>
-                      <th>Student Name</th>
-                      <th>Total score 100%</th>
+                        <th>Student Name</th>
+                        <th>Total score 100%</th>
                     </tr>
                   </thead>
                   <tbody>
                     {% for student in students %}
                     <tr>
                       <td>ID:{{ student.username }} Mr. {{ student.firstname }} {{ student.lastname }}</td>
-                      <td><input type="number" name="scores" min="0" max="100"></td>
-                      <input type="hidden" name="student_usernames" value="{{ student.username }}">
+                        <td style="text-align: center"><input type="number" name="scores" min="0" max="100"></td>
+                        <input type="hidden" name="student_usernames" value="{{ student.username }}">
+                      </div>
                     </tr>
                     {% endfor %}
                     <!-- Add more rows for other students if needed -->
                   </tbody>
                 </table>
-                <button type="submit">Submit Grades</button>
-          </form>
-          <form method="get" action="/main-menu" style="display:inline;">
-            <button type="submit">Menu</button>
+                <button type="submit" class="submitgrade">Submit Grades</button>
           </form>
     </div>
   </article>
@@ -115,5 +150,13 @@
     </nav>
   <footer id="pageFooter">
   </footer>
+  <script>
+    button = document.querySelector(".submitgrade");
+    button.addEventListener("click", showAlert);
+
+    showAlert = () => {
+        alert("Grades have been submitted!");
+    }
+  </script>
 </body>
 </html>

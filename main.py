@@ -334,12 +334,13 @@ async def submit_grades(
             student_set_score(root, student_username, subject[2:-2], score)
             
         
-        return templates.TemplateResponse("home.html", {"request": request, "subject": subject, "username": username, "is_professor": is_professor, "email": email})
+        #window alert
+        return templates.TemplateResponse("assign-grade.html", {"request": request, "username": username, "subject": subject[2:-2], "is_professor": is_professor, "email": email},)
     finally:
         shutdown_db_client()
         
 @app.get("/view-grades", response_class=HTMLResponse)
-async def view_grade(request: Request, username: str = Cookie(None), subject: str = Cookie(None)):
+async def view_grade(request: Request, username: str = Cookie(None), subject: str = Cookie(None), is_professor: bool = Cookie(None)):
     root = open_db_client()
     try:
         subjects = []
@@ -351,9 +352,10 @@ async def view_grade(request: Request, username: str = Cookie(None), subject: st
         return templates.TemplateResponse("grade.html",
                                               {"request": request,
                                                "username": username,
-                                               "name": root[username].get_fullname(),
+                                               "name": root[username].firstname + " " + root[username].lastname,
                                                "subject": subjects,
                                                "scores": read_student_score(root, username),
+                                               "is_professor": is_professor,
                                                })
     finally:
         # Close the database connection
@@ -471,9 +473,9 @@ async def library(request: Request, username: str = Cookie(None), is_professor: 
     return templates.TemplateResponse("library.html", {"request": request, "username": username, "is_professor": is_professor, "email": email})
 
 @app.get("/news", response_class=HTMLResponse)
-async def news(request: Request):
-    return templates.TemplateResponse("news.html", {"request": request})
+async def news(request: Request, username: str = Cookie(None), is_professor: bool = Cookie(None), email: str = Cookie(None)):
+    return templates.TemplateResponse("news.html", {"request": request, "username": username, "is_professor": is_professor, "email": email})
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="localhost", port=8000)
+    uvicorn.run(app, host="localhost", port=1200)

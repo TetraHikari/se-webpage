@@ -64,6 +64,10 @@ header input::placeholder{
     line-height: 14px; /* 87.5% */
 }
 
+#content.assigngrade{
+    background-color: aquamarine;
+}
+
 .headerWrapper{
     display: flex;
     justify-content: flex-end;
@@ -206,4 +210,6 @@ grid-area: nav;
         grid-template-columns: 1fr;
     }
 }
+
+
 

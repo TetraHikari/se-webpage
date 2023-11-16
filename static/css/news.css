@@ -188,7 +188,7 @@ nav img{
 .eventBoxWrapper{
     display: flex;
     flex-direction: row;
-    gap: 10em;
+    gap: 5em;
     padding-left: 0em;
 
 }

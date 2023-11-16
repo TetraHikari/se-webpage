@@ -18,23 +18,32 @@
     <a href="/main-menu"><img src="static/pic/user.png"></a>
     <label>{{ username }}</label>
     </div>
+    <style>
+      .user-info {
+        margin: 20px;
+        font-size: 20px;
+        border-radius: 30px;
+        background-color: cadetblue;
+        width: 50%;
+      }
+    </style>
   </header>
   
   <article id="content">
     <div class="todayDate" id="todayDate"></div>
-    <div>
-    <h1>Welcome, {{ name }}</h1>
-      <p>Username: {{ username }}</p>
-      <p>Email: {{ email }}</p>
-      {% if year %}
-          <p>Year: {{ year }}</p>
-      {% endif %}
+    <div class="user-info" >
+      <h1>Welcome, {{ name }}</h1>
+        <p>Username: {{ username }}</p>
+        <p>Email: {{ email }}</p>
+        {% if year %}
+            <p>Year: {{ year }}</p>
+        {% endif %}
 
-      {% if subjects %}
-          {% for subject in subjects %}
-              <p>Subject: {{ subject }}</p>
-          {% endfor %}
-      {% endif %}
+        {% if subjects %}
+            {% for subject in subjects %}
+                <p>Subject: {{ subject }}</p>
+            {% endfor %}
+        {% endif %}
     </div>
     <div class="eventWrapper">
         <div class="normal">Upcoming Events</div>

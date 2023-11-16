@@ -88,6 +88,7 @@ nav{
 
 }
 
+
 nav img{
     width: 100%;
     height: auto;
@@ -188,7 +189,7 @@ nav img{
 .eventBoxWrapper{
     display: flex;
     flex-direction: row;
-    gap: 10em;
+    gap: 2em;
     padding-left: 0em;
 
 }
@@ -227,6 +228,8 @@ grid-area: nav;
     /* set a max height if you want the container to have a specific height */
     /* otherwise, it will take the remaining height from the grid */
 }
+
+
 
 /* Stack the layout on small devices/viewports. */
 @media all and (max-width: 575px) {
