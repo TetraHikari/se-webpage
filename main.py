@@ -407,6 +407,10 @@ async def reserve_room(request: Request, room_id: str = Form(...), username: str
     finally:
         shutdown_db_client()
 
+@app.get("/library", response_class=HTMLResponse)
+async def library(request: Request, username: str = Cookie(None), is_professor: bool = Cookie(None), email: str = Cookie(None)):
+    return templates.TemplateResponse("library.html", {"request": request, "username": username, "is_professor": is_professor, "email": email})
+
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="localhost", port=12000)
+    uvicorn.run(app, host="localhost", port=13000)
