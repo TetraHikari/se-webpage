@@ -77,6 +77,24 @@
             </form>
         </div>
         <div class="navBtn">
+            <!-- <a id="gradeBtn" href="http://localhost:8000/grades"><img src="static/pic/award.svg" style="opacity: 0.60;">Grades</a> -->
+        {% if is_professor %}
+            <form method="get" action="/assign-grade">
+                <button type="submit" id="gradeBtn">
+                    <img src="static/pic/award.svg" style="opacity: 0.60;"><div>Grades</div>
+                </button>
+            </form>
+        {% else %}
+            <form method="get" action="/view-grades">
+                <button type="submit" id="gradeBtn">
+                    <img src="static/pic/award.svg" style="opacity: 0.60;"><div>Grades</div>
+                </button>
+            </form>
+        {% endif %}
+
+        </div>
+
+        <div class="navBtn">
             <!-- <a id="newsBtn" href="http://localhost:8000/news"><img src="static/pic/news.svg" style="opacity: 0.60;">News</a> -->
             <form method="get" action="/news">
                 <button type="submit" id="newsBtn">

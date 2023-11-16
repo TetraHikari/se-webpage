@@ -136,48 +136,6 @@ async def se_blog(request: Request, username: str = Cookie(None), email: str = C
 
     return templates.TemplateResponse("blog.html", {"request": request, "username": username, "email": email, "year": year, "posts": all_posts, "is_professor": is_professor})
 
-# @app.post("/create-post", response_class=HTMLResponse)
-# async def create_post(request: Request, title: str = Form(...), content: str = Form(...), username: str = Cookie(None)):
-#     root = open_db_client()
-#     all_posts = []
-
-#     try:
-#         # Ensure the user exists in the database
-#         if username not in root:
-#             raise HTTPException(status_code=404, detail="User not found")
-
-#         # Generate a unique post_id using UUID
-#         post_id = str(uuid.uuid4())
-
-#         # Create a new post
-#         post = {
-#             "post_id": post_id,
-#             "title": title,
-#             "content": content,
-#             "time": datetime.datetime.now().ctime(),
-#             "like":0
-#         }
-
-#         # Add the post to the user's posts in the database
-#         root[username].posts[post_id] = post
-
-#         # Commit the changes to the database
-#         commit()
-
-#         # Iterate over all accounts in the database and collect posts
-#         for user in root:
-#             account_posts = read_all_post(root, user)
-#             all_posts.extend(account_posts)
-
-#     except HTTPException as e:
-#         raise e
-#     finally:
-#         # Close the database connection
-#         shutdown_db_client()
-
-#     # Return the updated blog page
-#     return templates.TemplateResponse("blog.html", {"request": request, "username": username, "posts": all_posts})
-
 @app.post("/create-post", response_class=RedirectResponse)
 async def create_post(request: Request, title: str = Form(...), content: str = Form(...), username: str = Cookie(None)):
     root = open_db_client()
