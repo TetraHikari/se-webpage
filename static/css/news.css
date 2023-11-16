@@ -1,3 +1,7 @@
+* {
+    font-family: Urbanist;
+}
+
 body {
     display: grid;
     grid-template-areas:
@@ -104,7 +108,12 @@ nav img{
     flex-direction: column;
 }
 
-.navBtn a{
+.navBtn form button{
+    width: 100%;
+    background-color: transparent;
+}
+
+.navBtn a, .navBtn form button{
     display: flex;
     flex-direction: row;
     gap: 2em;
@@ -113,21 +122,20 @@ nav img{
     text-decoration: none;
 
     color: rgba(49, 49, 49, 0.60); /* Set text color with opacity */
-    font-family: Urbanist;
     font-size: 16px;
     font-style: normal;
     font-weight: 700;
     line-height: 14px; /* 87.5% */
 
-    padding: 12px 25px; /* Adjust padding as needed */
-    border-radius: 20px; /* Set border-radius for a circular background */
-    /* border: #313131 1px solid; */
+    padding: 5px 25px; /* Adjust padding as needed */
+    border-radius: 30px; /* Set border-radius for a circular background */
+    border: #313131 0px solid;
     transition: color 0.4s;
     z-index: 1;
     position: relative;
     
 }
-.navBtn:not(.active) a::before {
+.navBtn:not(.active) a::before, .navBtn:not(.active) form button::before {
     content: "";
     position: absolute;
     left: 0;
@@ -135,7 +143,7 @@ nav img{
     width: 100%;
     height: 100%;
     background: #0EA6FA;
-    border-radius: 20px; /* Set border-radius for a circular background */
+    border-radius: 30px; /* Set border-radius for a circular background */
     z-index: -1;
     transition: transform 0.5s;
     transition-timing-function: cubic-bezier(0.5, 1.6, 0.4, 0.7);
@@ -143,26 +151,59 @@ nav img{
     transform-origin: 0 0;
 }
 
-.navBtn:not(.active) a:hover::before{
+.navBtn:not(.active) a:hover::before, .navBtn:not(.active) form button:hover::before{
     transform: scaleX(1);
 }
 
 
-.navBtn a:hover{
+.navBtn a:hover, .navBtn form button:hover{
     color: #FFF;
 }
 
-.navBtn a:hover svg{
+.navBtn a:hover svg , .navBtn form button:hover svg{
     fill: #FFF;
 }
 
-.navBtn.active a{
+.navBtn.active a, .navBtn.active form button{
     background-color: #0EA6FA;
     color: #FFF;
     opacity: 1;
 }
 
 
+.todayDate{
+    color: #313131;
+    font-size: 2.5em;
+    padding: 0em;
+}
+
+.normal{
+    color: #313131;
+    font-size: 1.5em;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+    padding-left: 0em;
+}
+
+.eventBoxWrapper{
+    display: flex;
+    flex-direction: row;
+    gap: 10em;
+    padding-left: 0em;
+
+}
+
+.eventBox{
+    background: #ffffff;
+    border-radius: 20px; /* Set border-radius for a circular background */
+    width: 25em;
+    height: 7em;
+}
+
+#tmrEvent, #todayEvent{
+    padding-top: 0em;
+    margin-top: 0em;
+}
 
 #pageHeader {
 grid-area: header;
@@ -198,4 +239,11 @@ grid-area: nav;
         grid-template-rows: 80px 1fr 70px 70px;  
         grid-template-columns: 1fr;
     }
+}
+
+iframe{
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 30px;
 }

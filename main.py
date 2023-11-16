@@ -488,6 +488,10 @@ async def cancel_reservation(
 async def library(request: Request, username: str = Cookie(None), is_professor: bool = Cookie(None), email: str = Cookie(None)):
     return templates.TemplateResponse("library.html", {"request": request, "username": username, "is_professor": is_professor, "email": email})
 
+@app.get("/news", response_class=HTMLResponse)
+async def news(request: Request):
+    return templates.TemplateResponse("news.html", {"request": request})
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="localhost", port=13000)
