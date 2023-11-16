@@ -87,18 +87,20 @@ def get_book_from_book_url(root, book_url):
                 book_list.append(root[key].all_data())
     return book_list
 
+def delete_book_from_id(root, book_id):
+    del root[book_id]
+    commit()
+
 
 # #initialize database
-clear_book_database()
-root = open_db_client()
+# clear_book_database()
+# root = open_db_client()
 
-#add books
-create_book(root, "The Hunger Games", "Suzanne Collins", "2008", "Science Fiction", "978-3-16-148410-0", "https://en.wikipedia.org/wiki/The_Hunger_Games", "https://upload.wikimedia.org/wikipedia/en/thumb/3/39/The_Hunger_Games_cover.jpg/220px-The_Hunger_Games_cover.jpg")
-create_book(root, "Harry Potter and the Philosopher's Stone", "J. K. Rowling", "1997", "Fantasy", "978-3-16-148410-1", "https://en.wikipedia.org/wiki/Harry_Potter_and_the_Philosopher%27s_Stone", "https://upload.wikimedia.org/wikipedia/en/thumb/b/bf/Harry_Potter_and_the_Philosopher%27s_Stone_Book_Cover.jpg/220px-Harry_Potter_and_the_Philosopher%27s_Stone_Book_Cover.jpg")
-create_book(root, "Twilight", "Stephenie Meyer", "2005", "Fantasy", "978-3-16-148410-2", "https://en.wikipedia.org/wiki/Twilight_(novel)", "https://upload.wikimedia.org/wikipedia/en/thumb/1/1d/Twilightbook.jpg/220px-Twilightbook.jpg")
-create_book(root, "To Kill a Mockingbird", "Harper Lee", "1960", "Fiction", "978-3-16-148410-3", "https://en.wikipedia.org/wiki/To_Kill_a_Mockingbird", "https://upload.wikimedia.org/wikipedia/en/thumb/7/79/To_Kill_a_Mockingbird.JPG/220px-To_Kill_a_Mockingbird.JPG")
-create_book(root, "The Great Gatsby", "F. Scott Fitzgerald", "1925", "Fiction", "978-3-16-148410-4", "https://en.wikipedia.org/wiki/The_Great_Gatsby", "https://upload.wikimedia.org/wikipedia/en/thumb/f/f7/TheGreatGatsby_1925jacket.jpeg/220px-TheGreatGatsby_1925jacket.jpeg")
+# #add books
+# create_book(root, "The Hunger Games", "Suzanne Collins", "2008", "Science Fiction", "978-3-16-148410-0", "https://en.wikipedia.org/wiki/The_Hunger_Games", "https://upload.wikimedia.org/wikipedia/en/thumb/3/39/The_Hunger_Games_cover.jpg/220px-The_Hunger_Games_cover.jpg")
+# create_book(root, "Harry Potter and the Philosopher's Stone", "J. K. Rowling", "1997", "Fantasy", "978-3-16-148410-1", "https://en.wikipedia.org/wiki/Harry_Potter_and_the_Philosopher%27s_Stone", "https://www.adazing.com/wp-content/uploads/2022/12/Harry-Potter-Book-Covers-Order-of-the-Phoenix-667x1024.jpg")
+# create_book(root, "Twilight", "Stephenie Meyer", "2005", "Fantasy", "978-3-16-148410-2", "https://en.wikipedia.org/wiki/Twilight_(novel)", "https://upload.wikimedia.org/wikipedia/en/thumb/1/1d/Twilightbook.jpg/220px-Twilightbook.jpg")
 
-#commit
-commit()
-shutdown_db_client()
+# #commit
+# commit()
+# shutdown_db_client()

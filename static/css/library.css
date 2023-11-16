@@ -17,6 +17,7 @@ body {
     background-color: #E6F2F2;
     
 }
+
 img{
     max-width: fit-content;
 }
@@ -168,6 +169,224 @@ nav img{
     background-color: #0EA6FA;
     color: #FFF;
     opacity: 1;
+}
+
+.library-header {
+    text-align: center;
+    padding: 20px;
+    background: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    font-size: 24px;
+    margin-bottom: 20px;
+    border-radius: 20px;
+    max-width: 100%;
+}
+
+.books-container {
+    display: flex;
+    flex-wrap: wrap; /* Add this to allow items to wrap to the next line */
+    gap: 20px;
+    padding: 20px;
+    box-sizing: border-box;
+    align-items: flex-start; /* Align items to the start of the cross axis */
+    max-width: fit-content;
+}
+
+.book {
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border-radius: 4px;
+    overflow: hidden;
+    background: #fff;
+    /* Set the width and height to fit the images. */
+    /* Adjust these values based on the actual size of your images */
+    width: 200px; /* Example width - adjust as necessary */
+    height: auto; /* Height is auto to maintain the aspect ratio */
+    position: relative;
+}
+
+.book-cover {
+    width: 100%;
+    height: 300px;
+    object-fit: cover; /* This will cover the area of .book div without stretching */
+    display: block; /* Remove space below the image */
+}
+
+.book-info {
+    display: none;
+    position: fixed; /* Fixed to the viewport */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 100; /* Make sure it's on top of other content */
+    width: 80%; /* You can adjust this as you like */
+    max-width: 500px; /* Maximum width */
+    border-radius: 4px;
+    box-sizing: border-box;
+    filter: none; /* This ensures that the book-info is not affected by the blur */
+}
+
+/* Blur the background when a book is active */
+.blur-background {
+    filter: blur(5px);
+}
+
+/* Make sure book covers are not blurred */
+.book.active .book-cover {
+    filter: none;
+}
+
+.books-container.blur-effect .book-cover {
+    filter: blur(5px);
+}
+
+/* This ensures that when active, the book info is above the blurred content */
+.book.active .book-info {
+    display: block;
+    position: fixed; /* Fixed position to the viewport */
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 101; /* Even higher to ensure it's above the blur */
+}
+
+.delete-btn {
+    padding: 8px 16px;
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px; /* Add some space above the delete button */
+}
+
+.delete-btn:hover {
+    background-color: darkred;
+}
+
+button[id="add-book-btn"] {
+    border-radius: 1em;
+    border: 0em solid;
+    background-color: #FFA500;
+    color: #FFF;
+    font-family: Urbanist;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 14px;
+    padding: 1em;
+}
+
+.postForm input[type="text"], .postForm textarea, .postForm input[type="number"]{
+    border-radius: 1em;
+    border: 0em solid;
+    background-color: #FFF;
+    width: 70%;
+    height: 2em;
+    padding: 1em;
+}
+
+.Btn {
+    border-radius: 1em;
+    border: 0em solid;
+    color: #FFF;
+    font-family: Urbanist;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 14px;
+    padding: 1em;
+}
+
+.postForm form{
+    display: flex;
+    flex-direction: column;
+}
+
+.postBtn{
+    background-color: #FFA500;
+}
+
+.cancelBtn{
+    background-color: #FF0000;
+}
+
+.deleteBtn{
+    background-color: #FF0000;
+}
+
+.postWrapper{
+    color: #313131;
+    font-family: Urbanist;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+
+    display: flex;
+    flex-direction: row;
+
+    gap: 1em;
+}
+
+.Btn{
+    border-radius: 1em;
+    border: 0em solid;
+
+    color: #FFF;
+
+    font-family: Urbanist;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 14px; /* 87.5% */
+    padding: 1em;
+}
+.library-header{
+    color: #313131;
+}
+
+
+.postBtn{
+    background-color: #FFA500;
+}
+
+.cancelBtn{
+    background-color: #FF0000;
+}
+
+.deleteBtn{
+    background-color: #FF0000;
+}
+
+.BtnPostWrapper{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 1em;
+}
+
+.newPostContainer{
+    display: flex;
+    justify-content: center;
+    padding: 0em;
+}
+
+button[id="newPostBtn"]{
+    border-radius: 1em;
+    border: 0em solid;
+    background-color: #FFA500;
+
+    color: #FFF;
+
+    font-family: Urbanist;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 14px; /* 87.5% */
+    padding: 1em;
 }
 
 

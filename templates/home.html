@@ -13,14 +13,50 @@
   <header id="pageHeader">
     <input type="text" placeholder="Search">
     <div class="headerWrapper">
-    <a href="https://www.google.com/"><img src="static/pic/bell.png" style="fill: #FFF; filter: drop-shadow(0px 0px 3px rgba(0, 0, 0, 0.15));"></a>
-    <a href="https://www.google.com/"><img src="static/pic/msg.png" style="fill: #FFF; filter: drop-shadow(0px 0px 3px rgba(0, 0, 0, 0.15));"></a>
-    <a href="https://www.google.com/"><img src="static/pic/user.png"></a>
+    
+    <a href="/"><img src="static/pic/msg.png" style="fill: #FFF; filter: drop-shadow(0px 0px 3px rgba(0, 0, 0, 0.15)); width:50px; height:auto;"></a>
+    <a href="/home"><img src="static/pic/user.png"></a>
     <label>{{ username }}</label>
     </div>
+    <style>
+      .user-info {
+        margin: 20px;
+        border-radius: 30px;
+        background-color: white;
+        width: 50%;
+        filter: drop-shadow(0px 0px 3px rgba(0, 0, 0, 0.15));
+        padding: 50px;
+
+      }
+
+      .user-info h1 {
+        font-size: 2em;
+        margin-bottom: 20px;
+      }
+
+      .user-info p {
+        margin-bottom: 10px;
+        font-size: 1em;
+      }
+    </style>
   </header>
+  
   <article id="content">
     <div class="todayDate" id="todayDate"></div>
+    <div class="user-info" >
+      <h1>Welcome, {{ name }}</h1>
+        <p>Username: {{ username }}</p>
+        <p>Email: {{ email }}</p>
+        {% if year %}
+            <p>Year: {{ year }}</p>
+        {% endif %}
+
+        {% if subjects %}
+            {% for subject in subjects %}
+                <p>Subject: {{ subject }}</p>
+            {% endfor %}
+        {% endif %}
+    </div>
     <div class="eventWrapper">
         <div class="normal">Upcoming Events</div>
         <div class="eventBoxWrapper">
@@ -88,19 +124,11 @@
       </button>
     </form>
     <div class="navWrapper">
-        <div class="navBtn">
+        <div class="navBtn active">
             <!-- <a id="dashBoardBtn" href="http://localhost:8000/dashboard"><img src="static/pic/dash.svg">Dashboard</a> -->
             <form method="get" action="/main-menu">
                 <button type="submit" id="dashBoardBtn">
                     <img src="static/pic/dash.svg" style="opacity: 0.60;"><div>Dashboard</div>
-                </button>
-            </form>
-        </div>
-        <div class="navBtn">
-            <!-- <a id="coursesBtn" href="http://localhost:8000/courses"><img src="static/pic/book.svg" style="opacity: 0.60;">Courses</a> -->
-            <form method="get" action="/courses">
-                <button type="submit" id="coursesBtn">
-                    <img src="static/pic/book.svg" style="opacity: 0.60;"><div>Courses</div>
                 </button>
             </form>
         </div>
@@ -154,7 +182,7 @@
         </div>
     </div>
    </nav>
-  <footer id="pageFooter">Footer</footer>
+  <footer id="pageFooter"></footer>
   <script src="static/js/calendar.js"></script>
   <script src="static/js/menu.js"></script>
 </body>

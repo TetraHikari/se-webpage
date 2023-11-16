@@ -1,6 +1,7 @@
 table {
     width: 100%;
     border-collapse: collapse;
+    border-radius: 6px;
 }
 th, td {
     border: 1px solid black;
@@ -252,4 +253,105 @@ grid-area: nav;
         grid-template-rows: 80px 1fr 70px 70px;  
         grid-template-columns: 1fr;
     }
+}
+
+#formWrapper{
+    display: none;
+    color: #313131;
+    margin-top : 3em;
+    background-color: white;
+    border-radius: 30px;
+    filter:drop-shadow(0px 4px 5px rgba(0, 0, 0, 0.2));
+    
+}
+
+.reservedWrapper{
+    color: #313131;
+    margin-top : 3em;
+    background-color: white;
+    border-radius: 30px;
+    filter:drop-shadow(0px 4px 5px rgba(0, 0, 0, 0.2));
+}
+
+li{
+    padding : 0.5em;
+}
+
+
+.reservation-header{
+    text-align: center;
+    padding: 20px;
+    font-size: 24px;
+    margin-bottom: 20px;
+    border-radius: 20px;
+    max-width: 100%;
+}
+
+.btn{
+    background-color: #0EA6FA;
+    color: #FFF;
+    opacity: 1;
+    border-radius: 30px;
+    padding: 5px 25px;
+    border: #313131 0px solid;
+    transition: color 0.4s;
+    z-index: 1;
+    position: relative;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 14px;
+    text-decoration: none;
+}
+
+.cancelBtn{
+    display: none;
+    background-color: red;
+    bottom: 1px;
+    
+}
+
+.reservedWrapper:hover .cancelBtn {
+    display: inline;
+    display: block;
+    bottom: 1px;
+}
+
+.ulContainer{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    gap: 2em;
+
+}
+
+.newPostContainer{
+    display: flex;
+    justify-content: center;
+    padding: 0em;
+}
+
+.tableContainer{
+    border-radius: 30px;
+    background-color: white;
+    filter:drop-shadow(0px 4px 5px rgba(0, 0, 0, 0.2));
+    padding-bottom: 25px;
+}
+
+
+
+
+button[id="newPostBtn"]{
+    border-radius: 1em;
+    border: 0em solid;
+    background-color: #FFA500;
+
+    color: #FFF;
+
+    font-family: Urbanist;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 14px; /* 87.5% */
+    padding: 1em;
 }

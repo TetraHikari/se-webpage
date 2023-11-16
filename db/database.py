@@ -16,7 +16,6 @@ class Student(Persistent):
         self.posts = OOBTree()
         self.subjects = OOBTree()
         self.room_reserve = OOBTree()
-        self.books = OOBTree()
 
     def get_username(self):
         return self.username
@@ -66,7 +65,6 @@ class Professor(Persistent):
         self.subjects = OOBTree()
         self.posts = OOBTree()
         self.room_reserve = OOBTree()
-        self.books = OOBTree()
         
     def get_username(self):
         return self.username
@@ -172,7 +170,7 @@ class Book(Persistent):
             "cover_url": self.cover_url
         }
         return data
-
+    
 def open_db_client():
     global db, connection
     storage = FileStorage.FileStorage('db/account.fs')
