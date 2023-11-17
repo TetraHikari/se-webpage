@@ -6,9 +6,9 @@ body {
     display: grid;
     grid-template-areas:
         "nav header"
-        "nav article"
-        "nav footer";
-    grid-template-rows: 80px 1fr 80px;  
+        "nav article";
+
+    grid-template-rows: 80px 1fr;  
     grid-template-columns: 20% 1fr;
     grid-row-gap: 10px;
     grid-column-gap: 10px;
@@ -21,7 +21,7 @@ img{
     max-width: fit-content;
 }
 
-footer, article, nav, div {
+article, nav, div {
     padding: 1.2em;
 }
 
@@ -278,9 +278,8 @@ grid-area: nav;
         grid-template-areas: 
         "header"
         "article"
-        "nav"
-        "footer";
-        grid-template-rows: 80px 1fr 70px 70px;  
+        "nav";
+        grid-template-rows: 80px 1fr 70px;
         grid-template-columns: 1fr;
     }
 }
