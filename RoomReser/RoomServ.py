@@ -6,6 +6,7 @@ sys.path.append(parent_dir)
 from db.database import*
 
 
+
 def create_room(root, room_id, roomType, capacity):
     room = Room(room_id, roomType, capacity)
     root[room_id] = room

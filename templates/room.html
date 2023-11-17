@@ -46,7 +46,7 @@
 
     <div class="formWrapper" id="formWrapper">
         <h2>Reservation Form</h2>
-        <form action="/submit-reservation" method="post">
+        <form id="reservationForm" action="/submit-reservation" method="post">
             <label for="room">Select Room:</label>
             <select name="room" id="room">
                 {% for room_id in ['801', '802', '803', '804', '805'] %}
@@ -80,6 +80,7 @@
         <h3>Username: {{ username }}</h3>
         <p>Your Reserved Room:</p>
         <ul>
+        
             {% for detail in reservation_details %}
                 <li>
                     <div class="ulContainer" id="ulContainer">
@@ -97,8 +98,15 @@
                 </li>
             {% endfor %}
         </ul>
-    </div>
 
+    </div>
+    <div id="reservationCount" style="display: none;">
+        {% if reservation_details %}
+            {{ reservation_details|length }}
+        {% else %}
+            0
+        {% endif %}
+    </div>
   </article>
   <nav id="mainNav">
     <form method="get" action="/home">
