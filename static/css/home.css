@@ -234,6 +234,7 @@ grid-area: nav;
 .user-info {
     animation: fadeInSlideUp 0.5s ease-out;
     animation-fill-mode: forwards;
+    color: #313131;
 }
 
 .eventWrapper {
