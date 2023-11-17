@@ -355,3 +355,7 @@ button[id="newPostBtn"]{
     line-height: 14px; /* 87.5% */
     padding: 1em;
 }
+
+.todayDate{
+    width: 100%;
+}
