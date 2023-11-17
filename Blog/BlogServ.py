@@ -43,7 +43,7 @@ def read_all_post(root, username):
                 },
             )
     else:
-        print("Invalid user type")
+        pass
 
     return post_list
 
