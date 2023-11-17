@@ -4,7 +4,7 @@ from fastapi.responses import HTMLResponse
 from typing import List
 import sys
 from Login.models import*
-import datetime
+from datetime import datetime
 from Blog.models import*
 from Blog.BlogServ import*
 from Grade.GradeServ import*
@@ -161,7 +161,7 @@ async def create_post(request: Request, title: str = Form(...), content: str = F
             "post_id": post_id,
             "title": title,
             "content": content,
-            "time": datetime.datetime.now().ctime(),
+            "time": RequestTimefromNtp()[0],
             "like":0,
             "postedby": f"{username}",  # Combine username and year
             "yearpost": f"{user_year}",

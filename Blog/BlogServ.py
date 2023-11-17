@@ -44,7 +44,7 @@ def read_all_post(root, username):
                 }
             )
     else:
-        print("Invalid user type")
+        print("Courseslid user type")
 
     return post_list
 
@@ -66,7 +66,7 @@ def add_post(root, username, post_id, title, content, created_at, like):
         commit()
         print("Post added")
     else:
-        print("Invalid user type")
+        print("Courseslid user type")
 
 def add_like(root, post_id, new_like_count, username):
     for user in root:
