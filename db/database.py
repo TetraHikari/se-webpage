@@ -177,13 +177,11 @@ def open_db_client():
     db = DB(storage)
     connection = db.open()
     root = connection.root()
-    print("database connected")
     return root
 
 def shutdown_db_client():  
     db.close()
     connection.close()
-    print("database disconnected")
     
 
 

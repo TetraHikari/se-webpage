@@ -374,6 +374,11 @@ async def submit_reservation(
         
         if username not in root:
             raise HTTPException(status_code=404, detail="User not found")
+ 
+           
+        if len(reservation_detail(root, username)) >= 5:
+            raise HTTPException(status_code=400, detail="You can only reserve up to 5 slots")
+      
         
         # Check if the room is already reserved during the selected time slot
         for i in range(begin_time_index, end_time_index):
@@ -468,6 +473,8 @@ async def delete_book(request: Request, book_id: str, username: str = Cookie(Non
         return RedirectResponse(url=f"/library", status_code=303)
     finally:
         shutdown_db_client()
+        
+
 
 
 if __name__ == "__main__":

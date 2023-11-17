@@ -193,10 +193,17 @@ def clear_reserved_rooms_after_1800(root):
                         
                     print("Room is cleared")
         break
-                        
+
+def clear_all_reserve(root):
+    for key in root:
+        if isinstance(root[key], Room):
+            for slot in root[key].reservation:
+                cancel_room(root, key, slot)
                         
 root = open_db_client()
 
 clear_reserved_rooms_after_1800(root)
+
+# clear_all_reserve(root)
 
 shutdown_db_client()
