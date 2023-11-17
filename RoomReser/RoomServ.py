@@ -1,4 +1,5 @@
 import os,sys
+from datetime import datetime
 current_dir = os.path.dirname(__file__)
 parent_dir = os.path.abspath(os.path.join(current_dir, os.pardir))
 sys.path.append(parent_dir)
@@ -15,8 +16,6 @@ def add_time_slot(root, room_id, slot):
     root[room_id].reservation[slot] = {"status": "available", 
                                        "username": ""}
     commit()
-
-
 
 def get_available_room(root, slot):
     room_list = []
@@ -48,8 +47,6 @@ def get_room_from_timeslot(root, slot):
             room_list.append({"room_id": key, "status": root[key].reservation[slot]["status"]})
     return room_list
 
-#clear_room_database()
-
 def reserve_room(root, room_id, slot, username):
     root[room_id].reservation[slot] = {"status": "reserved","username": username}
     commit()
@@ -66,15 +63,15 @@ def reservation_detail(root, username):
                 if root[key].reservation[slot]["username"] == username:
                     room_list.append({"room_id": key, "slot": slot})
     return room_list
-times = ["08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00"]
+
 
 def remove_all_room(root):
     for key in list(root.keys()):
         if isinstance(root[key], Room):
             del root[key]
     commit()
-
-
+    
+times = ["08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00"]
 
 
 # root = open_db_client()
@@ -181,3 +178,25 @@ def remove_all_room(root):
 
 # shutdown_db_client()
 
+
+
+
+def clear_reserved_rooms_after_1800(root):
+    while True:
+        current_time = datetime.now().strftime("%H:%M")
+        # print(current_time)
+        if str(current_time) == "19:00":
+            for key in root:
+                if isinstance(root[key], Room):
+                    for slot in root[key].reservation:
+                        cancel_room(root, key, slot)
+                        
+                    print("Room is cleared")
+        break
+                        
+                        
+root = open_db_client()
+
+clear_reserved_rooms_after_1800(root)
+
+shutdown_db_client()
