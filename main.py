@@ -5,6 +5,7 @@ from typing import List
 import sys
 from Login.models import*
 import datetime
+from datetime import datetime
 from Blog.models import*
 from Blog.BlogServ import*
 from Grade.GradeServ import*
@@ -139,7 +140,7 @@ async def se_blog(request: Request, username: str = Cookie(None), email: str = C
     return templates.TemplateResponse("blog.html", {"request": request, "username": username, "email": email, "year": year, "posts": all_posts, "is_professor": is_professor})
 
 @app.post("/create-post", response_class=RedirectResponse)
-async def create_post(request: Request, title: str = Form(...), content: str = Form(...), username: str = Cookie(None)):
+async def create_post(request: Request, title: str = Form(...), content: str = Form(...), username: str = Cookie(None), is_professor: bool = Cookie(None)):
     root = open_db_client()
     all_posts = []
 
@@ -161,7 +162,7 @@ async def create_post(request: Request, title: str = Form(...), content: str = F
             "post_id": post_id,
             "title": title,
             "content": content,
-            "time": datetime.datetime.now().ctime(),
+            "time": datetime.now().ctime(),
             "like":0,
             "postedby": f"{username}",  # Combine username and year
             "yearpost": f"{user_year}",
@@ -189,7 +190,7 @@ async def create_post(request: Request, title: str = Form(...), content: str = F
 
 
 @app.post("/delete-post/{post_id}", response_class=RedirectResponse)
-async def delete_post(request: Request, post_id: str, username: str = Cookie(None)):
+async def delete_post(request: Request, post_id: str, username: str = Cookie(None), is_professor: bool = Cookie(None)):
     root = open_db_client()
     updated_posts = []
 
@@ -217,7 +218,7 @@ async def delete_post(request: Request, post_id: str, username: str = Cookie(Non
     return RedirectResponse(url=f"/se-blog", status_code=303)
 
 @app.post("/like-post/{post_id}/{current_username}", response_class=HTMLResponse)
-async def like_post(request: Request, post_id: str, current_username: str):
+async def like_post(request: Request, post_id: str, current_username: str, username: str = Cookie(None), is_professor: bool = Cookie(None)):
     root = open_db_client()
     updated_posts = []
 
@@ -479,4 +480,4 @@ async def delete_book(request: Request, book_id: str, username: str = Cookie(Non
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="localhost", port=8000)
+    uvicorn.run(app, host="localhost", port=9000)
