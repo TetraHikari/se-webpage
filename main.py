@@ -161,7 +161,7 @@ async def create_post(request: Request, title: str = Form(...), content: str = F
             "post_id": post_id,
             "title": title,
             "content": content,
-            "time": RequestTimefromNtp()[0],
+            "time": datetime.datetime.now().ctime(),
             "like":0,
             "postedby": f"{username}",  # Combine username and year
             "yearpost": f"{user_year}",

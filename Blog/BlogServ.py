@@ -1,4 +1,3 @@
-
 import uuid
 import datetime
 import sys,os
@@ -19,12 +18,12 @@ def create_post(root, username, post_id, title, content, created_at, like, poste
             "like": like,
             "postedby": postedby,
             "yearpost": yearpost,
-            "liked_by": []
+            "liked_by": [],
         }
         commit()
         print("post created")
     else:
-        print("Invalid user type")
+        pass
 
 def read_all_post(root, username):
     post_list = []
@@ -40,11 +39,11 @@ def read_all_post(root, username):
                     "like": post_data.get("like", 0),
                     "postedby": post_data.get("postedby", ""),
                     "yearpost": post_data.get("yearpost", ""),
-                    "liked_by": post_data.get("liked_by", [])
-                }
+                    "liked_by": post_data.get("liked_by", []),
+                },
             )
     else:
-        print("Courseslid user type")
+        print("Invalid user type")
 
     return post_list
 
@@ -66,7 +65,7 @@ def add_post(root, username, post_id, title, content, created_at, like):
         commit()
         print("Post added")
     else:
-        print("Courseslid user type")
+        print("Invalid user type")
 
 def add_like(root, post_id, new_like_count, username):
     for user in root:
@@ -86,7 +85,7 @@ def add_like(root, post_id, new_like_count, username):
                             commit()
                             print("Like added")
             else:
-                print("Invalid user type")
+                pass
 
 
     
@@ -98,7 +97,6 @@ def clear_all_posts(root, username):
     root[username].posts = {}
     commit()
     print("All posts for user {} cleared.".format(username))
-
 
 
 

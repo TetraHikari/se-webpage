@@ -200,10 +200,10 @@ def clear_all_reserve(root):
             for slot in root[key].reservation:
                 cancel_room(root, key, slot)
                         
-root = open_db_client()
+# root = open_db_client()
 
-clear_reserved_rooms_after_1800(root)
+# clear_reserved_rooms_after_1800(root)
 
-# clear_all_reserve(root)
+# # clear_all_reserve(root)
 
-shutdown_db_client()
+# shutdown_db_client()
