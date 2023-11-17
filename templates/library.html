@@ -26,11 +26,11 @@
             <div class="book" onclick="toggleBookInfo(this)">
                 <img src="{{ book.cover_url }}" alt="Book Cover" class="book-cover">
                 <div class="book-info">
-                    <div class="book-title">{{ book.title }}</div>
-                    <div class="book-author">{{ book.author }}</div>
-                    <div class="book-year">{{ book.year }}</div>
-                    <div class="book-genre">{{ book.genre }}</div>
-                    <div class="book-isbn">{{ book.isbn }}</div>
+                    <div class="book-title">Ttitle: {{ book.title }}</div>
+                    <div class="book-author">Author: {{ book.author }}</div>
+                    <div class="book-year">Year Published: {{ book.year }}</div>
+                    <div class="book-genre">Genre: {{ book.genre }}</div>
+                    <div class="book-isbn">ISBN: {{ book.isbn }}</div>
                     <a href="{{ book.book_url }}" class="book-url" target="_blank">More Info</a>
 
                     <form action="/delete-book/{{ book.book_id }}" method="post">
@@ -147,7 +147,7 @@
    </nav>
   <footer id="pageFooter">    
     <div class="newPostContainer">
-        <button id="newPostBtn" type="submit" onclick="showForm()">New Post</button>
+        <button id="newPostBtn" type="submit" onclick="showForm()">Add Book</button>
     </div>
 </footer>
   <script src="static/js/library.js"></script>
