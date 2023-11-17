@@ -62,6 +62,7 @@
                 <h3>Subject: {{ subject }}</h3>
              </div>
               <table>
+
                   <thead>
                     <tr>
                         <th>Student Name</th>
@@ -74,11 +75,12 @@
                       <td>ID:{{ student.username }} Mr. {{ student.firstname }} {{ student.lastname }}</td>
                         <td style="text-align: center"><input type="number" name="scores" min="0" max="100"></td>
                         <input type="hidden" name="student_usernames" value="{{ student.username }}">
-                      </div>
+                      
                     </tr>
                     {% endfor %}
                     <!-- Add more rows for other students if needed -->
                   </tbody>
+                  
                 </table>
                 <button type="submit" class="submitgrade">Submit Grades</button>
           </form>
