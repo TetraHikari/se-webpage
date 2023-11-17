@@ -65,7 +65,7 @@ def add_post(root, username, post_id, title, content, created_at, like):
         commit()
         print("Post added")
     else:
-        pass
+        print("Invalid user type")
 
 def add_like(root, post_id, new_like_count, username):
     for user in root:

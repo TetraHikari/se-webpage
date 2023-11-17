@@ -36,7 +36,7 @@ document.getElementById('newPostBtn').addEventListener('click', function(event) 
         newPostBtn.style.display = "block";
         formWrapper.style.display = "none";
         
-    } else if (reservationCount > 5) {
+    } else if (reservationCount >= 5) {
         alert("Can't reserve more than 5");
         event.preventDefault(); // Prevent form submission
         newPostBtn.style.display = "block";
