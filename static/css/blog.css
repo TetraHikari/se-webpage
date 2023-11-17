@@ -2,6 +2,22 @@
     font-family: Urbanist;
 }
 
+.blog-like{
+    color: white
+}
+
+.likedBtn{
+    background-color: thistle;
+    opacity: 0.5;
+
+}
+
+.likeBtn{
+    background-color: rgb(166, 138, 103);
+
+
+}
+
 body {
     display: grid;
     grid-template-areas:
@@ -249,6 +265,7 @@ grid-area: nav;
 
 .delete-container{
     display: none;
+    align-items: flex-end;
 }
 
 .post-box .delete-container {

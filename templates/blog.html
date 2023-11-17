@@ -31,10 +31,10 @@
             <div class="blog-like">Like: {{post.like}}</div> 
             <div class="delete-container">
                 {% if username in post.liked_by %} {# Check if the current user has liked the post #}
-                <button type="button" disabled>Already Liked</button>
+                <button class="Btn linkedBtn"type="button" disabled>Already Liked</button>
                 {% else %}
                     <form method="post" action="/like-post/{{ post.post_id }}/{{ username }}" style="display:inline;">
-                        <button type="submit">Like</button>
+                        <button class="Btn likeBtn" type="submit">Like</button>
                     </form>
                 {% endif %}
 
