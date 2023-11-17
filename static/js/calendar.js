@@ -100,10 +100,6 @@ const holidays = [
       holiday: "Anniversary of the Death of King Bhumibol",
   },
   {
-      hdate: "16-11-2023",
-      holiday: "Test"
-  },
-  {
       hdate: "23-10-2023",
       holiday: "Chulalongkorn Day",
   },

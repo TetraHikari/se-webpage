@@ -252,7 +252,6 @@ grid-area: nav;
 .blog-title, .blog-content, .blog-date{
     color: #FFF;
     font-family: Urbanist, sans-serif;
-    font-size: 16px;
     font-style: normal;
     line-height: 14px; /* 87.5% */
     padding: 1em;
@@ -260,6 +259,16 @@ grid-area: nav;
 
 .blog-title{
     font-weight: bold;
+    font-size: 24px;
+    padding-left: 16px;
+}
+
+.blog-content{
+    font-size: 16px;
+}
+
+.blog-date{
+    font-size: 16px;
 }
 
 
@@ -367,21 +376,21 @@ button[id="newPostBtn"]{
     justify-content: flex-end;
 }
 .year0 {
-    background-color: orange;
+    background-color: rgba(255, 166, 0, 0.696);
 }
 
 .year1 {
-    background-color: blue;
+    background-color: rgba(0, 0, 255, 0.71);
 }
 
 .year2 {
-    background-color: green;
+    background-color: rgba(0, 128, 0, 0.659);
 }
 
 .year3 {
-    background-color: red;
+    background-color: rgba(255, 0, 0, 0.709);
 }
 
 .year4 {
-    background-color: grey;
+    background-color: rgba(128, 128, 128, 0.703);
 }

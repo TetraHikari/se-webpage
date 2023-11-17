@@ -231,6 +231,45 @@ grid-area: nav;
     /* otherwise, it will take the remaining height from the grid */
 }
 
+.user-info {
+    animation: fadeInSlideUp 0.5s ease-out;
+    animation-fill-mode: forwards;
+}
+
+.eventWrapper {
+    animation: fadeInSlideUp 0.5s ease-out 0.5s; /* Starts after 1 second */
+    animation-fill-mode: forwards;
+    opacity: 0; /* Initially hidden */
+}
+
+.calendarWrapper {
+    animation: fadeInSlideUp 0.5s ease-out 1s; /* Starts after 2 seconds */
+    animation-fill-mode: forwards;
+    opacity: 0; /* Initially hidden */
+}
+
+
+.eventWrapper, .calendarWrapper {
+    opacity: 0;
+}
+
+
+
+
+
+@keyframes fadeInSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px); /* Start 20px below the final position */
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+
 
 
 /* Stack the layout on small devices/viewports. */
